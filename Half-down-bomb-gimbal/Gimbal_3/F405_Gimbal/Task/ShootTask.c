@@ -82,13 +82,13 @@ void Shoot_Fire_Cal()
 		ShootAct_Init_Flag=1;
 	if(F105.IsShootAble==1)
 	{
-		if(Status.GimbalMode==Gimbal_Armor_Mode)
-		{
-			if(armor_state==ARMOR_NO_AIM)
-			{
-			goto Stop_Shoot;
-			}
-		}
+//		if(Status.GimbalMode==Gimbal_Armor_Mode)
+//		{
+//			if(armor_state==ARMOR_NO_AIM)
+//			{
+//			goto Stop_Shoot;
+//			}
+//		}
 			if(ShootContinue)
 			{
 				PidBodanMotorSpeed.SetPoint=PullerSpeed;

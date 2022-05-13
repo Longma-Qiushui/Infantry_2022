@@ -92,23 +92,23 @@ void referee_data_load_String(int Op_type)
 			memset(custom_char_draw.char_custom.data,'\0',sizeof(custom_char_draw.char_custom.data));
 			strcpy(custom_char_draw.char_custom.data,"MAG:");
 			break;
-			case 2:
-			/*******************************Chassis 字符*********************************/
-			custom_char_draw.char_custom.grapic_data_struct.graphic_name[0] = 0;
-			custom_char_draw.char_custom.grapic_data_struct.graphic_name[1] = 41;
-			custom_char_draw.char_custom.grapic_data_struct.graphic_name[2] = 2;
-			custom_char_draw.char_custom.grapic_data_struct.operate_tpye=Op_type;
-			custom_char_draw.char_custom.grapic_data_struct.graphic_tpye=7;
-			custom_char_draw.char_custom.grapic_data_struct.layer=9;
-			custom_char_draw.char_custom.grapic_data_struct.color=Orange;
-			custom_char_draw.char_custom.grapic_data_struct.start_angle=25;
-			custom_char_draw.char_custom.grapic_data_struct.end_angle=strlen("CHASSIS:");
-			custom_char_draw.char_custom.grapic_data_struct.width=3;
-			custom_char_draw.char_custom.grapic_data_struct.start_x=c_pos_x[2]*SCREEN_LENGTH;
-			custom_char_draw.char_custom.grapic_data_struct.start_y=c_pos_y[2]*SCREEN_WIDTH;
-			memset(custom_char_draw.char_custom.data,'\0',sizeof(custom_char_draw.char_custom.data));
-			strcpy(custom_char_draw.char_custom.data,"CHASSIS:");
-			break;
+//			case 2:
+//			/*******************************Chassis 字符*********************************/
+//			custom_char_draw.char_custom.grapic_data_struct.graphic_name[0] = 0;
+//			custom_char_draw.char_custom.grapic_data_struct.graphic_name[1] = 41;
+//			custom_char_draw.char_custom.grapic_data_struct.graphic_name[2] = 2;
+//			custom_char_draw.char_custom.grapic_data_struct.operate_tpye=Op_type;
+//			custom_char_draw.char_custom.grapic_data_struct.graphic_tpye=7;
+//			custom_char_draw.char_custom.grapic_data_struct.layer=9;
+//			custom_char_draw.char_custom.grapic_data_struct.color=Orange;
+//			custom_char_draw.char_custom.grapic_data_struct.start_angle=25;
+//			custom_char_draw.char_custom.grapic_data_struct.end_angle=strlen("CHASSIS:");
+//			custom_char_draw.char_custom.grapic_data_struct.width=3;
+//			custom_char_draw.char_custom.grapic_data_struct.start_x=c_pos_x[2]*SCREEN_LENGTH;
+//			custom_char_draw.char_custom.grapic_data_struct.start_y=c_pos_y[2]*SCREEN_WIDTH;
+//			memset(custom_char_draw.char_custom.data,'\0',sizeof(custom_char_draw.char_custom.data));
+//			strcpy(custom_char_draw.char_custom.data,"CHASSIS:");
+//			break;
 			case 3:
 			/*******************************Gimbal 字符*********************************/
 			custom_char_draw.char_custom.grapic_data_struct.graphic_name[0] = 0;
@@ -192,23 +192,23 @@ GIMBAL:custom_char_draw.char_custom.grapic_data_struct.graphic_name[0] = 0;
 			memset(custom_char_draw.char_custom.data,'\0',sizeof(custom_char_draw.char_custom.data));
 			strcpy(custom_char_draw.char_custom.data,Gimbal_State[F405.Gimbal_Flag]);
 			break;
-			case 7:
-			/*******************************底盘状态*********************************/
-CHASSIS:custom_char_draw.char_custom.grapic_data_struct.graphic_name[0] = 0;
-			custom_char_draw.char_custom.grapic_data_struct.graphic_name[1] = 41;
-			custom_char_draw.char_custom.grapic_data_struct.graphic_name[2] = 7;
-			custom_char_draw.char_custom.grapic_data_struct.operate_tpye=Op_type;
-			custom_char_draw.char_custom.grapic_data_struct.graphic_tpye=7;
-			custom_char_draw.char_custom.grapic_data_struct.layer=9;
-			custom_char_draw.char_custom.grapic_data_struct.color=F405.Follow_state?White:Green;
-			custom_char_draw.char_custom.grapic_data_struct.start_angle=25;
-			custom_char_draw.char_custom.grapic_data_struct.end_angle=strlen(Chassis_State[F405.Chassis_Flag]);
-			custom_char_draw.char_custom.grapic_data_struct.width=F405.Follow_state?5:2;
-			custom_char_draw.char_custom.grapic_data_struct.start_x=c_pos_x[7]*SCREEN_LENGTH;
-			custom_char_draw.char_custom.grapic_data_struct.start_y=c_pos_y[7]*SCREEN_WIDTH;
-			memset(custom_char_draw.char_custom.data,'\0',sizeof(custom_char_draw.char_custom.data));
-			strcpy(custom_char_draw.char_custom.data,Chassis_State[F405.Chassis_Flag]);
-			break;
+//			case 7:
+//			/*******************************底盘状态*********************************/
+//CHASSIS:custom_char_draw.char_custom.grapic_data_struct.graphic_name[0] = 0;
+//			custom_char_draw.char_custom.grapic_data_struct.graphic_name[1] = 41;
+//			custom_char_draw.char_custom.grapic_data_struct.graphic_name[2] = 7;
+//			custom_char_draw.char_custom.grapic_data_struct.operate_tpye=Op_type;
+//			custom_char_draw.char_custom.grapic_data_struct.graphic_tpye=7;
+//			custom_char_draw.char_custom.grapic_data_struct.layer=9;
+//			custom_char_draw.char_custom.grapic_data_struct.color=F405.Follow_state?White:Green;
+//			custom_char_draw.char_custom.grapic_data_struct.start_angle=25;
+//			custom_char_draw.char_custom.grapic_data_struct.end_angle=strlen(Chassis_State[F405.Chassis_Flag]);
+//			custom_char_draw.char_custom.grapic_data_struct.width=F405.Follow_state?5:2;
+//			custom_char_draw.char_custom.grapic_data_struct.start_x=c_pos_x[7]*SCREEN_LENGTH;
+//			custom_char_draw.char_custom.grapic_data_struct.start_y=c_pos_y[7]*SCREEN_WIDTH;
+//			memset(custom_char_draw.char_custom.data,'\0',sizeof(custom_char_draw.char_custom.data));
+//			strcpy(custom_char_draw.char_custom.data,Chassis_State[F405.Chassis_Flag]);
+//			break;
 			case 8:
 		/*******************************摩擦轮*********************************/
 Fric: 
@@ -259,6 +259,8 @@ Fric:
 			memset(custom_char_draw.char_custom.data,'\0',sizeof(custom_char_draw.char_custom.data));
 			strcpy(custom_char_draw.char_custom.data,"CAP:     V");
 			break;			
+			default:
+				break;
 		}
 		tick++;
 	}else if(Op_type == Op_Change)		//如果是标志为修改
@@ -274,8 +276,8 @@ Fric:
 			goto GIMBAL;
 		}else if(Char_Change_Array[2] == Op_Change)
 		{
-			Char_Change_Array[2] = Op_None;
-			goto CHASSIS;
+//			Char_Change_Array[2] = Op_None;
+//			goto CHASSIS;
 		}else if(Char_Change_Array[3] == Op_Change)
 		{
 			Char_Change_Array[3] = Op_None;
@@ -381,7 +383,7 @@ void Load_Char_Init(char Init_Flag)
 	custom_char_draw.char_custom.grapic_data_struct.layer=9;                //图层数：
 	custom_char_draw.char_custom.grapic_data_struct.color=Green;
 	custom_char_draw.char_custom.grapic_data_struct.start_angle=25;            //字体大小
-	custom_char_draw.char_custom.grapic_data_struct.end_angle=strlen("Init..ing Press B To Hide"); //字符长度
+	custom_char_draw.char_custom.grapic_data_struct.end_angle=strlen("Initing Press B To Hide"); //字符长度
 	custom_char_draw.char_custom.grapic_data_struct.width=4;                   //线条宽度
 	custom_char_draw.char_custom.grapic_data_struct.start_x=0.34*SCREEN_LENGTH; //起点x坐标
 	custom_char_draw.char_custom.grapic_data_struct.start_y=0.56*SCREEN_WIDTH;  //起点y坐标
@@ -389,7 +391,7 @@ void Load_Char_Init(char Init_Flag)
 	custom_char_draw.char_custom.grapic_data_struct.end_y=0;
 	custom_char_draw.char_custom.grapic_data_struct.radius = 0;
 	memset(custom_char_draw.char_custom.data,'\0',sizeof(custom_char_draw.char_custom.data));
-	strcpy(custom_char_draw.char_custom.data,"Init..ing Press B To Hide");
+	strcpy(custom_char_draw.char_custom.data,"Initing Press B To Hide");
 }
 /**********************************************************************************************************
 *函 数 名: CharSendtask
