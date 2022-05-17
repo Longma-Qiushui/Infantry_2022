@@ -15,6 +15,7 @@
 #define Gimbal_Armor_Mode  							2
 #define Gimbal_Buff_Mode 								3
 #define Gimbal_DropShot_Mode 						4
+#define Gimbal_Jump_Mode                6
 
 typedef struct{
 	char SuperPowerLimit;	//0为超级电容关闭，不为0则开启使用超级电容

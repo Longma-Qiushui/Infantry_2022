@@ -38,6 +38,7 @@
 #include "StartTask.h"
 #include "CharSendTask.h"
 #include "GraphicsSendTask.h"
+#include "JumpCal_Task.h"
 
 /*FreeRTOS*/
 #include "FreeRTOS.h"

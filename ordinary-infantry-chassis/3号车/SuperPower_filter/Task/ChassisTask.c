@@ -561,7 +561,7 @@ void Chassis_Power_Control_Init(void)
 	Power_method[num].Actual_P_max = 80;
 	Power_method[num].Self_Protect_Limit = 4500;
 	Power_method[num].k_BAT = 0.95f;   //
-	Power_method[num].Excess_P_max = 1500;
+	Power_method[num].Excess_P_max = 1400;
 	Power_method[num].CurrentMax = 10000;
 	Power_method[num].Follow_W =5000;
 	/****************100W********************/

@@ -337,7 +337,7 @@
               <MiscControls></MiscControls>
               <Define>STM32F10X_CL, USE_STDPERIPH_DRIVER</Define>
               <Undefine></Undefine>
-              <IncludePath>..\User;..\Library\inc;..\Mylib;..\Algorithm;..\Task;..\FreeRTOS\include;..\FreeRTOS\port\MemMang;..\FreeRTOS\port\RVDS\ARM_CM3</IncludePath>
+              <IncludePath>..\User;..\Library\inc;..\Mylib;..\Algorithm;..\Task;..\FreeRTOS\include;..\FreeRTOS\port\MemMang;..\FreeRTOS\port\RVDS\ARM_CM3;..\Project</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -645,6 +645,11 @@
               <FileName>GraphicsSendTask.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Task\GraphicsSendTask.c</FilePath>
+            </File>
+            <File>
+              <FileName>JumpCal_Task.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\JumpCal_Task.c</FilePath>
             </File>
           </Files>
         </Group>

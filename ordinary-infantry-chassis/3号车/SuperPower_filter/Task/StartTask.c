@@ -5,12 +5,7 @@
  * @作者     陈志鹏
  * @日期     2020.1
 **********************************************************************************************************/
-#include "StartTask.h"
-#include "FreeRTOSConfig.h"
-#include "FreeRTOS.h"
-#include "task.h"
-#include "tim4.h"
-
+#include "main.h"
 uint32_t CPU_high_water;
 
 /*任务优先级数值越低，优先级越低*/
@@ -43,6 +38,9 @@ static TaskHandle_t PowerControlTask_Handler; //任务句柄
 #define CHASSIS_STK_SIZE 512 //任务堆栈4
 static TaskHandle_t ChassisTask_Handler; //任务句柄
 
+#define JUMPCAL_TASK_PRIO 18  //任务优先级
+#define JUMPCAL_TASK_SIZE 512 //任务堆栈4
+static TaskHandle_t JumpCalTask_Handler; //任务句柄
 
 /**********************************************************************************************************
 *函 数 名: start_task
@@ -96,6 +94,13 @@ void start_task(void *pvParameters)
                 (void *)NULL,                        //传递给任务函数的参数
                 (UBaseType_t)POWERCONTROL_TASK_PRIO,        //任务优先级
                 (TaskHandle_t *)&PowerControlTask_Handler); //任务句柄
+								
+		xTaskCreate((TaskFunction_t)JumpCal_task,          //任务函数
+                (const char *)"JumpCal_task",          //任务名称
+                (uint16_t)JUMPCAL_TASK_SIZE,            //任务堆栈大小
+                (void *)NULL,                        //传递给任务函数的参数
+                (UBaseType_t)JUMPCAL_TASK_PRIO,        //任务优先级
+                (TaskHandle_t *)&JumpCalTask_Handler); //任务句柄
 								
 	vTaskDelete(StartTask_Handler); //删除开始任务
 								

@@ -48,6 +48,7 @@
 "..\obj\starttask.o"
 "..\obj\charsendtask.o"
 "..\obj\graphicssendtask.o"
+"..\obj\jumpcal_task.o"
 "..\obj\croutine.o"
 "..\obj\event_groups.o"
 "..\obj\list.o"
