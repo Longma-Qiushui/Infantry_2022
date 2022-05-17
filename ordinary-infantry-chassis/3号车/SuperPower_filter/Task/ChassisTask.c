@@ -246,19 +246,18 @@ void Chassis_Speed_Cal(void)
 			else
 				k_xy = 3;
 			
-			if((ABS(chassis.carSpeedx) <100) && (ABS(chassis.carSpeedy)>100))
+		if((ABS(chassis.carSpeedx) <100) && (ABS(chassis.carSpeedy)>100))
 				k_xy =1.5f;
-			
-			if(ABS(chassis.carSpeedw)>2000)
-			{
-				k_xy =2.0f;
-				chassis.carSpeedw*=2;
-				filter_en=0;
-			}
-			else
-			{
-			filter_en=1;
-			}
+		
+//    if((ABS(chassis.carSpeedx)>500)  && (ABS(chassis.carSpeedy)<500))
+//    {
+//			if(ABS(chassis.carSpeedw)>2000)
+//			{
+//				k_xy =1.5f;
+//				chassis.carSpeedw*=0.7;
+//			}
+//		}			
+
 		carSpeedw =LIMIT_MAX_MIN(chassis.carSpeedw,Follow_W, -Follow_W);
 
 		break;
@@ -521,24 +520,24 @@ void Chassis_Power_Control_Init(void)
 	/****************默认参数********************/
 	Power_method[num].Actual_P_max = 60;
 	Power_method[num].Self_Protect_Limit = 2500;
-	Power_method[num].k_BAT = 0.8f;
-	Power_method[num].Excess_P_max = 400;
-	Power_method[num].CurrentMax = 8000;
+	Power_method[num].k_BAT = 0.7f;
+	Power_method[num].Excess_P_max = 1500;
+	Power_method[num].CurrentMax = 10000;
 	Power_method[num].Follow_W = 4000;
 	/****************40W********************/
 	num++;
 	Power_method[num].Actual_P_max = 40;
 	Power_method[num].Self_Protect_Limit = 2500;
-	Power_method[num].k_BAT = 0.8f;
-	Power_method[num].Excess_P_max = 250;
+	Power_method[num].k_BAT = 0.6f;
+	Power_method[num].Excess_P_max = 1500;
 	Power_method[num].CurrentMax = 8000;
 	Power_method[num].Follow_W = 4000;
 	/****************45W********************/
 	num++;
 	Power_method[num].Actual_P_max = 45;
 	Power_method[num].Self_Protect_Limit = 2500;
-	Power_method[num].k_BAT = 0.9f;
-	Power_method[num].Excess_P_max = 270;
+	Power_method[num].k_BAT = 0.7f;
+	Power_method[num].Excess_P_max = 1500;
 	Power_method[num].CurrentMax = 8000;
 	Power_method[num].Follow_W = 4000;
 	/****************50W********************/
@@ -546,31 +545,31 @@ void Chassis_Power_Control_Init(void)
 	Power_method[num].Actual_P_max = 50;
 	Power_method[num].Self_Protect_Limit = 2800;
 	Power_method[num].k_BAT = 0.7f;   //0.6f
-	Power_method[num].Excess_P_max = 400;  //600
+	Power_method[num].Excess_P_max = 1500;  //600
 	Power_method[num].CurrentMax = 8000;
 	Power_method[num].Follow_W = 5000;
 	/****************60W********************/
 	num++;
 	Power_method[num].Actual_P_max = 60;
-	Power_method[num].Self_Protect_Limit = 3400;
-	Power_method[num].k_BAT = 0.9f;
-	Power_method[num].Excess_P_max = 450;
+	Power_method[num].Self_Protect_Limit = 3400;  //小陀螺控制转速
+	Power_method[num].k_BAT = 0.75f;   // 0.9f              //xy向速度系数
+	Power_method[num].Excess_P_max = 2000;  //3000   750  //太小起步较慢匀速直行时会缓存能量太少会无法转弯，较大的值可以保证起步后可以保留缓存能量可以转弯，但连续转弯有限
 	Power_method[num].CurrentMax = 10000;
 	Power_method[num].Follow_W = 4000;
 	/****************80W********************/
 	num++;
 	Power_method[num].Actual_P_max = 80;
 	Power_method[num].Self_Protect_Limit = 4500;
-	Power_method[num].k_BAT = 1.2f;
-	Power_method[num].Excess_P_max = 510;
+	Power_method[num].k_BAT = 0.95f;   //
+	Power_method[num].Excess_P_max = 1500;
 	Power_method[num].CurrentMax = 10000;
 	Power_method[num].Follow_W =5000;
 	/****************100W********************/
 	num++;
 	Power_method[num].Actual_P_max = 100;
 	Power_method[num].Self_Protect_Limit = 5400;
-	Power_method[num].k_BAT = 1.3f;
-	Power_method[num].Excess_P_max = 590;
+	Power_method[num].k_BAT = 1.1f;
+	Power_method[num].Excess_P_max = 1200;
 	Power_method[num].CurrentMax = 12000;
 	Power_method[num].Follow_W = 5600;
 	/****************120W********************/

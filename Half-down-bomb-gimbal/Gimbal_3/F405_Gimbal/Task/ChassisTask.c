@@ -513,7 +513,7 @@ void Chassis_CurrentPid_Cal(void)
 void Pid_ChassisPosition_Init(void)                
 {
 	pidChassisPosition.P = 1.6f;				//2.0					//Ë«»·1.0f
-	pidChassisPosition.I = 0.01f;					
+	pidChassisPosition.I = 0.00f;					
 	pidChassisPosition.D = 0.0f;				
 	pidChassisPosition.IMax = 300.0f;
 	pidChassisPosition.OutMax = 4000.0f;
@@ -526,10 +526,10 @@ void Pid_ChassisPosition_Init(void)
 	SOLO_pidChassisPosition.OutMax = 2000.0f;
 	
 	pidChassisPosition_Speed.P = 2.0f;			//2.3
-	pidChassisPosition_Speed.I = 0.0f;
+	pidChassisPosition_Speed.I = 0.4f;
 	pidChassisPosition_Speed.D = 0.0f;
 	pidChassisPosition_Speed.IMax = 200.0f;
-	pidChassisPosition_Speed.OutMax = 10000.0f;
+	pidChassisPosition_Speed.OutMax = 9000.0f;
 }
 
 /**********************************************************************************************************

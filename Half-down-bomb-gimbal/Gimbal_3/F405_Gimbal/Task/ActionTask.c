@@ -394,36 +394,22 @@ void MouseKey_Act_Cal(RC_Ctl_t RC_Ctl)
    pre_key_r=RC_Ctl.key.r;
 	 if(r_rising_flag==1)			//按键按下时
 	 {
-//	   DanCang_Flag++;
-//	 RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM3,ENABLE);
-//	 TIM_Cmd(TIM3,ENABLE);
+
 		 SteeringEngine_Configuration();
 		 if(magazineState == 0x00) 
 		 {
 			 SteeringEngine_Set(Infantry.MagOpen);
+			 Status.GimbalMode=Gimbal_Powerdown_Mode;
+			 Status.ChassisMode=Chassis_Powerdown_Mode;
      }
 			 else
+			 {
 			 SteeringEngine_Set(Infantry.MagClose);
-//		 SteeringEngineDelay = aaaa;
+			 Status.GimbalMode=Gimbal_Act_Mode;
+			 Status.ChassisMode=Chassis_Act_Mode;
+       }
 	 }
-//	 if(DanCang_Flag % 2 == 1)
-//	 {
-//		SteeringEngineDelay = aaaa;
-//		SteeringEngine_Set(Infantry.MagOpen);
-//	 }
-//	 else
-//	 {
-//		SteeringEngineDelay = aaaa;
-//		SteeringEngine_Set(Infantry.MagClose);
-//	 }
-//	 
-//	 if(SteeringEngineDelay > 0)
-//			SteeringEngineDelay--;
-//	 else
-//	 {
-//			RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM3,DISABLE);
-//			TIM_Cmd(TIM3,DISABLE);
-//	 }
+
 	 
 /********************************超级电容控制**********************************************/	
   if(RC_Ctl.key.shift==1)

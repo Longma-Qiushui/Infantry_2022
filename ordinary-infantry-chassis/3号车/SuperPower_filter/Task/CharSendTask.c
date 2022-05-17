@@ -92,23 +92,23 @@ void referee_data_load_String(int Op_type)
 			memset(custom_char_draw.char_custom.data,'\0',sizeof(custom_char_draw.char_custom.data));
 			strcpy(custom_char_draw.char_custom.data,"MAG:");
 			break;
-//			case 2:
-//			/*******************************Chassis ×Ö·û*********************************/
-//			custom_char_draw.char_custom.grapic_data_struct.graphic_name[0] = 0;
-//			custom_char_draw.char_custom.grapic_data_struct.graphic_name[1] = 41;
-//			custom_char_draw.char_custom.grapic_data_struct.graphic_name[2] = 2;
-//			custom_char_draw.char_custom.grapic_data_struct.operate_tpye=Op_type;
-//			custom_char_draw.char_custom.grapic_data_struct.graphic_tpye=7;
-//			custom_char_draw.char_custom.grapic_data_struct.layer=9;
-//			custom_char_draw.char_custom.grapic_data_struct.color=Orange;
-//			custom_char_draw.char_custom.grapic_data_struct.start_angle=25;
-//			custom_char_draw.char_custom.grapic_data_struct.end_angle=strlen("CHASSIS:");
-//			custom_char_draw.char_custom.grapic_data_struct.width=3;
-//			custom_char_draw.char_custom.grapic_data_struct.start_x=c_pos_x[2]*SCREEN_LENGTH;
-//			custom_char_draw.char_custom.grapic_data_struct.start_y=c_pos_y[2]*SCREEN_WIDTH;
-//			memset(custom_char_draw.char_custom.data,'\0',sizeof(custom_char_draw.char_custom.data));
-//			strcpy(custom_char_draw.char_custom.data,"CHASSIS:");
-//			break;
+			case 2:
+			/*******************************Chassis ×Ö·û*********************************/
+			custom_char_draw.char_custom.grapic_data_struct.graphic_name[0] = 0;
+			custom_char_draw.char_custom.grapic_data_struct.graphic_name[1] = 41;
+			custom_char_draw.char_custom.grapic_data_struct.graphic_name[2] = 2;
+			custom_char_draw.char_custom.grapic_data_struct.operate_tpye=Op_type;
+			custom_char_draw.char_custom.grapic_data_struct.graphic_tpye=7;
+			custom_char_draw.char_custom.grapic_data_struct.layer=9;
+			custom_char_draw.char_custom.grapic_data_struct.color=Orange;
+			custom_char_draw.char_custom.grapic_data_struct.start_angle=25;
+			custom_char_draw.char_custom.grapic_data_struct.end_angle=strlen("CHASSIS:");
+			custom_char_draw.char_custom.grapic_data_struct.width=3;
+			custom_char_draw.char_custom.grapic_data_struct.start_x=c_pos_x[2]*SCREEN_LENGTH;
+			custom_char_draw.char_custom.grapic_data_struct.start_y=c_pos_y[2]*SCREEN_WIDTH;
+			memset(custom_char_draw.char_custom.data,'\0',sizeof(custom_char_draw.char_custom.data));
+			strcpy(custom_char_draw.char_custom.data,"CHASSIS:");
+			break;
 			case 3:
 			/*******************************Gimbal ×Ö·û*********************************/
 			custom_char_draw.char_custom.grapic_data_struct.graphic_name[0] = 0;
@@ -192,23 +192,23 @@ GIMBAL:custom_char_draw.char_custom.grapic_data_struct.graphic_name[0] = 0;
 			memset(custom_char_draw.char_custom.data,'\0',sizeof(custom_char_draw.char_custom.data));
 			strcpy(custom_char_draw.char_custom.data,Gimbal_State[F405.Gimbal_Flag]);
 			break;
-//			case 7:
-//			/*******************************µ×ÅÌ×´Ì¬*********************************/
-//CHASSIS:custom_char_draw.char_custom.grapic_data_struct.graphic_name[0] = 0;
-//			custom_char_draw.char_custom.grapic_data_struct.graphic_name[1] = 41;
-//			custom_char_draw.char_custom.grapic_data_struct.graphic_name[2] = 7;
-//			custom_char_draw.char_custom.grapic_data_struct.operate_tpye=Op_type;
-//			custom_char_draw.char_custom.grapic_data_struct.graphic_tpye=7;
-//			custom_char_draw.char_custom.grapic_data_struct.layer=9;
-//			custom_char_draw.char_custom.grapic_data_struct.color=F405.Follow_state?White:Green;
-//			custom_char_draw.char_custom.grapic_data_struct.start_angle=25;
-//			custom_char_draw.char_custom.grapic_data_struct.end_angle=strlen(Chassis_State[F405.Chassis_Flag]);
-//			custom_char_draw.char_custom.grapic_data_struct.width=F405.Follow_state?5:2;
-//			custom_char_draw.char_custom.grapic_data_struct.start_x=c_pos_x[7]*SCREEN_LENGTH;
-//			custom_char_draw.char_custom.grapic_data_struct.start_y=c_pos_y[7]*SCREEN_WIDTH;
-//			memset(custom_char_draw.char_custom.data,'\0',sizeof(custom_char_draw.char_custom.data));
-//			strcpy(custom_char_draw.char_custom.data,Chassis_State[F405.Chassis_Flag]);
-//			break;
+			case 7:
+			/*******************************µ×ÅÌ×´Ì¬*********************************/
+CHASSIS:custom_char_draw.char_custom.grapic_data_struct.graphic_name[0] = 0;
+			custom_char_draw.char_custom.grapic_data_struct.graphic_name[1] = 41;
+			custom_char_draw.char_custom.grapic_data_struct.graphic_name[2] = 7;
+			custom_char_draw.char_custom.grapic_data_struct.operate_tpye=Op_type;
+			custom_char_draw.char_custom.grapic_data_struct.graphic_tpye=7;
+			custom_char_draw.char_custom.grapic_data_struct.layer=9;
+			custom_char_draw.char_custom.grapic_data_struct.color=F405.Follow_state?White:Green;
+			custom_char_draw.char_custom.grapic_data_struct.start_angle=25;
+			custom_char_draw.char_custom.grapic_data_struct.end_angle=strlen(Chassis_State[F405.Chassis_Flag]);
+			custom_char_draw.char_custom.grapic_data_struct.width=F405.Follow_state?5:2;
+			custom_char_draw.char_custom.grapic_data_struct.start_x=c_pos_x[7]*SCREEN_LENGTH;
+			custom_char_draw.char_custom.grapic_data_struct.start_y=c_pos_y[7]*SCREEN_WIDTH;
+			memset(custom_char_draw.char_custom.data,'\0',sizeof(custom_char_draw.char_custom.data));
+			strcpy(custom_char_draw.char_custom.data,Chassis_State[F405.Chassis_Flag]);
+			break;
 			case 8:
 		/*******************************Ä¦²ÁÂÖ*********************************/
 Fric: 
@@ -276,8 +276,8 @@ Fric:
 			goto GIMBAL;
 		}else if(Char_Change_Array[2] == Op_Change)
 		{
-//			Char_Change_Array[2] = Op_None;
-//			goto CHASSIS;
+			Char_Change_Array[2] = Op_None;
+			goto CHASSIS;
 		}else if(Char_Change_Array[3] == Op_Change)
 		{
 			Char_Change_Array[3] = Op_None;
@@ -323,12 +323,12 @@ int Char_Change_Check(void)
 	Chassis_flag = F405.Chassis_Flag;
 	Fric_flag = F405.Fric_Flag;
 //	Laser_flag = F405.Laser_Flag;
-	Follow_state = F405.Follow_state;
+//	Follow_state = F405.Follow_state;
 	
 	/*ÓÐ±ä»¯£¬±êÖ¾¸÷¸öÎ»*/
 	if(last_Mag != Mag_flag) Char_Change_Array[0] = Op_Change;
 	if(Gimbal_flag != last_Gimbal) Char_Change_Array[1] = Op_Change;
-	if(Chassis_flag != last_Chassis || Follow_state != last_Follow) Char_Change_Array[2] = Op_Change;
+//	if(Chassis_flag != last_Chassis || Follow_state != last_Follow) Char_Change_Array[2] = Op_Change;
 //	if(Laser_flag != last_Laser) Char_Change_Array[3] = Op_Change;
   if(Fric_flag != last_Fric ) Char_Change_Array[3]=Op_Change;	
 	if(PowerState != last_PowerState) Char_Change_Array[4]=Op_Change;
