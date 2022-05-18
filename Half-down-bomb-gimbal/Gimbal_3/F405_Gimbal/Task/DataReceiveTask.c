@@ -23,6 +23,8 @@ extern Gimbal_Typedef Gimbal;
 extern volatile long run_time_check;
 extern Status_t Status;
 extern short KalMan_doneflag;
+extern char Robot_ID;
+extern char Judge_Lost;
 /**********************************************************************************************************
 *函 数 名: Can1Receive1
 *功能说明: 功率板和拨弹电机通信
@@ -35,6 +37,8 @@ void Can1Receive0(CanRxMsg rx_message1)
 	{ 
 		case 0x095:
 		     memcpy(&F105.bulletSpeed,&rx_message1.Data[0], 4); 
+		     memcpy(&Robot_ID,&rx_message1.Data[4],1);
+				 memcpy(&Judge_Lost,&rx_message1.Data[5],1);
 		     Robot_Disconnect.F105_DisConect=0;
 		 break;		
 
@@ -324,6 +328,7 @@ void F105_Rst()
 	    F105.IsShootAble = 1;
     else
 			F105.IsShootAble =0;
-	  F105.Limit_Power_k = 0.25;
+		
+		F105.BulletSpeedLevel=0;
 }
 

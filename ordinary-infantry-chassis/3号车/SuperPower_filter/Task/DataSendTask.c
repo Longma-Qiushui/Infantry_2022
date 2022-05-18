@@ -16,6 +16,8 @@ extern INA260 INA260_2;//输出
 extern float AD_actual_value;//电容实际电压
 extern F405_typedef F405;
 extern JudgeReceive_t JudgeReceive;
+extern char Robot_ID;
+extern char Judge_Lost;
 /**********************************************************************************************************
 *函 数 名: ChassisCan1Send
 *功能说明: 底盘电机电流值发送
@@ -112,7 +114,9 @@ void Can2Send2(void)
     tx_message.StdId = 0x095;
 	  
 	  memcpy(&tx_message.Data[0],&JudgeReceive.bulletSpeed,4);	
-
+	  memcpy(&tx_message.Data[4],&Robot_ID,1);
+    memcpy(&tx_message.Data[5],&Judge_Lost,1);
+	
 	  CAN_Transmit(CAN2,&tx_message);
 }
 /**********************************************************************************************************

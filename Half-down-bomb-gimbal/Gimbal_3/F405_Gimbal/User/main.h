@@ -66,8 +66,8 @@ typedef struct
 		unsigned short High_FrictionSpeed;
 }RobotInit_Struct;
 
-void System_Config(void);
-void System_Init(void);
+void BSP_Init(void);
+void Robot_Init(void);
 
 void Infantry_Init(void);
 void delay_ms(unsigned long t);

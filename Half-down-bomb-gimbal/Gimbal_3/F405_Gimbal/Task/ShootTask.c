@@ -29,10 +29,7 @@ extern BodanMotorReceive_Typedef BodanReceive;
 extern short armor_state;
 extern RobotInit_Struct Infantry;
 extern short FrictionReceive[2];
-//#define Init_FritionSpeed     2000
-#define LowSpeed     4850				//15m/s		
-#define MediumSpeed  5800     //6400			  //18m/s  7000 20
-#define HighSpeed    16000     //16000				//30m/s
+extern char Robot_ID;
 #define PullerSpeed  3000
 #define checkPullerSpeed  1000
 /**********************************************************************************************************
@@ -380,10 +377,37 @@ void Pid_BodanMotor_Init(void)
 **********************************************************************************************************/
 void Pid_Friction_Init(void)
 {
-  Infantry.Low_FrictionSpeed = LowSpeed;
-	Infantry.Medium_FrictionSpeed = MediumSpeed;
-	Infantry.High_FrictionSpeed = HighSpeed;
-
+	switch(Robot_ID)
+{
+/********************************************* 3号车 *******************************************************/	
+		case 3:
+		{
+			Infantry.Low_FrictionSpeed = 4850;
+			Infantry.Medium_FrictionSpeed = 5800;
+			Infantry.High_FrictionSpeed = 16000;
+		} break;
+/********************************************* 4号车 *******************************************************/	
+		case 4:
+		{
+			Infantry.Low_FrictionSpeed = 4850;
+			Infantry.Medium_FrictionSpeed = 5800;
+			Infantry.High_FrictionSpeed = 16000;
+		} break;
+/********************************************* 5号车 *******************************************************/	
+		case 5:
+		{
+			Infantry.Low_FrictionSpeed = 4850;
+			Infantry.Medium_FrictionSpeed = 5800;
+			Infantry.High_FrictionSpeed = 16000;
+		} break;		
+/********************************************* 缺省值 ******************************************************/		
+		default:
+		{
+			Infantry.Low_FrictionSpeed = 4850;
+			Infantry.Medium_FrictionSpeed = 5800;
+			Infantry.High_FrictionSpeed = 16000;
+		}
+}
   PidFrictionSpeed[0].P=60.0f;
 	PidFrictionSpeed[0].I=2.0f;
 	PidFrictionSpeed[0].D=0.0f;

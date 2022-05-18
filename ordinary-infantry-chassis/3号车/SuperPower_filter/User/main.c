@@ -7,6 +7,8 @@
 **********************************************************************************************************/
 #include "main.h"
 
+char Robot_ID;
+char Judge_Lost;
 //unsigned char PowerState = 0;
 extern ChassisSpeed_t chassis;
 short Judgement_DisConnect;
@@ -20,8 +22,9 @@ extern JudgeReceive_t JudgeReceive;
 **********************************************************************************************************/
 int main()
 {
-  System_Config();
-	System_Init();
+  BSP_Init();
+	Robot_ID=3;
+	Robot_Init();
 	
 	startTast();
 	vTaskStartScheduler();
@@ -37,7 +40,7 @@ int main()
 *形    参: 无
 *返 回 值: 无
 **********************************************************************************************************/
-void System_Config(void)
+void BSP_Init(void)
 {
 	while(SysTick_Config(72000));	
 	ADC_Configuration();//ADC初始化要放在串口之前，不然串口不能接收数据
@@ -60,7 +63,7 @@ void System_Config(void)
 *形    参: 无
 *返 回 值: 无
 **********************************************************************************************************/
-void System_Init(void)
+void Robot_Init(void)
 {
 	Pid_ChargeCal_Init();
 	Pid_ChassisWheelInit();
@@ -76,7 +79,6 @@ void Judge_Rst()
 {
  MyMaxPower=60;
  JudgeReceive.remainEnergy=40;
- 
 }
 /**********************************************************************************************************
 *函 数 名: Offline_Check_task
@@ -85,6 +87,7 @@ void Judge_Rst()
 *返 回 值: 无
 **********************************************************************************************************/
 uint32_t Offline_Check_high_water;
+char Chassis_DisConnect;
 extern short F405_DisConnect;//主控板掉线检测
 
 extern ext_student_interactive_header_data_t custom_grapic_draw;
@@ -96,12 +99,37 @@ void Offline_Check_task(void *pvParameters)
 
 		/*主控板掉线检测*/
 		if(F405_DisConnect>5)
+		{
 			F405_Rst();
+		}else
+		{
+		
+		}
 		F405_DisConnect++;
 		
+		/*裁判系统掉线检测*/
 		if(Judgement_DisConnect>100)
+		{
 			Judge_Rst();
+			Judge_Lost=1;
+		}else
+		{
+		  Judge_Lost=0;
+		}
 		Judgement_DisConnect++;
+		
+			/*底盘电机掉线检测*/
+		if(Chassis_DisConnect>100)
+		{
+			
+	
+		}else
+		{
+		 
+		}
+	  Chassis_DisConnect++;
+		
+		
 		
 		IWDG_Feed();//喂狗
 

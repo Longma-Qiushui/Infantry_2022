@@ -11,7 +11,8 @@ extern KalmanFilter_Init_t K;
 unsigned volatile long run_time_check = 0;	//用于做各种简易计数器计数
 short fric_flag = 0;//摩擦轮电机初始化标志
 RobotInit_Struct Infantry;
-
+char Robot_ID;
+char Judge_Lost;
 extern short FrictionWheel_speed;
 extern short KalMan_doneflag;
 /**********************************************************************************************************
@@ -24,10 +25,10 @@ extern short KalMan_doneflag;
 int main()
 {
 
-	System_Config();
+	BSP_Init();
 	delay_ms(3000);
-	System_Init();
-	
+	Robot_ID=3;
+	Robot_Init();
 	startTast();
   vTaskStartScheduler();
 	
@@ -44,7 +45,7 @@ int main()
 *形    参: 无
 *返 回 值: 无
 **********************************************************************************************************/
-void System_Config(void)
+void BSP_Init(void)
 {
 	USART3_Configuration();
 	delay_ms(100);
@@ -72,7 +73,7 @@ void System_Config(void)
 *形    参: 无
 *返 回 值: 无
 **********************************************************************************************************/
-void System_Init(void)
+void Robot_Init(void)
 {
 	ZeroCheck_Init();
 	Infantry_Init();
@@ -81,9 +82,10 @@ void System_Init(void)
 	Pid_BodanMotor_Init();
 	Pid_Friction_Init();
   FuzzyPidGimbalMotor_Init();
-	KalmanFilter_Init(&pitch_Kalman, &K);
-	KalmanFilter_Init(&yaw_Kalman, &K);//PC先传数据再运行STM32会卡在arm32文件内(未知)
-	KalMan_doneflag = 1;
+	
+//	KalmanFilter_Init(&pitch_Kalman, &K);
+//	KalmanFilter_Init(&yaw_Kalman, &K);//PC先传数据再运行STM32会卡在arm32文件内(未知)
+//	KalMan_doneflag = 1;
 }
 
 /**********************************************************************************************************
@@ -94,16 +96,6 @@ void System_Init(void)
 **********************************************************************************************************/
 void Infantry_Init(void)
 {	
-/*三号*/
-//	Infantry.Yaw_init=4730;
-//	Infantry.Pitch_init=6880;
-//	Infantry.MagOpen=2295;
-//	Infantry.MagClose=783;
-//	Infantry.Solo_Yaw_init = 3760;
-//	Infantry.Low_FrictionSpeed = 5560;
-//	Infantry.Medium_FrictionSpeed = 5750;
-//	Infantry.High_FrictionSpeed = 6780;	
-
 ///*舵轮*/	
 //	Infantry.Yaw_init=1040; 
 //	Infantry.Pitch_init=5300;
@@ -111,12 +103,48 @@ void Infantry_Init(void)
 //	Infantry.MagClose=2350;
 //	Infantry.Solo_Yaw_init = 20;
 	
-/*自适应1号*/	
-	Infantry.Yaw_init=5445;    //1352; 
+/*自适应3号*/
+switch(Robot_ID)
+{	
+/***************************************** 3 号车 **************************************************************/	
+	case 3:
+{	
+	Infantry.Yaw_init=5445;                  //  3号车 
 	Infantry.Pitch_init=2058;
 	Infantry.MagOpen=2000;
 	Infantry.MagClose=540;
 	Infantry.Solo_Yaw_init = 20;
+} break;
+
+/***************************************** 4 号车 **************************************************************/	
+	case 4:
+{	
+	Infantry.Yaw_init=6873;            // 4号车
+	Infantry.Pitch_init=2058;
+	Infantry.MagOpen=2400;
+	Infantry.MagClose=600;
+	Infantry.Solo_Yaw_init = 20;
+} break;
+
+/***************************************** 5 号车 **************************************************************/	
+	case 5:
+{	
+	Infantry.Yaw_init=6873;            //  5号车
+	Infantry.Pitch_init=2058;
+	Infantry.MagOpen=2400;
+	Infantry.MagClose=600;
+	Infantry.Solo_Yaw_init = 20;
+} break;
+/**************************************************************************************************************/
+	default:
+{
+  Infantry.Yaw_init=5445;                  // 信号丢失 
+	Infantry.Pitch_init=2058;
+	Infantry.MagOpen=2000;
+	Infantry.MagClose=540;
+	Infantry.Solo_Yaw_init = 20;
+}
+}
 }
 
 /**********************************************************************************************************
@@ -124,7 +152,7 @@ void Infantry_Init(void)
 *功能说明: ms延时
 *形    参: 无
 *返 回 值: 无
-************************** ++********************************************************************************/
+**********************************************************************************************************/
 void delay_ms(unsigned long t)
 {
 	int i;
@@ -187,15 +215,14 @@ void Offline_Check_task(void *pvParameters)
 			RC_Rst();
 		}
 	Robot_Disconnect.RC_DisConnect++;
-	/*底盘板通信掉线检测*/
-	if(Robot_Disconnect.F105_DisConect>15)
+		
+	/*底盘板或者裁判系统掉线检测*/
+	if(Robot_Disconnect.F105_DisConect>15||Judge_Lost==1)
 		{
 		F105_Rst();
 		}
 	Robot_Disconnect.F105_DisConect++;
 	
-	
-	if(run_time_check >100000) run_time_check = 0;
 	IWDG_Feed();	 
   vTaskDelay(5); 
 		 

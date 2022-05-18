@@ -33,6 +33,7 @@ extern F105_Typedef F105;
 extern F405_typedef F405;
 extern short Turning_flag;
 extern float YawMotorReceive;
+extern char Robot_ID;
 /**********************************************************************************************************
 *函 数 名: Chassis_Powerdown_Cal
 *功能说明: 锁车模式
@@ -331,7 +332,9 @@ if(Status.ControlMode==Control_RC_Mode)
 		{
 			ResetPos = (ChassisPostionAngle_TranSform(Infantry.Solo_Yaw_init))/360*8192;		//与正对角差值计算
 			SOLO_pidChassisPosition.SetPoint = Gimbal.Yaw.Motor-ResetPos;
-			chassis.carSpeedw = PID_Calc(&SOLO_pidChassisPosition, Gimbal.Yaw.Motor);
+			pidChassisPosition.SetPoint = -PID_Calc(&SOLO_pidChassisPosition, Gimbal.Yaw.Motor);
+			chassis.carSpeedw = PID_Calc(&pidChassisPosition_Speed,F105.ChassisSpeedw);
+
 		}
 	
 	//速度环
@@ -512,24 +515,98 @@ void Chassis_CurrentPid_Cal(void)
 **********************************************************************************************************/
 void Pid_ChassisPosition_Init(void)                
 {
-	pidChassisPosition.P = 1.6f;				//2.0					//双环1.0f
-	pidChassisPosition.I = 0.00f;					
-	pidChassisPosition.D = 0.0f;				
-	pidChassisPosition.IMax = 300.0f;
-	pidChassisPosition.OutMax = 4000.0f;
-	pidChassisPosition.DeadZone=0.0f;
+	switch(Robot_ID)
+{
+/********************************************* 3号车 ***********************************************************/	
+		case 3:
+	{
+		pidChassisPosition.P = 1.6f;				//2.0					3号车
+	  pidChassisPosition.I = 0.00f;					
+	  pidChassisPosition.D = 0.0f;				
+	  pidChassisPosition.IMax = 300.0f;
+	  pidChassisPosition.OutMax = 4000.0f;
+	  pidChassisPosition.DeadZone=0.0f;
 	
-	SOLO_pidChassisPosition.P = 1.2f;		
-	SOLO_pidChassisPosition.I = 0.0f;					
-	SOLO_pidChassisPosition.D = 0.0f;				
-	SOLO_pidChassisPosition.IMax = 200.0f;
-	SOLO_pidChassisPosition.OutMax = 2000.0f;
+	  SOLO_pidChassisPosition.P = 1.2f;		
+	  SOLO_pidChassisPosition.I = 0.0f;					
+	  SOLO_pidChassisPosition.D = 0.0f;				
+	  SOLO_pidChassisPosition.IMax = 200.0f;
+	  SOLO_pidChassisPosition.OutMax = 2000.0f;
 	
-	pidChassisPosition_Speed.P = 2.0f;			//2.3
-	pidChassisPosition_Speed.I = 0.4f;
-	pidChassisPosition_Speed.D = 0.0f;
-	pidChassisPosition_Speed.IMax = 200.0f;
-	pidChassisPosition_Speed.OutMax = 9000.0f;
+	  pidChassisPosition_Speed.P = 2.0f;			//2.3
+	  pidChassisPosition_Speed.I = 0.3f;
+	  pidChassisPosition_Speed.D = 0.0f;
+	  pidChassisPosition_Speed.IMax = 200.0f;
+	  pidChassisPosition_Speed.OutMax = 9000.0f;
+ }break;
+	/********************************************* 4号车 ***********************************************************/	
+		case 4:
+	{
+		pidChassisPosition.P = 1.6f;				//2.0					4号车
+	  pidChassisPosition.I = 0.00f;					
+	  pidChassisPosition.D = 0.0f;				
+	  pidChassisPosition.IMax = 300.0f;
+	  pidChassisPosition.OutMax = 4000.0f;
+	  pidChassisPosition.DeadZone=0.0f;
+	
+	  SOLO_pidChassisPosition.P = 1.2f;		
+	  SOLO_pidChassisPosition.I = 0.0f;					
+	  SOLO_pidChassisPosition.D = 0.0f;				
+	  SOLO_pidChassisPosition.IMax = 200.0f;
+	  SOLO_pidChassisPosition.OutMax = 2000.0f;
+	
+	  pidChassisPosition_Speed.P = 2.0f;			//2.3
+	  pidChassisPosition_Speed.I = 0.3f;
+	  pidChassisPosition_Speed.D = 0.0f;
+	  pidChassisPosition_Speed.IMax = 200.0f;
+	  pidChassisPosition_Speed.OutMax = 9000.0f;
+ }break;
+	/********************************************* 5号车 ***********************************************************/	
+		case 5:
+	{
+		pidChassisPosition.P = 1.6f;				//2.0					5号车
+	  pidChassisPosition.I = 0.00f;					
+	  pidChassisPosition.D = 0.0f;				
+	  pidChassisPosition.IMax = 300.0f;
+	  pidChassisPosition.OutMax = 4000.0f;
+	  pidChassisPosition.DeadZone=0.0f;
+	
+	  SOLO_pidChassisPosition.P = 1.2f;		
+	  SOLO_pidChassisPosition.I = 0.0f;					
+	  SOLO_pidChassisPosition.D = 0.0f;				
+	  SOLO_pidChassisPosition.IMax = 200.0f;
+	  SOLO_pidChassisPosition.OutMax = 2000.0f;
+	
+	  pidChassisPosition_Speed.P = 2.0f;			//2.3
+	  pidChassisPosition_Speed.I = 0.3f;
+	  pidChassisPosition_Speed.D = 0.0f;
+	  pidChassisPosition_Speed.IMax = 200.0f;
+	  pidChassisPosition_Speed.OutMax = 9000.0f;
+ }break;
+	
+ /********************************************************************************************************/	
+		default:
+	{
+		pidChassisPosition.P = 1.6f;				//2.0					信号丢失
+	  pidChassisPosition.I = 0.00f;					
+	  pidChassisPosition.D = 0.0f;				
+	  pidChassisPosition.IMax = 300.0f;
+	  pidChassisPosition.OutMax = 4000.0f;
+	  pidChassisPosition.DeadZone=0.0f;
+	
+	  SOLO_pidChassisPosition.P = 1.2f;		
+	  SOLO_pidChassisPosition.I = 0.0f;					
+	  SOLO_pidChassisPosition.D = 0.0f;				
+	  SOLO_pidChassisPosition.IMax = 200.0f;
+	  SOLO_pidChassisPosition.OutMax = 2000.0f;
+	
+	  pidChassisPosition_Speed.P = 2.0f;			//2.3
+	  pidChassisPosition_Speed.I = 0.3f;
+	  pidChassisPosition_Speed.D = 0.0f;
+	  pidChassisPosition_Speed.IMax = 200.0f;
+	  pidChassisPosition_Speed.OutMax = 9000.0f;
+ }
+}
 }
 
 /**********************************************************************************************************

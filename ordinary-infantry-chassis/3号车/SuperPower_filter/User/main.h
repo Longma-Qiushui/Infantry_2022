@@ -103,8 +103,8 @@ typedef union
 }
 FloatCharType;
 
-void System_Config(void);
-void System_Init(void);
+void BSP_Init(void);
+void Robot_Init(void);
 
 void Offline_Check_task(void *pvParameters);
 

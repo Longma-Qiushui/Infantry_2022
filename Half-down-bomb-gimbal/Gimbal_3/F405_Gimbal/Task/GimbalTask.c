@@ -33,7 +33,7 @@ extern RobotInit_Struct Infantry;
 extern short FrictionWheel_speed;
 extern F405_typedef F405;
 extern PC_Receive_t PC_Receive;
-
+extern char Robot_ID;
 
 /**********************************************************************************************************
 *函 数 名: Gimbal_Powerdown_Cal
@@ -532,7 +532,6 @@ void Gimbal_CurrentPid_Cal(void)
 			break;
 		case Gimbal_Act_Mode:
 			//Gimbal_Act_Cal(RC_Ctl.rc,RC_Ctl.mouse,&PC_Receive);
-			//FuzzyGyroGimbal_Act_Cal(RC_Ctl.rc,RC_Ctl.mouse,&PC_Receive);
 			FuzzyMotorGimbal_Act_Cal(RC_Ctl.rc,RC_Ctl.mouse,&PC_Receive);
 			break;  
 		case Gimbal_Armor_Mode:
@@ -548,6 +547,8 @@ void Gimbal_CurrentPid_Cal(void)
 //			Gimbal_SI_Cal(20.0, 0);			//pitch
 //			Gimbal_SI_Cal(0.0, 30.0);		//yaw
 			break;
+		case Gimbal_Jump_Mode:
+			FuzzyGyroGimbal_Act_Cal(RC_Ctl.rc,RC_Ctl.mouse,&PC_Receive);
 		default:
 			break;
 	}
@@ -565,15 +566,53 @@ void Gimbal_CurrentPid_Cal(void)
 **********************************************************************************************************/
 void PidGimbalMotor_Init(void)
 { 
-  //手动pitch速度环
-//	
-//	PidPitchPos.P=0.36f;  //5000.0f;  
-//	PidPitchPos.I=0.02f;   //10.0f; 
-//	PidPitchPos.D=0.0f;
-//	PidPitchPos.IMax=10.0f;
-//	PidPitchPos.SetPoint=0.0f;
-//	PidPitchPos.OutMax=10.0f;
+	switch(Robot_ID)
+{
+/********************************************* 3号车 ********************************************************/	
+		case 3:
+{
+  //手动pitch速度环                 
+  PidPitchSpeed.P=6000.0f;  //5000.0f;  
+	PidPitchSpeed.I=12.0f;   //10.0f; 
+	PidPitchSpeed.D=0.0f;
+	PidPitchSpeed.IMax=550.0f;
+	PidPitchSpeed.SetPoint=0.0f;
+	PidPitchSpeed.OutMax=30000.0f;
+  
+	//手动yaw双环                                 // 3号车
+  PidYawPos.P=0.30f;     
+	PidYawPos.I=0.03f;
+	PidYawPos.D=0.0f;       
+	PidYawPos.IMax=10.0f;
+	PidYawPos.SetPoint=0.0f;
+	PidYawPos.OutMax=5.5f;
+	PidYawPos.DeadZone=0.2f;
+	PidYawSpeed.P=10000.0f;   //30000
+	PidYawSpeed.I=0.0f;
+	PidYawSpeed.D=0.0f;
+	PidYawSpeed.IMax=2000.0f;
+	PidYawSpeed.SetPoint=0.0f;
+	PidYawSpeed.OutMax=30000.0f;
 	
+	//辅瞄pitch速度环
+  PidPitchAidSpeed.P=10000.0f;	  //18000
+	PidPitchAidSpeed.I=5.0f; 
+	PidPitchAidSpeed.D=0.0f;
+	PidPitchAidSpeed.IMax=250.0f;
+	PidPitchAidSpeed.SetPoint=0.0f;
+	PidPitchAidSpeed.OutMax=30000.0f;
+	
+	//辅瞄yaw速度环
+	PidYawAidSpeed.P=9000.0f;			//12000
+	PidYawAidSpeed.I=10.0f; 
+	PidYawAidSpeed.D=0.0f;
+	PidYawAidSpeed.IMax=2000.0f;
+	PidYawAidSpeed.SetPoint=0.0f;
+	PidYawAidSpeed.OutMax=30000.0f;
+}break;
+/********************************************* 4号车 ********************************************************/	
+		case 4:
+{
   PidPitchSpeed.P=6000.0f;  //5000.0f;  
 	PidPitchSpeed.I=12.0f;   //10.0f; 
 	PidPitchSpeed.D=0.0f;
@@ -605,12 +644,100 @@ void PidGimbalMotor_Init(void)
 	PidPitchAidSpeed.OutMax=30000.0f;
 	
 	//辅瞄yaw速度环
+	PidYawAidSpeed.P=10000.0f;			//12000
+	PidYawAidSpeed.I=10.0f; 
+	PidYawAidSpeed.D=0.0f;
+	PidYawAidSpeed.IMax=2000.0f;
+	PidYawAidSpeed.SetPoint=0.0f;
+	PidYawAidSpeed.OutMax=30000.0f;
+}break;
+
+/********************************************* 5号车 ********************************************************/	
+		case 5:
+{
+   PidPitchSpeed.P=6000.0f;  //5000.0f;  
+	PidPitchSpeed.I=12.0f;   //10.0f; 
+	PidPitchSpeed.D=0.0f;
+	PidPitchSpeed.IMax=550.0f;
+	PidPitchSpeed.SetPoint=0.0f;
+	PidPitchSpeed.OutMax=30000.0f;
+  
+	//手动yaw双环
+  PidYawPos.P=0.30f;     
+	PidYawPos.I=0.03f;
+	PidYawPos.D=0.0f;       
+	PidYawPos.IMax=10.0f;
+	PidYawPos.SetPoint=0.0f;
+	PidYawPos.OutMax=5.5f;
+	PidYawPos.DeadZone=0.2f;
+	PidYawSpeed.P=10000.0f;   //30000
+	PidYawSpeed.I=0.0f;
+	PidYawSpeed.D=0.0f;
+	PidYawSpeed.IMax=2000.0f;
+	PidYawSpeed.SetPoint=0.0f;
+	PidYawSpeed.OutMax=30000.0f;
+	
+	//辅瞄pitch速度环
+  PidPitchAidSpeed.P=10000.0f;	  //18000
+	PidPitchAidSpeed.I=5.0f; 
+	PidPitchAidSpeed.D=0.0f;
+	PidPitchAidSpeed.IMax=250.0f;
+	PidPitchAidSpeed.SetPoint=0.0f;
+	PidPitchAidSpeed.OutMax=30000.0f;
+	
+	//辅瞄yaw速度环
+	PidYawAidSpeed.P=10000.0f;			//12000
+	PidYawAidSpeed.I=10.0f; 
+	PidYawAidSpeed.D=0.0f;
+	PidYawAidSpeed.IMax=2000.0f;
+	PidYawAidSpeed.SetPoint=0.0f;
+	PidYawAidSpeed.OutMax=30000.0f;
+}break;
+
+/********************************************* 缺省值 ********************************************************/	
+		default:
+		{
+		 //手动pitch速度环                 
+  PidPitchSpeed.P=6000.0f;  //5000.0f;  
+	PidPitchSpeed.I=12.0f;   //10.0f; 
+	PidPitchSpeed.D=0.0f;
+	PidPitchSpeed.IMax=550.0f;
+	PidPitchSpeed.SetPoint=0.0f;
+	PidPitchSpeed.OutMax=30000.0f;
+  
+	//手动yaw双环                                 // 信号丢失
+  PidYawPos.P=0.30f;     
+	PidYawPos.I=0.03f;
+	PidYawPos.D=0.0f;       
+	PidYawPos.IMax=10.0f;
+	PidYawPos.SetPoint=0.0f;
+	PidYawPos.OutMax=5.5f;
+	PidYawPos.DeadZone=0.2f;
+	PidYawSpeed.P=10000.0f;   //30000
+	PidYawSpeed.I=0.0f;
+	PidYawSpeed.D=0.0f;
+	PidYawSpeed.IMax=2000.0f;
+	PidYawSpeed.SetPoint=0.0f;
+	PidYawSpeed.OutMax=30000.0f;
+	
+	//辅瞄pitch速度环
+  PidPitchAidSpeed.P=10000.0f;	  //18000
+	PidPitchAidSpeed.I=5.0f; 
+	PidPitchAidSpeed.D=0.0f;
+	PidPitchAidSpeed.IMax=250.0f;
+	PidPitchAidSpeed.SetPoint=0.0f;
+	PidPitchAidSpeed.OutMax=30000.0f;
+	
+	//辅瞄yaw速度环
 	PidYawAidSpeed.P=9000.0f;			//12000
 	PidYawAidSpeed.I=10.0f; 
 	PidYawAidSpeed.D=0.0f;
 	PidYawAidSpeed.IMax=2000.0f;
 	PidYawAidSpeed.SetPoint=0.0f;
 	PidYawAidSpeed.OutMax=30000.0f;
+		
+		}
+	}
 }
 /**********************************************************************************************************
 *函 数 名: FuzzyPid_PitchPosSpeed_Init
@@ -620,27 +747,108 @@ void PidGimbalMotor_Init(void)
 **********************************************************************************************************/
 void FuzzyPidGimbalMotor_Init(void)
 {
-	//手动pitch角度环
-	FuzzyPidPitchPos.Kp=0.3f;  //-0.33f;
-	FuzzyPidPitchPos.Ki=0.0003f;  //0.005f;
-	FuzzyPidPitchPos.Kd=0.0f;
-	FuzzyPidPitchPos.IMax=40.0f;
-	FuzzyPidPitchPos.SetPoint=0.0f;
+	switch(Robot_ID)
+{
+/*************************************** 3号车 *********************************************************/	
+		case 3:
+		{
+			//手动pitch角度环
+			FuzzyPidPitchPos.Kp=0.3f;  //-0.33f;
+			FuzzyPidPitchPos.Ki=0.0003f;  //0.005f;
+			FuzzyPidPitchPos.Kd=0.0f;
+			FuzzyPidPitchPos.IMax=40.0f;
+			FuzzyPidPitchPos.SetPoint=0.0f;
 	
-	//辅瞄pitch角度环
-	FuzzyAidPidPitchPos.Kp=0.25f;
-	FuzzyAidPidPitchPos.Ki=0.0002f;  //0.005f;
-	FuzzyAidPidPitchPos.Kd=0.0f;
-	FuzzyAidPidPitchPos.IMax=40.0f;
-	FuzzyAidPidPitchPos.SetPoint=0.0f;
+			//辅瞄pitch角度环
+			FuzzyAidPidPitchPos.Kp=0.25f;
+			FuzzyAidPidPitchPos.Ki=0.0002f;  //0.005f;
+			FuzzyAidPidPitchPos.Kd=0.0f;
+			FuzzyAidPidPitchPos.IMax=40.0f;
+			FuzzyAidPidPitchPos.SetPoint=0.0f;
 	
-	//辅瞄yaw角度环
-	FuzzyAidPidYawPos.Kp=0.30f;
-	FuzzyAidPidYawPos.Ki=0.0003f;  //0.005f;
-	FuzzyAidPidYawPos.Kd=0.0f;
-	FuzzyAidPidYawPos.IMax=40.0f;
-	FuzzyAidPidYawPos.SetPoint=0.0f;
+			//辅瞄yaw角度环
+			FuzzyAidPidYawPos.Kp=0.30f;
+			FuzzyAidPidYawPos.Ki=0.0003f;  //0.005f;
+			FuzzyAidPidYawPos.Kd=0.0f;
+			FuzzyAidPidYawPos.IMax=40.0f;
+			FuzzyAidPidYawPos.SetPoint=0.0f;
+
+		}break;
+/*********************************************** 4号车 **************************************************/		
+				case 4:
+		{
+				//手动pitch角度环
+			FuzzyPidPitchPos.Kp=0.3f;  //-0.33f;
+			FuzzyPidPitchPos.Ki=0.0003f;  //0.005f;
+			FuzzyPidPitchPos.Kd=0.0f;
+			FuzzyPidPitchPos.IMax=40.0f;
+			FuzzyPidPitchPos.SetPoint=0.0f;
 	
+				//辅瞄pitch角度环
+			FuzzyAidPidPitchPos.Kp=0.25f;
+			FuzzyAidPidPitchPos.Ki=0.0003f;  //0.005f;
+			FuzzyAidPidPitchPos.Kd=0.0f;
+			FuzzyAidPidPitchPos.IMax=40.0f;
+			FuzzyAidPidPitchPos.SetPoint=0.0f;
+	
+			 //辅瞄yaw角度环
+			FuzzyAidPidYawPos.Kp=0.32f;
+			FuzzyAidPidYawPos.Ki=0.0005f;  //0.005f;
+			FuzzyAidPidYawPos.Kd=0.0f;
+			FuzzyAidPidYawPos.IMax=40.0f;
+			FuzzyAidPidYawPos.SetPoint=0.0f;
+
+		}break;
+/*********************************************** 5号车 **************************************************/		
+				case 5:
+		{
+			//手动pitch角度环
+			FuzzyPidPitchPos.Kp=0.3f;  //-0.33f;
+			FuzzyPidPitchPos.Ki=0.0003f;  //0.005f;
+			FuzzyPidPitchPos.Kd=0.0f;
+			FuzzyPidPitchPos.IMax=40.0f;
+			FuzzyPidPitchPos.SetPoint=0.0f;
+	
+			//辅瞄pitch角度环
+			FuzzyAidPidPitchPos.Kp=0.25f;
+			FuzzyAidPidPitchPos.Ki=0.0003f;  //0.005f;
+			FuzzyAidPidPitchPos.Kd=0.0f;
+			FuzzyAidPidPitchPos.IMax=40.0f;
+			FuzzyAidPidPitchPos.SetPoint=0.0f;
+	
+			//辅瞄yaw角度环
+			FuzzyAidPidYawPos.Kp=0.32f;
+			FuzzyAidPidYawPos.Ki=0.0005f;  //0.005f;
+			FuzzyAidPidYawPos.Kd=0.0f;
+			FuzzyAidPidYawPos.IMax=40.0f;
+			FuzzyAidPidYawPos.SetPoint=0.0f;
+
+		}break;	
+/******************************************** 缺省值 ************************************************************/		
+		default:
+		{
+					//手动pitch角度环
+			FuzzyPidPitchPos.Kp=0.3f;  //-0.33f;
+			FuzzyPidPitchPos.Ki=0.0003f;  //0.005f;
+			FuzzyPidPitchPos.Kd=0.0f;
+			FuzzyPidPitchPos.IMax=40.0f;
+			FuzzyPidPitchPos.SetPoint=0.0f;
+	
+			//辅瞄pitch角度环
+			FuzzyAidPidPitchPos.Kp=0.25f;
+			FuzzyAidPidPitchPos.Ki=0.0002f;  //0.005f;
+			FuzzyAidPidPitchPos.Kd=0.0f;
+			FuzzyAidPidPitchPos.IMax=40.0f;
+			FuzzyAidPidPitchPos.SetPoint=0.0f;
+	
+			//辅瞄yaw角度环
+			FuzzyAidPidYawPos.Kp=0.30f;
+			FuzzyAidPidYawPos.Ki=0.0003f;  //0.005f;
+			FuzzyAidPidYawPos.Kd=0.0f;
+			FuzzyAidPidYawPos.IMax=40.0f;
+			FuzzyAidPidYawPos.SetPoint=0.0f;
+		}
+	}
 }
 
 

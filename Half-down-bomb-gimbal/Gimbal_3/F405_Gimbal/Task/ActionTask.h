@@ -43,6 +43,7 @@ typedef struct
 #define Gimbal_Buff_Mode 								3
 #define Gimbal_DropShot_Mode 						4
 #define Gimbal_SI_Mode 									5
+#define Gimbal_Jump_Mode                6
 
 #define Shoot_Fire_Mode  344
 #define Shoot_Powerdown_Mode 345
