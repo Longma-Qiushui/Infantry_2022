@@ -25,6 +25,7 @@ extern Status_t Status;
 extern short KalMan_doneflag;
 extern char Robot_ID;
 extern char Judge_Lost;
+char Chassis_ID;
 /**********************************************************************************************************
 *函 数 名: Can1Receive1
 *功能说明: 功率板和拨弹电机通信
@@ -37,8 +38,13 @@ void Can1Receive0(CanRxMsg rx_message1)
 	{ 
 		case 0x095:
 		     memcpy(&F105.bulletSpeed,&rx_message1.Data[0], 4); 
-		     memcpy(&Robot_ID,&rx_message1.Data[4],1);
+		     memcpy(&Chassis_ID,&rx_message1.Data[4],1);
 				 memcpy(&Judge_Lost,&rx_message1.Data[5],1);
+		    if(Robot_ID!=Chassis_ID)
+				{
+				Robot_ID=Chassis_ID;
+				Robot_Init();
+				}
 		     Robot_Disconnect.F105_DisConect=0;
 		 break;		
 

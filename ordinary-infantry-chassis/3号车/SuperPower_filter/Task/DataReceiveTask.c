@@ -148,10 +148,6 @@ void JudgeBuffReceive(unsigned char ReceiveBuffer[],uint16_t DataLen)
 					JudgeReceive.HeatMax17=(SaveBuffer[PackPoint+7+9]<<8)|SaveBuffer[PackPoint+7+8];
 					JudgeReceive.BulletSpeedMax17=(SaveBuffer[PackPoint+7+11]<<8)|SaveBuffer[PackPoint+7+10];
 					receivePower=(SaveBuffer[PackPoint+7+25]<<8)|SaveBuffer[PackPoint+7+24];
-					if(JudgeReceive.robot_id!=Robot_ID&&(JudgeReceive.robot_id-100)!= Robot_ID)
-					{
-						Robot_ID = JudgeReceive.robot_id>100?(JudgeReceive.robot_id-100):JudgeReceive.robot_id;
-					}
 				  if(receivePower>10)
 					{
 					JudgeReceive.MaxPower=receivePower;
