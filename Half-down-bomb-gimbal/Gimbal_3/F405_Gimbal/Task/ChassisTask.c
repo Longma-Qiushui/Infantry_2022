@@ -16,6 +16,7 @@
 /*----------------------------------内部变量---------------------------*/
 short ChassisAct_Init_Flag=0;
 float Theta,SinTheTa,CosTheTa,TanTheTa,Theta0,Speed_Theta;
+char  SelfProtect_Cross_Flag;
 float ResetPos;
 short Be_shooted_flag;
 const short FollowMaxSpeedw = 2000;			//跟随最高转速
@@ -171,18 +172,18 @@ if(Status.ControlMode==Control_RC_Mode)
 			
 		   if((-1024+RC_Ctl.rc.ch1)>300)
 			{
-				chassis.carSpeedx= 1200; 
+				chassis.carSpeedx= 1000; 
 				if(SP_Theta>3.1416f/2||SP_Theta<-3.1416f/2)
 				{
-					chassis.carSpeedx=-1200; 
+					chassis.carSpeedx=-1000; 
 				}
 			}
 			else if((-1024+RC_Ctl.rc.ch1)<-300)
 			{
-				chassis.carSpeedx= -1200; 
+				chassis.carSpeedx= -1000; 
 				if(SP_Theta>3.1416f/2||SP_Theta<-3.1416f/2)
 				{
-				chassis.carSpeedx= 1200; 
+				chassis.carSpeedx= 1000; 
 				}
 			}
 			else
@@ -191,18 +192,18 @@ if(Status.ControlMode==Control_RC_Mode)
 			
 		  if((-1024+RC_Ctl.rc.ch0)>300)
 			{
-				chassis.carSpeedy= 1200; 
+				chassis.carSpeedy= 1000; 
 				if(SP_Theta>3.1416f/2||SP_Theta<-3.1416f/2)
 				{
-				chassis.carSpeedy= -1200; 
+				chassis.carSpeedy= -1000; 
 				}
 			}
 			else if((-1024+RC_Ctl.rc.ch0)<-300)
 			{
-				chassis.carSpeedy= -1200; 
+				chassis.carSpeedy= -1000; 
 				if(SP_Theta>3.1416f/2||SP_Theta<-3.1416f/2)
 				{
-				chassis.carSpeedy= 1200; 
+				chassis.carSpeedy= 1000; 
 				}
 			}
 			else
@@ -212,6 +213,14 @@ if(Status.ControlMode==Control_RC_Mode)
 	{
 	  chassis.carSpeedx = -((key.a-key.d)*1000*SinSP_Theta+(key.s-key.w)*1000*CosSP_Theta);
 		chassis.carSpeedy = ((key.s-key.w)*1000*SinSP_Theta-(key.a-key.d)*1000*CosSP_Theta);
+		if((key.a==1&&key.s==1)||(key.a==1&&key.w==1)||(key.d==1&&key.s==1)||(key.d==1&&key.w==1))
+		{
+		  SelfProtect_Cross_Flag=1;
+		}
+		else
+		{
+		 	SelfProtect_Cross_Flag=0;
+		}
 	}
 	
 //	if(F105.HP < F105.Last_HP)				//被射了就转快一点
@@ -252,7 +261,7 @@ if(Status.ControlMode==Control_RC_Mode)
 *返 回 值: 无
 **********************************************************************************************************/
 short SOLO_bias;
-short SOLO_bias_max = 550;
+short SOLO_bias_max = 450;//550;
 short H_pid = 100;
 short L_pid = 20;
 float H_P = 0.8f;
@@ -317,22 +326,24 @@ if(Status.ControlMode==Control_RC_Mode)
 		chassis.carSpeedy = ((key.s-key.w)*2000*SinTheTa-(key.a-key.d)*2000*CosTheTa);
 	}
 	/*底盘跟随*/
-		if(ABS(chassis.carSpeedx) <=10 && ABS(chassis.carSpeedy) < 10)		//静止时扭腰
+		if(ABS(chassis.carSpeedx) <=300 && ABS(chassis.carSpeedy) < 300)		//静止时扭腰
 		{
 			ResetPos = (ChassisPostionAngle_TranSform(Infantry.Solo_Yaw_init))/360*8192;		//与正对角差值计算
-			SOLO_pidChassisPosition.SetPoint = Gimbal.Yaw.Motor-ResetPos+SOLO_bias;					//单挑模式用单独的pid
-			chassis.carSpeedw = PID_Calc(&SOLO_pidChassisPosition, Gimbal.Yaw.Motor);
-		
-			if(SOLO_bias == SOLO_bias_max && ABS(Gimbal.Yaw.Motor - SOLO_pidChassisPosition.SetPoint) < 50)
-				SOLO_bias = -SOLO_bias_max;
-			else if(SOLO_bias == -SOLO_bias_max && ABS(Gimbal.Yaw.Motor - SOLO_pidChassisPosition.SetPoint) < 50)
-				SOLO_bias = SOLO_bias_max;
+	//		SOLO_pidChassisPosition.SetPoint = Gimbal.Yaw.Motor-ResetPos+SOLO_bias;					//单挑模式用单独的pid
+		  if(ABS(ResetPos - SOLO_bias) < 50)
+			{
+				SOLO_bias = -SOLO_bias;
+	  	}
+			SOLO_pidChassisPosition.SetPoint = SOLO_bias;					//单挑模式用单独的pid
+			pidChassisPosition_Speed.SetPoint = -PID_Calc(&SOLO_pidChassisPosition, ResetPos);
+			chassis.carSpeedw = PID_Calc(&pidChassisPosition_Speed,F105.ChassisSpeedw);
+
 		}
 		else		//开始运动，停止扭腰
 		{
 			ResetPos = (ChassisPostionAngle_TranSform(Infantry.Solo_Yaw_init))/360*8192;		//与正对角差值计算
-			SOLO_pidChassisPosition.SetPoint = Gimbal.Yaw.Motor-ResetPos;
-			pidChassisPosition.SetPoint = -PID_Calc(&SOLO_pidChassisPosition, Gimbal.Yaw.Motor);
+			SOLO_pidChassisPosition.SetPoint = 0;
+			pidChassisPosition_Speed.SetPoint = -PID_Calc(&SOLO_pidChassisPosition, ResetPos);
 			chassis.carSpeedw = PID_Calc(&pidChassisPosition_Speed,F105.ChassisSpeedw);
 
 		}
@@ -520,20 +531,20 @@ void Pid_ChassisPosition_Init(void)
 /********************************************* 3号车 ***********************************************************/	
 		case 3:
 	{
-		pidChassisPosition.P = 1.6f;				//2.0					3号车
+		pidChassisPosition.P = 1.6f;				//2.0  位置环					3号车
 	  pidChassisPosition.I = 0.00f;					
 	  pidChassisPosition.D = 0.0f;				
 	  pidChassisPosition.IMax = 300.0f;
 	  pidChassisPosition.OutMax = 4000.0f;
 	  pidChassisPosition.DeadZone=0.0f;
 	
-	  SOLO_pidChassisPosition.P = 1.2f;		
+	  SOLO_pidChassisPosition.P = 1.8f;		
 	  SOLO_pidChassisPosition.I = 0.0f;					
 	  SOLO_pidChassisPosition.D = 0.0f;				
 	  SOLO_pidChassisPosition.IMax = 200.0f;
 	  SOLO_pidChassisPosition.OutMax = 2000.0f;
 	
-	  pidChassisPosition_Speed.P = 2.0f;			//2.3
+	  pidChassisPosition_Speed.P = 2.0f;			//2.3  速度环
 	  pidChassisPosition_Speed.I = 0.3f;
 	  pidChassisPosition_Speed.D = 0.0f;
 	  pidChassisPosition_Speed.IMax = 200.0f;
@@ -542,20 +553,20 @@ void Pid_ChassisPosition_Init(void)
 	/********************************************* 4号车 ***********************************************************/	
 		case 4:
 	{
-		pidChassisPosition.P = 1.6f;				//2.0					4号车
+		pidChassisPosition.P = 1.6f;				//2.0				位置环	4号车
 	  pidChassisPosition.I = 0.00f;					
 	  pidChassisPosition.D = 0.0f;				
 	  pidChassisPosition.IMax = 300.0f;
 	  pidChassisPosition.OutMax = 4000.0f;
 	  pidChassisPosition.DeadZone=0.0f;
 	
-	  SOLO_pidChassisPosition.P = 1.2f;		
+	  SOLO_pidChassisPosition.P = 1.4f;		
 	  SOLO_pidChassisPosition.I = 0.0f;					
 	  SOLO_pidChassisPosition.D = 0.0f;				
 	  SOLO_pidChassisPosition.IMax = 200.0f;
-	  SOLO_pidChassisPosition.OutMax = 2000.0f;
+	  SOLO_pidChassisPosition.OutMax = 4000.0f;
 	
-	  pidChassisPosition_Speed.P = 2.0f;			//2.3
+	  pidChassisPosition_Speed.P = 2.0f;			//2.3   速度环
 	  pidChassisPosition_Speed.I = 0.3f;
 	  pidChassisPosition_Speed.D = 0.0f;
 	  pidChassisPosition_Speed.IMax = 200.0f;
@@ -564,7 +575,7 @@ void Pid_ChassisPosition_Init(void)
 	/********************************************* 5号车 ***********************************************************/	
 		case 5:
 	{
-		pidChassisPosition.P = 1.6f;				//2.0					5号车
+		pidChassisPosition.P = 1.6f;				//2.0			位置环		5号车
 	  pidChassisPosition.I = 0.00f;					
 	  pidChassisPosition.D = 0.0f;				
 	  pidChassisPosition.IMax = 300.0f;
@@ -577,7 +588,7 @@ void Pid_ChassisPosition_Init(void)
 	  SOLO_pidChassisPosition.IMax = 200.0f;
 	  SOLO_pidChassisPosition.OutMax = 2000.0f;
 	
-	  pidChassisPosition_Speed.P = 2.0f;			//2.3
+	  pidChassisPosition_Speed.P = 2.0f;			//2.3      速度环
 	  pidChassisPosition_Speed.I = 0.3f;
 	  pidChassisPosition_Speed.D = 0.0f;
 	  pidChassisPosition_Speed.IMax = 200.0f;

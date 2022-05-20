@@ -63,6 +63,7 @@ void BodanCan1Send(short a)
 *·µ »Ø Öµ: ÎÞ
 **********************************************************************************************************/
 extern short armor_state;
+extern char  SelfProtect_Cross_Flag;
 void F405Can1Send(F405_typedef *F405_Send)
 {
     CanTxMsg tx_message;
@@ -76,7 +77,10 @@ void F405Can1Send(F405_typedef *F405_Send)
 		F405_Send->Send_Pack1  = ((F405_Send->Mag_Flag&0x01)<<0)|
 									((F405_Send->Laser_Flag&0x01)<<1)|
 									((F405_Send->Graphic_Init_Flag&0x01)<<2)|
-									((F405_Send->Follow_state&0x01)<<3)|((F405_Send->Fric_Flag&0x01)<<4)|((armor_state&0x01)<<5);
+									((F405_Send->Follow_state&0x01)<<3)|
+	                ((F405_Send->Fric_Flag&0x01)<<4)|
+	                ((armor_state&0x01)<<5)|
+	                ((SelfProtect_Cross_Flag&0x01)<<6);
     memcpy(&tx_message.Data[0],&F405_Send->SuperPowerLimit,1);
 		memcpy(&tx_message.Data[1],&F405_Send->Chassis_Flag,1);	
 		memcpy(&tx_message.Data[2],&F405_Send->Gimbal_100,2);

@@ -197,7 +197,7 @@ void Remote_Process(Remote rc)
 		Status.GimbalMode=Gimbal_Armor_Mode;
 		Status.ChassisMode=Chassis_SelfProtect_Mode;
 		Status.ShootMode=Shoot_Tx2_Mode;
-    SteeringEngine_Set(Infantry.MagClose);
+    SteeringEngine_Set(Infantry.MagOpen);
 	}
 
 	if(rc.s2 == 2)//´ó·ûÄ£Ê½

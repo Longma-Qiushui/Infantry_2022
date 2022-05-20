@@ -6,12 +6,14 @@
  * @日期     2019.10
 **********************************************************************************************************/
 #include "main.h"
+
+char Robot_ID = 3;         // 不同机器人用不同的序号
+
 extern KalmanFilter_t pitch_Kalman, yaw_Kalman;
 extern KalmanFilter_Init_t K;
 unsigned volatile long run_time_check = 0;	//用于做各种简易计数器计数
 short fric_flag = 0;//摩擦轮电机初始化标志
 RobotInit_Struct Infantry;
-char Robot_ID;
 char Judge_Lost;
 extern short FrictionWheel_speed;
 extern short KalMan_doneflag;
@@ -27,7 +29,6 @@ int main()
 
 	BSP_Init();
 	delay_ms(3000);
-	Robot_ID=3;
 	Robot_Init();
 	startTast();
   vTaskStartScheduler();
@@ -113,7 +114,7 @@ switch(Robot_ID)
 	Infantry.Pitch_init=2058;
 	Infantry.MagOpen=2000;
 	Infantry.MagClose=540;
-	Infantry.Solo_Yaw_init = 20;
+	Infantry.Solo_Yaw_init = 512;
 } break;
 
 /***************************************** 4 号车 **************************************************************/	

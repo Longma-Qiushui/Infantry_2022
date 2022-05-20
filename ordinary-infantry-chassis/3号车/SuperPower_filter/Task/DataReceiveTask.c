@@ -18,6 +18,7 @@ RM820RReceive_Typedef ChassisMotorCanReceive[4];
 ChassisSpeed_t chassis;
 extern short Judgement_DisConnect;
 extern char Robot_ID;
+extern char SelfProtect_Cross_Flag;
 /**********************************************************************************************************
 *函 数 名: Can1Receive0
 *功能说明: can1接收函数，接收电调传回的速度，电流值
@@ -104,6 +105,7 @@ void Can2Receive1(CanRxMsg *rx_message)
 			F405.Graphic_Init_Flag = (F405.Send_Pack1>>2)&0x01;
 			F405.Follow_state = (F405.Send_Pack1>>3)&0x01;
 		  F405.Fric_Flag=(F405.Send_Pack1>>4)&0x01;
+		  SelfProtect_Cross_Flag=(F405.Send_Pack1>>6)&0x01;
 		break;
 	}
 }
