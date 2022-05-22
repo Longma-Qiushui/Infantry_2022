@@ -31,7 +31,7 @@ extern RobotInit_Struct Infantry;
 extern short FrictionReceive[2];
 extern char Robot_ID;
 #define PullerSpeed  3000
-#define checkPullerSpeed  3000
+#define checkPullerSpeed  1000
 /**********************************************************************************************************
 *函 数 名: FrictionSpeedChoose
 *功能说明: 摩擦轮转速选择

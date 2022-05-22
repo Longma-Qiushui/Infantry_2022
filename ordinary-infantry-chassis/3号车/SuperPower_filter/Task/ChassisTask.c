@@ -215,6 +215,10 @@ void Method_Check(void)
 		}
 	}
 	last_PN = PN;
+	if(PowerState==CAP)
+	{
+	CurrentMax = 12000.0f;
+	}
 }
 
 /**********************************************************************************************************
@@ -229,7 +233,7 @@ short pre_in[2];
 char SelfProtect_Cross_Flag;
 void Chassis_Speed_Cal(void)
 {
-	static float k_CAP = 2.0f;
+	static float k_CAP = 3.0f;
 	static short Angular_Velocity;
 	float rotation_lim=1.0f;
 	
@@ -259,9 +263,14 @@ void Chassis_Speed_Cal(void)
 //				chassis.carSpeedw*=0.7;
 //			}
 //		}			
-
-		carSpeedw =LIMIT_MAX_MIN(chassis.carSpeedw,Follow_W, -Follow_W);
-
+   if(PowerState==BAT)
+	 {	
+		 carSpeedw =LIMIT_MAX_MIN(chassis.carSpeedw,Follow_W, -Follow_W);
+	 }
+	 else 
+	 {
+	   carSpeedw = chassis.carSpeedw;
+	 }
 		break;
 		
 		case Chassis_SelfProtect_Mode:
@@ -452,6 +461,7 @@ void Chassis_CurrentPid_Cal(void)
 	}
 	else if(PowerState == CAP)
 	{
+		
 		for(i=0;i<4;i++)
 		{
 			WheelCurrentSend[i] = PID_Calc(&pidChassisWheelSpeed[i],ChassisMotorCanReceive[i].RealSpeed);

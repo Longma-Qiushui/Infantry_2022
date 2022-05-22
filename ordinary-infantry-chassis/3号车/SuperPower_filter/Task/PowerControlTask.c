@@ -94,8 +94,8 @@ int MaxChargePower = 45000; 		//最大充电功率，最小充电功率
 extern uint16_t MyMaxPower;
 const short MinCharegePower = 5000;
 int ActualPower = 0;
-float MaxBatChargeCurrent = 3.0f;
-float MaxCAPChargeCurrent = 4.0f;
+float MaxBatChargeCurrent = 5.0f;
+float MaxCAPChargeCurrent = 5.0f;
 float My_i;
 float ChargeCal()	//由剩余功率计算充电电流
 {
@@ -103,16 +103,16 @@ float ChargeCal()	//由剩余功率计算充电电流
 	MaxChargePower = 1000 * (MyMaxPower - 10) ;
 	if(PowerState == BAT)   //0 使用电池放电 此时电池给电容充电，电池给底盘供电
 	{
-	  if(AD_actual_value > 21)		//电容实际电压 > 减缓充电功率阈值
-		{
-			ChargeCtl.SetPoint = MinCharegePower;
-			MaxBatChargeCurrent = 1.0f;
-		}
-		else if(AD_actual_value < 21)
-		{
-			MaxBatChargeCurrent = 3.0f;
+//	  if(AD_actual_value > 21)		//电容实际电压 > 减缓充电功率阈值
+//		{
+//			ChargeCtl.SetPoint = MinCharegePower;
+//			MaxBatChargeCurrent = 1.0f;
+//		}
+//		else if(AD_actual_value < 21)
+//		{
+			MaxBatChargeCurrent = 6.0f;
 			ChargeCtl.SetPoint = LIMIT_MAX_MIN(MaxChargePower - INA260_2.Power,MaxChargePower,0);
-		}
+//		}
 		
 		//实际：电容充电功率  SetPoint: 希望充电的功率 单位mW
 		ActualPower = INA260_1.Power - INA260_2.Power;
@@ -198,7 +198,7 @@ void Charge_Set(float i_Set)
 void Pid_ChargeCal_Init()
 {
 	ChargeCtl.SetPoint = 40000;
-	ChargeCtl.P = 0.01;
+	ChargeCtl.P = 0.5;
 	ChargeCtl.I = 0;
 	ChargeCtl.IMax = 0;
 	ChargeCtl.OutMax = MaxCAPChargeCurrent*1000;
@@ -220,7 +220,7 @@ void ChargeControl(void)
 	
 //	test_current = ChargeCal();
 //	I_Set += test_current;	
-   I_Set+= ChargeCal(); 
+   I_Set = ChargeCal(); 
 	if(PowerState == BAT)  //bat
 	{
 		if(CAP_CrossoverFlag == 1)			//启动/停止，大幅转向，有大电流，直接关闭电容充电

@@ -190,6 +190,16 @@
           <WinNumber>1</WinNumber>
           <ItemText>PidBodanMotorSpeed</ItemText>
         </Ww>
+        <Ww>
+          <count>6</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>Robot_Disconnect</ItemText>
+        </Ww>
+        <Ww>
+          <count>7</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>F105</ItemText>
+        </Ww>
       </WatchWindow1>
       <WatchWindow2>
         <Ww>
