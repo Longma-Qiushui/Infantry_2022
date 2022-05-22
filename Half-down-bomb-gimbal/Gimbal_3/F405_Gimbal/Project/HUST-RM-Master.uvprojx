@@ -577,11 +577,6 @@
               <FilePath>..\Mylib\laser.c</FilePath>
             </File>
             <File>
-              <FileName>usart6.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Mylib\usart6.c</FilePath>
-            </File>
-            <File>
               <FileName>gpio.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Mylib\gpio.c</FilePath>
@@ -595,6 +590,11 @@
               <FileName>uart4.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Mylib\uart4.c</FilePath>
+            </File>
+            <File>
+              <FileName>usart2.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Mylib\usart2.c</FilePath>
             </File>
           </Files>
         </Group>

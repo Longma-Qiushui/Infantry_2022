@@ -213,7 +213,7 @@ void USART6_SendtoPC(void)
 		{
 		//		GPIO_ResetBits(GPIOA,GPIO_Pin_1);
 		}
-		DMA_Cmd(DMA1_Stream4, ENABLE);
+		DMA_Cmd(DMA1_Stream6, ENABLE);
 		
 	}
 	PC_TX_num++;

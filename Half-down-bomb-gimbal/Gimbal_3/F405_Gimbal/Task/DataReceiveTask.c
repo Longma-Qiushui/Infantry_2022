@@ -12,13 +12,14 @@ Gyro_Typedef GyroReceive;//陀螺仪数据
 F105_Typedef F105;
 PC_Receive_t PC_Receive;
 BodanMotorReceive_Typedef BodanReceive;
-
+char PitchMotor_ReceiveFlag;
 short FrictionReceive[2];
 float PitchMotorReceive,YawMotorReceive;//Pitch,Yaw电机角度
 
 KalmanFilter_t pitch_Kalman, yaw_Kalman;
 Disconnect Robot_Disconnect;
 
+extern ZeroCheck_Typedef ZeroCheck_Pitch;
 extern Gimbal_Typedef Gimbal;
 extern volatile long run_time_check;
 extern Status_t Status;
@@ -86,6 +87,11 @@ void Can2Receive0(CanRxMsg rx_message0)
 		 case 0x206:                                                             
 				 PitchMotorReceive=rx_message0.Data[0]<<8 | rx_message0.Data[1];
 				 Robot_Disconnect.PitchMotor_DisConnect=0;
+		     if(!PitchMotor_ReceiveFlag)
+				{
+				ZeroCheck_Pitch.LastValue=PitchMotorReceive;
+				}
+		     PitchMotor_ReceiveFlag=1;
 		 break;
 		 case 0x205:         
 				 YawMotorReceive=rx_message0.Data[0]<<8 | rx_message0.Data[1];

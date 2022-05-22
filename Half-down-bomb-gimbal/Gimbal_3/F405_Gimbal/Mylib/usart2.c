@@ -11,57 +11,57 @@ unsigned char PCbuffer[PC_RECVBUF_SIZE]={0,0,0};
 extern unsigned char SendToPC_Buff[PC_SENDBUF_SIZE];
 
 /**********************************************************************************************************
-*函 数 名: USART6_Configuration
-*功能说明: usart6配置函数(PC通信)
+*函 数 名: USART2_Configuration
+*功能说明: usart2配置函数(PC通信)
 *形    参: 无
 *返 回 值: 无
 **********************************************************************************************************/
-void USART6_Configuration(void)
+void USART2_Configuration(void)
 {
-    USART_InitTypeDef usart6;
+    USART_InitTypeDef usart2;
 		GPIO_InitTypeDef  gpio;
     NVIC_InitTypeDef  nvic;
 	
-		RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOC,ENABLE);
-		RCC_APB1PeriphClockCmd(RCC_APB1Periph_UART4,ENABLE);
+		RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA,ENABLE);
+		RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART2,ENABLE);
 	
-		GPIO_PinAFConfig(GPIOC,GPIO_PinSource10,GPIO_AF_UART4);
-		GPIO_PinAFConfig(GPIOC,GPIO_PinSource11,GPIO_AF_UART4); 
+		GPIO_PinAFConfig(GPIOA,GPIO_PinSource2,GPIO_AF_USART2);
+		GPIO_PinAFConfig(GPIOA,GPIO_PinSource3,GPIO_AF_USART2); 
 	
-    gpio.GPIO_Pin = GPIO_Pin_10 | GPIO_Pin_11;
+    gpio.GPIO_Pin = GPIO_Pin_2 | GPIO_Pin_3;
 		gpio.GPIO_Mode = GPIO_Mode_AF;
     gpio.GPIO_OType = GPIO_OType_PP;
     gpio.GPIO_Speed = GPIO_Speed_100MHz;
     gpio.GPIO_PuPd = GPIO_PuPd_NOPULL;
-		GPIO_Init(GPIOC,&gpio);
+		GPIO_Init(GPIOA,&gpio);
 
-		usart6.USART_BaudRate = 115200;
-		usart6.USART_WordLength = USART_WordLength_8b;
-		usart6.USART_StopBits = USART_StopBits_1;
-		usart6.USART_Parity = USART_Parity_No;
-		usart6.USART_Mode = USART_Mode_Tx|USART_Mode_Rx;
-    usart6.USART_HardwareFlowControl = USART_HardwareFlowControl_None;
-		USART_Init(UART4,&usart6);
+		usart2.USART_BaudRate = 115200;
+		usart2.USART_WordLength = USART_WordLength_8b;
+		usart2.USART_StopBits = USART_StopBits_1;
+		usart2.USART_Parity = USART_Parity_No;
+		usart2.USART_Mode = USART_Mode_Tx|USART_Mode_Rx;
+    usart2.USART_HardwareFlowControl = USART_HardwareFlowControl_None;
+		USART_Init(USART2,&usart2);
 		
-		USART_ITConfig(UART4,USART_IT_IDLE,ENABLE);
-		USART_Cmd(UART4,ENABLE);
+		USART_ITConfig(USART2,USART_IT_IDLE,ENABLE);
+		USART_Cmd(USART2,ENABLE);
 		
-		USART_Cmd(UART4,ENABLE);
-    USART_DMACmd(UART4,USART_DMAReq_Rx,ENABLE);	
-		USART_DMACmd(UART4,USART_DMAReq_Tx,ENABLE);
+		USART_Cmd(USART2,ENABLE);
+    USART_DMACmd(USART2,USART_DMAReq_Rx,ENABLE);	
+		USART_DMACmd(USART2,USART_DMAReq_Tx,ENABLE);
 		
-    nvic.NVIC_IRQChannel = DMA1_Stream2_IRQn;
+    nvic.NVIC_IRQChannel = DMA1_Stream5_IRQn;
     nvic.NVIC_IRQChannelPreemptionPriority = 1;
     nvic.NVIC_IRQChannelSubPriority = 1;
     nvic.NVIC_IRQChannelCmd = ENABLE;
     NVIC_Init(&nvic);
 		
-		{
+		{                              // RX
 			DMA_InitTypeDef   dma;
 			RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_DMA1,ENABLE);
-			DMA_DeInit(DMA1_Stream2);
+			DMA_DeInit(DMA1_Stream5);
 			dma.DMA_Channel= DMA_Channel_4;
-			dma.DMA_PeripheralBaseAddr = (uint32_t)&(UART4->DR);
+			dma.DMA_PeripheralBaseAddr = (uint32_t)&(USART2->DR);
 			dma.DMA_Memory0BaseAddr = (uint32_t)PCbuffer;
 			dma.DMA_DIR = DMA_DIR_PeripheralToMemory;
 			dma.DMA_BufferSize = PC_RECVBUF_SIZE;
@@ -75,17 +75,17 @@ void USART6_Configuration(void)
 			dma.DMA_FIFOThreshold = DMA_FIFOThreshold_1QuarterFull;
 			dma.DMA_MemoryBurst = DMA_Mode_Normal;
 			dma.DMA_PeripheralBurst = DMA_PeripheralBurst_Single;
-			DMA_Init(DMA1_Stream2,&dma);
-			DMA_ITConfig(DMA1_Stream2,DMA_IT_TC,ENABLE);
-			DMA_Cmd(DMA1_Stream2,ENABLE);
+			DMA_Init(DMA1_Stream5,&dma);
+			DMA_ITConfig(DMA1_Stream5,DMA_IT_TC,ENABLE);
+			DMA_Cmd(DMA1_Stream5,ENABLE);
 		}
 		
-		{
+		{                             //  TX
 			DMA_InitTypeDef   dma;
 			RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_DMA1,ENABLE);
-			DMA_DeInit(DMA1_Stream4);
+			DMA_DeInit(DMA1_Stream6);
 			dma.DMA_Channel= DMA_Channel_4;
-			dma.DMA_PeripheralBaseAddr = (uint32_t)&(UART4->DR);
+			dma.DMA_PeripheralBaseAddr = (uint32_t)&(USART2->DR);
 			dma.DMA_Memory0BaseAddr = (uint32_t)SendToPC_Buff;
 			dma.DMA_DIR = DMA_DIR_MemoryToPeripheral;
 			dma.DMA_BufferSize = PC_SENDBUF_SIZE;
@@ -99,8 +99,8 @@ void USART6_Configuration(void)
 			dma.DMA_FIFOThreshold = DMA_FIFOThreshold_1QuarterFull;
 			dma.DMA_MemoryBurst = DMA_Mode_Normal;
 			dma.DMA_PeripheralBurst = DMA_PeripheralBurst_Single;
-			DMA_Init(DMA1_Stream4,&dma);
-			DMA_Cmd(DMA1_Stream4,DISABLE);
+			DMA_Init(DMA1_Stream6,&dma);
+			DMA_Cmd(DMA1_Stream6,DISABLE);
 		}	
 }
 /**********************************************************************************************************
@@ -116,11 +116,11 @@ unsigned char ErrorBuff[PC_RECVBUF_SIZE*4];
 short buffindex;
 
 /**********************************************普通接收****************************************************************/
-void DMA1_Stream2_IRQHandler(void)
+void DMA1_Stream5_IRQHandler(void)
 {
   static unsigned char temptemp[2*PC_RECVBUF_SIZE];
 	short PackPoint,n;
-	if(DMA_GetITStatus(DMA1_Stream2, DMA_IT_TCIF2))
+	if(DMA_GetITStatus(DMA1_Stream5, DMA_IT_TCIF5))
 	{
 		memcpy(temptemp+PC_RECVBUF_SIZE,PCbuffer,PC_RECVBUF_SIZE);
 	  for(PackPoint = 0; PackPoint < PC_RECVBUF_SIZE; PackPoint++)//防止错位，不一定数组元素的第一个就为
@@ -144,8 +144,8 @@ void DMA1_Stream2_IRQHandler(void)
 				break;
 			}
 	  }
-		DMA_ClearFlag(DMA1_Stream2, DMA_FLAG_TCIF2);
-		DMA_ClearITPendingBit(DMA1_Stream2, DMA_IT_TCIF2);
+		DMA_ClearFlag(DMA1_Stream5, DMA_FLAG_TCIF5);
+		DMA_ClearITPendingBit(DMA1_Stream5, DMA_IT_TCIF5);
 		memcpy(temptemp,temptemp+PC_RECVBUF_SIZE,PC_RECVBUF_SIZE);
   }
 }

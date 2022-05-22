@@ -14,7 +14,7 @@ extern RobotInit_Struct Infantry;
 *形    参: 无
 *返 回 值: 无
 **********************************************************************************************************/
-void SteeringEngine_Configuration(void)
+void SteeringEngine_Configuration(void)   //PB1 TIM3 CH4
 {
 	GPIO_InitTypeDef GPIO_InitStruct;
 	TIM_TimeBaseInitTypeDef TIM_TimeBaseInitStruct;
@@ -23,10 +23,10 @@ void SteeringEngine_Configuration(void)
 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM3,ENABLE);
 	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOB,ENABLE);			//时钟配置
 	
-	GPIO_PinAFConfig(GPIOB,GPIO_PinSource0,GPIO_AF_TIM3);			//引脚复用
+	GPIO_PinAFConfig(GPIOB,GPIO_PinSource1,GPIO_AF_TIM2);			//引脚复用
 	
 	GPIO_InitStruct.GPIO_Mode=GPIO_Mode_AF;										//GPIO配置
-	GPIO_InitStruct.GPIO_Pin=GPIO_Pin_0;
+	GPIO_InitStruct.GPIO_Pin=GPIO_Pin_1;
 	GPIO_InitStruct.GPIO_Speed=GPIO_Speed_100MHz;
   GPIO_InitStruct.GPIO_OType=GPIO_OType_PP;
 	GPIO_InitStruct.GPIO_PuPd=GPIO_PuPd_UP;
@@ -41,9 +41,9 @@ void SteeringEngine_Configuration(void)
 	TIM_OCInitStruct.TIM_OCMode=TIM_OCMode_PWM1;
 	TIM_OCInitStruct.TIM_OCPolarity=TIM_OCPolarity_High;
 	TIM_OCInitStruct.TIM_OutputState=TIM_OutputState_Enable;
-	TIM_OC3Init(TIM3,&TIM_OCInitStruct);											//Channel4配置
+	TIM_OC4Init(TIM3,&TIM_OCInitStruct);											//Channel4配置
 	
-	TIM_OC3PreloadConfig(TIM3,ENABLE);
+	TIM_OC4PreloadConfig(TIM3,ENABLE);
 	
 	TIM_ARRPreloadConfig(TIM3,ENABLE);
 	
@@ -51,7 +51,7 @@ void SteeringEngine_Configuration(void)
 	
 	TIM_Cmd(TIM3,ENABLE);
 
-  TIM_SetCompare3(TIM3,Infantry.MagClose);
+  TIM_SetCompare4(TIM3,Infantry.MagClose);
 //	GPIO_InitTypeDef GPIO_InitStruct;
 //	TIM_TimeBaseInitTypeDef TIM_TimeBaseInitStruct;
 //	TIM_OCInitTypeDef TIM_OCInitStruct;												//初始化结构体
@@ -95,6 +95,7 @@ void SteeringEngine_Configuration(void)
 *返 回 值: 无
 **********************************************************************************************************/
 unsigned char magazineState=0x00; //初次记录为关着的状态
+int mag_place;
 void SteeringEngine_Set(int position)       
 {
 //	SteeringEngine_Configuration();
@@ -102,6 +103,7 @@ void SteeringEngine_Set(int position)
 	  magazineState=0x01;
 	if(position==Infantry.MagClose)
 	  magazineState=0x00;
-	TIM_SetCompare3(TIM3,position);
+	mag_place=position;
+	TIM_SetCompare4(TIM3,position);
 }
 

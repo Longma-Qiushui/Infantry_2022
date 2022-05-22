@@ -3,6 +3,6 @@
 
 void MicroSwConfigration(void);
 
-#define MicroSw_On 		GPIO_ResetBits(GPIOC,GPIO_Pin_1)
-#define MicroSw_Off 	GPIO_SetBits(GPIOC,GPIO_Pin_1)
+#define MicroSw_On 		GPIO_ResetBits(GPIOC,GPIO_Pin_15)
+#define MicroSw_Off 	GPIO_SetBits(GPIOC,GPIO_Pin_15)
 #endif

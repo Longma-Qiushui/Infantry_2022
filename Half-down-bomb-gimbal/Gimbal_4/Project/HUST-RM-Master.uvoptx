@@ -175,6 +175,38 @@
           <ExecCommand></ExecCommand>
           <Expression>\\HUST_RM_Master\../Mylib/usart1.c\94</Expression>
         </Bp>
+        <Bp>
+          <Number>1</Number>
+          <Type>0</Type>
+          <LineNumber>91</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>134241454</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>D:\Robomaster\Infantry\gitee\Half-down-bomb-gimbal\Gimbal_4\Mylib\usart1.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression>\\HUST_RM_Master\../Mylib/usart1.c\91</Expression>
+        </Bp>
+        <Bp>
+          <Number>2</Number>
+          <Type>0</Type>
+          <LineNumber>88</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>134241438</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>D:\Robomaster\Infantry\gitee\Half-down-bomb-gimbal\Gimbal_4\Mylib\usart1.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression>\\HUST_RM_Master\../Mylib/usart1.c\88</Expression>
+        </Bp>
       </Breakpoint>
       <WatchWindow1>
         <Ww>

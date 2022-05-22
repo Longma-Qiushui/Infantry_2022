@@ -31,7 +31,7 @@ extern RobotInit_Struct Infantry;
 extern short FrictionReceive[2];
 extern char Robot_ID;
 #define PullerSpeed  3000
-#define checkPullerSpeed  1000
+#define checkPullerSpeed  3000
 /**********************************************************************************************************
 *函 数 名: FrictionSpeedChoose
 *功能说明: 摩擦轮转速选择
@@ -384,7 +384,7 @@ void Pid_Friction_Init(void)
 		{
 			Infantry.Low_FrictionSpeed = 4850;
 			Infantry.Medium_FrictionSpeed = 5800;
-			Infantry.High_FrictionSpeed = 16000;
+			Infantry.High_FrictionSpeed =16000;
 		} break;
 /********************************************* 4号车 *******************************************************/	
 		case 4:
@@ -409,14 +409,14 @@ void Pid_Friction_Init(void)
 		}
 }
   PidFrictionSpeed[0].P=60.0f;
-	PidFrictionSpeed[0].I=2.0f;
+	PidFrictionSpeed[0].I=0.0f;
 	PidFrictionSpeed[0].D=0.0f;
 	PidFrictionSpeed[0].IMax=1500.0f;
 	PidFrictionSpeed[0].SetPoint=0.0f;
 	PidFrictionSpeed[0].OutMax = 10000.0f;
 	
   PidFrictionSpeed[1].P=60.0f;
-	PidFrictionSpeed[1].I=2.0f;
+	PidFrictionSpeed[1].I=0.0f;
 	PidFrictionSpeed[1].D=0.0f;
 	PidFrictionSpeed[1].IMax=1500.0f;
 	PidFrictionSpeed[1].SetPoint=0.0f;
@@ -467,7 +467,7 @@ void Shoot_task(void *pvParameters)
 			
 		 BodanMotor_CurrentPid_Cal();
 		 FrictionBodanCan2Send(FrictionCurrent[0],FrictionCurrent[1],BodanMotorCurrent);
-		 VOFA_Send();
+//		 VOFA_Send();
 		 IWDG_Feed();
      vTaskDelayUntil(&xLastWakeTime,xFrequency); 
 	

@@ -244,7 +244,7 @@ void Chassis_Speed_Cal(void)
 		case Chassis_Act_Mode:
 						
 		if((ABS(chassis.carSpeedx)>100) && (ABS(chassis.carSpeedy) >100))
-				k_xy = 1.0f;
+				k_xy = 1.3f;
 			else
 				k_xy = 3;
 			
@@ -554,14 +554,14 @@ void Chassis_Power_Control_Init(void)
 	num++;                                             //3号车
 	Power_method[num].Actual_P_max = 60;                   
 	Power_method[num].Self_Protect_Limit = 3300;  //小陀螺控制转速
-	Power_method[num].k_BAT = 0.85f;   // 0.9f              //xy向速度系数
+	Power_method[num].k_BAT = 0.75f;   // 0.9f              //xy向速度系数
 	Power_method[num].Excess_P_max = 2000;  //3000   750  //太小起步较慢匀速直行时会缓存能量太少会无法转弯，较大的值可以保证起步后可以保留缓存能量可以转弯，但连续转弯有限
 	Power_method[num].CurrentMax = 10000;
 	Power_method[num].Follow_W = 4000;
 	/****************80W********************/
 	num++;
 	Power_method[num].Actual_P_max = 80;               //3号车
-	Power_method[num].Self_Protect_Limit = 4400;
+	Power_method[num].Self_Protect_Limit = 4200;
 	Power_method[num].k_BAT = 0.95f;   //
 	Power_method[num].Excess_P_max = 1300;  //1350
 	Power_method[num].CurrentMax = 10000;

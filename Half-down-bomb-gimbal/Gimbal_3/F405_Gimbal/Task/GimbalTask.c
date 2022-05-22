@@ -8,7 +8,7 @@
 #include "main.h"
 /*----------------------------------内部变量---------------------------*/
 int gimbal_pitch_max = 30;		//初始化PITCH限位
-int gimbal_pitch_min = -9;
+int gimbal_pitch_min = -8;
 
 int inttoshort[4];
 short GimbalAct_Init_Flag=0;
@@ -26,7 +26,7 @@ PID FuzzyPidPitchPos,FuzzyAidPidPitchPos,FuzzyAidPidYawPos;
 /*----------------------------------外部变量---------------------------*/
 extern RC_Ctl_t RC_Ctl; 
 extern Status_t Status;
-
+extern char PitchMotor_ReceiveFlag;
 extern Gimbal_Typedef Gimbal;
 extern Gyro_Typedef GyroReceive;//陀螺仪数据
 extern RobotInit_Struct Infantry;
@@ -867,11 +867,13 @@ void Gimbal_task(void *pvParameters)
 	vTaskDelay(1000);
    while (1) {
 		xLastWakeTime = xTaskGetTickCount();
-
-		 ZeroCheck_cal();
-		 
+  
+		 if(PitchMotor_ReceiveFlag)
+	{
+		ZeroCheck_cal(); 
 		Gimbal_CurrentPid_Cal();
-		 
+	}	 
+	
 		GGGG=uxTaskGetStackHighWaterMark(NULL);
 		
 		IWDG_Feed();//喂狗

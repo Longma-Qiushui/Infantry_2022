@@ -17,7 +17,7 @@ void MicroSwConfigration()
 {
 	GPIO_InitTypeDef gpio;
 	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOC, ENABLE);
-	gpio.GPIO_Pin = GPIO_Pin_1;
+	gpio.GPIO_Pin = GPIO_Pin_15;
 	gpio.GPIO_Mode = GPIO_Mode_OUT;
 	gpio.GPIO_Speed = GPIO_Speed_100MHz;
 	gpio.GPIO_PuPd = GPIO_PuPd_UP;

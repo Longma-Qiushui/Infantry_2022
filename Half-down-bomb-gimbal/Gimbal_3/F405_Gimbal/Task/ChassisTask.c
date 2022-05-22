@@ -531,7 +531,7 @@ void Pid_ChassisPosition_Init(void)
 /********************************************* 3号车 ***********************************************************/	
 		case 3:
 	{
-		pidChassisPosition.P = 1.6f;				//2.0  位置环					3号车
+		pidChassisPosition.P = 2.5f;				//2.0  位置环					3号车
 	  pidChassisPosition.I = 0.00f;					
 	  pidChassisPosition.D = 0.0f;				
 	  pidChassisPosition.IMax = 300.0f;

@@ -48,11 +48,9 @@ int main()
 **********************************************************************************************************/
 void BSP_Init(void)
 {
-	USART3_Configuration();
+	USART1_Configuration();
 	delay_ms(100);
-	USART6_Configuration();
-	delay_ms(100);
-	My_GPIO_Init();	//用于辅瞄做相机同步
+	USART2_Configuration();
 	delay_ms(100);
 	MicroSwConfigration();
 	delay_ms(100);
@@ -66,7 +64,7 @@ void BSP_Init(void)
 	delay_ms(100);
 	IWDG_Config(IWDG_Prescaler_128 ,625);
 	delay_ms(100);
-	VOFA_USART_Configuration();
+//	VOFA_USART_Configuration();
 }
 /**********************************************************************************************************
 *函 数 名: System_Init
@@ -110,11 +108,11 @@ switch(Robot_ID)
 /***************************************** 3 号车 **************************************************************/	
 	case 3:
 {	
-	Infantry.Yaw_init=5445;                  //  3号车 
-	Infantry.Pitch_init=2058;
+	Infantry.Yaw_init=2750;                  //  3号车 
+	Infantry.Pitch_init=7440;
 	Infantry.MagOpen=2000;
 	Infantry.MagClose=540;
-	Infantry.Solo_Yaw_init = 512;
+	Infantry.Solo_Yaw_init = 7715;
 } break;
 
 /***************************************** 4 号车 **************************************************************/	
