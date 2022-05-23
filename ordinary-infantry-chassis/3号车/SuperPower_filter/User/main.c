@@ -23,7 +23,7 @@ extern JudgeReceive_t JudgeReceive;
 int main()
 {
   BSP_Init();
-	Robot_ID=3;
+	Robot_ID=4;
 	Robot_Init();
 	
 	startTast();
@@ -133,7 +133,7 @@ void Offline_Check_task(void *pvParameters)
 		
 		IWDG_Feed();//Î¹¹·
 
-		vTaskDelay(1); 
+		vTaskDelay(5); 
 		 
 #if INCLUDE_uxTaskGetStackHighWaterMark
         Offline_Check_high_water = uxTaskGetStackHighWaterMark(NULL);

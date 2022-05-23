@@ -26,7 +26,7 @@ static TaskHandle_t CPUTask_Handler; //任务句柄
 #define GRAPHIC_STK_SIZE 128 //任务堆栈
 static TaskHandle_t Graphic_Handler; //任务句柄
 
-#define OFFLINE_CHECK_TASK_PRIO 4  //任务优先级
+#define OFFLINE_CHECK_TASK_PRIO 18  //任务优先级
 #define OFFLINE_CHECK_STK_SIZE 128 //任务堆栈
 static TaskHandle_t OfflineCheckTask_Handler; //任务句柄
 

@@ -56,6 +56,7 @@
 /*步兵初始参数结构体*/
 typedef struct
 {
+	  int8_t pn;
 		unsigned short MagOpen;
 		unsigned short MagClose;
 	  unsigned short Pitch_init;
@@ -64,6 +65,10 @@ typedef struct
 		unsigned short Low_FrictionSpeed;
 		unsigned short Medium_FrictionSpeed;
 		unsigned short High_FrictionSpeed;
+	  unsigned short PitchMotorID;
+	  unsigned short YawMotorID;
+	  unsigned short FricMotorID[2];
+	  unsigned short BodanMotorID;
 }RobotInit_Struct;
 
 void BSP_Init(void);

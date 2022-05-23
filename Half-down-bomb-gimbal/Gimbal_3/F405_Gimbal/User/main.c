@@ -7,7 +7,7 @@
 **********************************************************************************************************/
 #include "main.h"
 
-char Robot_ID = 3;         // 不同机器人用不同的序号
+char Robot_ID = 4;         // 不同机器人用不同的序号
 
 extern KalmanFilter_t pitch_Kalman, yaw_Kalman;
 extern KalmanFilter_Init_t K;
@@ -113,16 +113,29 @@ switch(Robot_ID)
 	Infantry.MagOpen=2000;
 	Infantry.MagClose=540;
 	Infantry.Solo_Yaw_init = 7715;
+	Infantry.PitchMotorID = 0x206;
+	Infantry.YawMotorID = 0x205;
+	Infantry.FricMotorID[0]=0x202;
+	Infantry.FricMotorID[1]=0x203;
+	Infantry.BodanMotorID=0x201;
+  Infantry.pn=-1;
+	
 } break;
 
 /***************************************** 4 号车 **************************************************************/	
 	case 4:
 {	
-	Infantry.Yaw_init=6873;            // 4号车
-	Infantry.Pitch_init=2058;
+	Infantry.Yaw_init=6865;            // 4号车
+	Infantry.Pitch_init=4695;
 	Infantry.MagOpen=2400;
 	Infantry.MagClose=600;
 	Infantry.Solo_Yaw_init = 20;
+	Infantry.PitchMotorID = 0x205;
+	Infantry.YawMotorID = 0x206;
+	Infantry.FricMotorID[0]=0x202;
+	Infantry.FricMotorID[1]=0x201;
+	Infantry.BodanMotorID=0x203;
+	Infantry.pn=-1;
 } break;
 
 /***************************************** 5 号车 **************************************************************/	

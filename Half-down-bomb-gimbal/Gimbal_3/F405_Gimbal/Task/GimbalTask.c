@@ -8,7 +8,7 @@
 #include "main.h"
 /*----------------------------------内部变量---------------------------*/
 int gimbal_pitch_max = 30;		//初始化PITCH限位
-int gimbal_pitch_min = -8;
+int gimbal_pitch_min = -13;
 
 int inttoshort[4];
 short GimbalAct_Init_Flag=0;

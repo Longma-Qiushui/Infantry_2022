@@ -170,27 +170,27 @@ void Remote_Process(Remote rc)
 		Status.ShootMode=Shoot_Powerdown_Mode;
 		SteeringEngine_Set(Infantry.MagClose);
 	}
-//	if(rc.s2==1) //检录模式
-//	{
-//		Status.GimbalMode=Gimbal_Act_Mode; 
-//		Status.ChassisMode=Chassis_Act_Mode;
-//		Status.ShootMode=Shoot_Check_Mode;
-//		SteeringEngine_Set(Infantry.MagOpen);	
-//	}
-		if(rc.s2==1) //辅瞄模式
+	if(rc.s2==1) //检录模式
 	{
-		Status.GimbalMode=Gimbal_Armor_Mode; 
+		Status.GimbalMode=Gimbal_Act_Mode; 
 		Status.ChassisMode=Chassis_Act_Mode;
-		Status.ShootMode=Shoot_Tx2_Mode;
-		SteeringEngine_Set(Infantry.MagClose);
+		Status.ShootMode=Shoot_Check_Mode;
+		SteeringEngine_Set(Infantry.MagOpen);	
 	}
-//		if(rc.s2==2) //小陀螺模式
+//		if(rc.s2==1) //辅瞄模式
 //	{
-//		Status.GimbalMode=Gimbal_Act_Mode;
-//		Status.ChassisMode=Chassis_SelfProtect_Mode;
-//		Status.ShootMode=Shoot_Powerdown_Mode;
-//    SteeringEngine_Set(Infantry.MagClose);
+//		Status.GimbalMode=Gimbal_Armor_Mode; 
+//		Status.ChassisMode=Chassis_Act_Mode;
+//		Status.ShootMode=Shoot_Tx2_Mode;
+//		SteeringEngine_Set(Infantry.MagClose);
 //	}
+		if(rc.s2==2) //小陀螺模式
+	{
+		Status.GimbalMode=Gimbal_Act_Mode;
+		Status.ChassisMode=Chassis_SelfProtect_Mode;
+		Status.ShootMode=Shoot_Powerdown_Mode;
+    SteeringEngine_Set(Infantry.MagClose);
+	}
 //	
 //	if(rc.s2==1) //小陀螺辅瞄模式
 //	{
@@ -200,23 +200,23 @@ void Remote_Process(Remote rc)
 //    SteeringEngine_Set(Infantry.MagOpen);
 //	}
 
-	if(rc.s2 == 2)//大符模式
-	{
-		if(Buff_Init==0)
-		{
-		Buff_Yaw_Motor =Gimbal.Yaw.MotorTransAngle;
-		Buff_Init=1;
-		}
-		Status.GimbalMode = Gimbal_Buff_Mode;
-    SteeringEngine_Set(Infantry.MagOpen);	
-		Status.ChassisMode = Chassis_Act_Mode;
-		Status.ShootMode = Shoot_Tx2_Mode;
-	}
-  else 
-	{
-	  Buff_Init=0;
-	}
-	
+//	if(rc.s2 == 2)//大符模式
+//	{
+//		if(Buff_Init==0)
+//		{
+//		Buff_Yaw_Motor =Gimbal.Yaw.MotorTransAngle;
+//		Buff_Init=1;
+//		}
+//		Status.GimbalMode = Gimbal_Buff_Mode;
+//    SteeringEngine_Set(Infantry.MagOpen);	
+//		Status.ChassisMode = Chassis_Act_Mode;
+//		Status.ShootMode = Shoot_Tx2_Mode;
+//	}
+//  else 
+//	{
+//	  Buff_Init=0;
+//	}
+//	
 	
 	
 //		if(rc.s2==1)  //系统辨识模式

@@ -95,6 +95,7 @@ void F405Can1Send(F405_typedef *F405_Send)
 *形    参: pitch/yaw电流值
 *返 回 值: 无
 **********************************************************************************************************/
+extern RobotInit_Struct Infantry;
 void GimbalCan2Send(short X,short Y)
 {
     CanTxMsg tx_message;
@@ -104,10 +105,49 @@ void GimbalCan2Send(short X,short Y)
     tx_message.StdId = 0x1FF;
 		X=LIMIT_MAX_MIN(X,30000,-30000);
 	  Y=LIMIT_MAX_MIN(Y,30000,-30000);
-		tx_message.Data[2] = (unsigned char)((X>>8)&0xff);//Ptich
-		tx_message.Data[3] = (unsigned char)(X&0xff);  
-		tx_message.Data[0] = (unsigned char)((Y>>8)&0xff); //Yaw
-		tx_message.Data[1] = (unsigned char)(Y&0xff);
+	
+	 switch(Infantry.PitchMotorID)
+		 { 
+		 case 0x205:		 
+		 tx_message.Data[0] = (unsigned char)((X>>8)&0xff);//Ptich
+		 tx_message.Data[1] = (unsigned char)(X&0xff); 
+		 break;
+		 case 0x206:
+		 tx_message.Data[2] = (unsigned char)((X>>8)&0xff);//Ptich
+		 tx_message.Data[3] = (unsigned char)(X&0xff);  
+		 break;
+		 case 0x207:
+		 tx_message.Data[4] = (unsigned char)((X>>8)&0xff);//Ptich
+		 tx_message.Data[5] = (unsigned char)(X&0xff);  
+		 break;
+		 case 0x208:
+		 tx_message.Data[6] = (unsigned char)((X>>8)&0xff);//Ptich
+		 tx_message.Data[7] = (unsigned char)(X&0xff); 
+		 break;
+		 default:
+			break;
+	 }
+			switch(Infantry.YawMotorID)
+		 { 
+		 case 0x205:		 
+		 tx_message.Data[0] = (unsigned char)((Y>>8)&0xff);//Ptich
+		 tx_message.Data[1] = (unsigned char)(Y&0xff); 
+		 break;
+		 case 0x206:
+		 tx_message.Data[2] = (unsigned char)((Y>>8)&0xff);//Ptich
+		 tx_message.Data[3] = (unsigned char)(Y&0xff);  
+		 break;
+		 case 0x207:
+		 tx_message.Data[4] = (unsigned char)((Y>>8)&0xff);//Ptich
+		 tx_message.Data[5] = (unsigned char)(Y&0xff);  
+		 break;
+		 case 0x208:
+		 tx_message.Data[6] = (unsigned char)((Y>>8)&0xff);//Ptich
+		 tx_message.Data[7] = (unsigned char)(Y&0xff); 
+		 break;
+		 default:
+			break;
+	  }
 		CAN_Transmit(CAN2,&tx_message);
 }
 
@@ -121,12 +161,71 @@ void FrictionBodanCan2Send(short X,short Y,short Z)
 		X=LIMIT_MAX_MIN(X,10000,-10000);
 	  Y=LIMIT_MAX_MIN(Y,10000,-10000);
 		Z=LIMIT_MAX_MIN(Z,10000,-10000);
-		tx_message.Data[0] = (unsigned char)((Z>>8)&0xff);//
-		tx_message.Data[1] = (unsigned char)(Z&0xff);  
-		tx_message.Data[2] = (unsigned char)((X>>8)&0xff); //
-		tx_message.Data[3] = (unsigned char)(X&0xff);
-		tx_message.Data[4] = (unsigned char)((Y>>8)&0xff);//
-		tx_message.Data[5] = (unsigned char)(Y&0xff);  
+	 	 switch(Infantry.FricMotorID[0])
+		 { 
+		 case 0x201:		 
+		 tx_message.Data[0] = (unsigned char)((X>>8)&0xff);//Ptich
+		 tx_message.Data[1] = (unsigned char)(X&0xff); 
+		 break;
+		 case 0x202:
+		 tx_message.Data[2] = (unsigned char)((X>>8)&0xff);//Ptich
+		 tx_message.Data[3] = (unsigned char)(X&0xff);  
+		 break;
+		 case 0x203:
+		 tx_message.Data[4] = (unsigned char)((X>>8)&0xff);//Ptich
+		 tx_message.Data[5] = (unsigned char)(X&0xff);  
+		 break;
+		 case 0x204:
+		 tx_message.Data[6] = (unsigned char)((X>>8)&0xff);//Ptich
+		 tx_message.Data[7] = (unsigned char)(X&0xff); 
+		 break;
+		 default:
+			break;
+	 }
+		 	 switch(Infantry.FricMotorID[1])
+		 { 
+		 case 0x201:		 
+		 tx_message.Data[0] = (unsigned char)((Y>>8)&0xff);//Ptich
+		 tx_message.Data[1] = (unsigned char)(Y&0xff); 
+		 break;
+		 case 0x202:
+		 tx_message.Data[2] = (unsigned char)((Y>>8)&0xff);//Ptich
+		 tx_message.Data[3] = (unsigned char)(Y&0xff);  
+		 break;
+		 case 0x203:
+		 tx_message.Data[4] = (unsigned char)((Y>>8)&0xff);//Ptich
+		 tx_message.Data[5] = (unsigned char)(Y&0xff);  
+		 break;
+		 case 0x204:
+		 tx_message.Data[6] = (unsigned char)((Y>>8)&0xff);//Ptich
+		 tx_message.Data[7] = (unsigned char)(Y&0xff); 
+		 break;
+		 default:
+			break;
+	 }
+	
+	 	 	 switch(Infantry.BodanMotorID)
+		 { 
+		 case 0x201:		 
+		 tx_message.Data[0] = (unsigned char)((Z>>8)&0xff);//Ptich
+		 tx_message.Data[1] = (unsigned char)(Z&0xff); 
+		 break;
+		 case 0x202:
+		 tx_message.Data[2] = (unsigned char)((Z>>8)&0xff);//Ptich
+		 tx_message.Data[3] = (unsigned char)(Z&0xff);  
+		 break;
+		 case 0x203:
+		 tx_message.Data[4] = (unsigned char)((Z>>8)&0xff);//Ptich
+		 tx_message.Data[5] = (unsigned char)(Z&0xff);  
+		 break;
+		 case 0x204:
+		 tx_message.Data[6] = (unsigned char)((Z>>8)&0xff);//Ptich
+		 tx_message.Data[7] = (unsigned char)(Z&0xff); 
+		 break;
+		 default:
+			break;
+	 }
+	
  		CAN_Transmit(CAN2,&tx_message);
 }
 /**********************************************************************************************************

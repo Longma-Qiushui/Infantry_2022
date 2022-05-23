@@ -567,7 +567,7 @@ void Pid_ChassisPosition_Init(void)
 	  SOLO_pidChassisPosition.OutMax = 4000.0f;
 	
 	  pidChassisPosition_Speed.P = 2.0f;			//2.3   ËÙ¶È»·
-	  pidChassisPosition_Speed.I = 0.3f;
+	  pidChassisPosition_Speed.I = 0.1f;
 	  pidChassisPosition_Speed.D = 0.0f;
 	  pidChassisPosition_Speed.IMax = 200.0f;
 	  pidChassisPosition_Speed.OutMax = 9000.0f;

@@ -71,7 +71,7 @@ void ZeroCheck_cal(void)
 {
 	Gimbal.Pitch.Gyro = ZeroCheck(&ZeroCheck_GyroPitch,GyroReceive.PITCH,Position);
 	Gimbal.Pitch.Motor = ZeroCheck(&ZeroCheck_Pitch,PitchMotorReceive,Position);
-	Gimbal.Pitch.MotorTransAngle = -(Gimbal.Pitch.Motor-Infantry.Pitch_init)/8192.0f*360.0f;//向上增加,右手坐标系
+	Gimbal.Pitch.MotorTransAngle = Infantry.pn*(Gimbal.Pitch.Motor-Infantry.Pitch_init)/8192.0f*360.0f;//向上增加,右手坐标系
 	
 	Gimbal.Yaw.Gyro = GyroReceive.YAW;
 	Gimbal.Yaw.Motor = ZeroCheck(&ZeroCheck_Yaw,YawMotorReceive,Position);

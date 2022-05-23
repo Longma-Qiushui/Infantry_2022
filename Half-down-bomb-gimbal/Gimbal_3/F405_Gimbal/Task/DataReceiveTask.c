@@ -80,42 +80,42 @@ void Can1Receive1(CanRxMsg rx_message1)
 *形    参: rx_message0
 *返 回 值: 无
 **********************************************************************************************************/
+extern RobotInit_Struct Infantry;
 void Can2Receive0(CanRxMsg rx_message0)
 {
-	switch(rx_message0.StdId)
-	{ 
-		 case 0x206:                                                             
+	if(rx_message0.StdId == Infantry.PitchMotorID)
+	{
 				 PitchMotorReceive=rx_message0.Data[0]<<8 | rx_message0.Data[1];
 				 Robot_Disconnect.PitchMotor_DisConnect=0;
 		     if(!PitchMotor_ReceiveFlag)
 				{
 				ZeroCheck_Pitch.LastValue=PitchMotorReceive;
 				}
-		     PitchMotor_ReceiveFlag=1;
-		 break;
-		 case 0x205:         
+		     PitchMotor_ReceiveFlag=1;	
+	}
+	else if(rx_message0.StdId == Infantry.YawMotorID)
+	{
 				 YawMotorReceive=rx_message0.Data[0]<<8 | rx_message0.Data[1];
 				 Robot_Disconnect.YawMotor_DisConnect=0;
-		 break; 
-		 case 0x201:
-		{
-				 BodanReceive.Angle=rx_message0.Data[0]<<8 | rx_message0.Data[1];
+	
+	}
+	else if(rx_message0.StdId == Infantry.BodanMotorID)
+	{
+         BodanReceive.Angle=rx_message0.Data[0]<<8 | rx_message0.Data[1];
 				 BodanReceive.RealSpeed=rx_message0.Data[2]<<8 | rx_message0.Data[3];
-				 Robot_Disconnect.Pluck_DisConnect=0;
-		}
- 		break;
-		 case 0x202:
-			{
+				 Robot_Disconnect.Pluck_DisConnect=0;	
+	}
+	else if(rx_message0.StdId == Infantry.FricMotorID[0])
+	{
       FrictionReceive[0]=rx_message0.Data[2]<<8|rx_message0.Data[3];
 			Robot_Disconnect.Friction_DisConnect[0]=0;
-			}	
-		 break;
-		  case 0x203:
-			{
-			FrictionReceive[1]=rx_message0.Data[2]<<8|rx_message0.Data[3];
-			Robot_Disconnect.Friction_DisConnect[1]=0;
-			}
-	 }
+	}	
+	else if(rx_message0.StdId == Infantry.FricMotorID[1])
+	{
+      FrictionReceive[1]=rx_message0.Data[2]<<8|rx_message0.Data[3];
+			Robot_Disconnect.Friction_DisConnect[1]=0;	
+	}
+
 }
 /**********************************************************************************************************
 *函 数 名: Can2Receive1
@@ -132,6 +132,8 @@ void Can2Receive1(CanRxMsg rx_message1)
 		 {
 			 memcpy(&GyroReceive.PITCH, rx_message1.Data, 4);
 			 memcpy(&GyroReceive.GY, &rx_message1.Data[4], 4);
+			 GyroReceive.GY*=-Infantry.pn;
+			 GyroReceive.PITCH*=-Infantry.pn;
 		 }
 		 break;
 		 case 0x101:
