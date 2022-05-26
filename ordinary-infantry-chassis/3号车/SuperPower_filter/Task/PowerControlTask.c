@@ -95,6 +95,7 @@ extern uint16_t MyMaxPower;
 const short MinCharegePower = 5000;
 int ActualPower = 0;
 float MaxBatChargeCurrent = 7.0f;
+float MaxCAPChargeCurrent = 7.0f;
 float My_i;
 float ChargeCal()	//由剩余功率计算充电电流
 {
@@ -222,7 +223,7 @@ void ChargeControl(void)
 	}
 	else
 	{
-	I_Set = 0;         //超级电容充电回路与放电回路连通，放电时，不能充电
+	I_Set = 2.0;         //超级电容充电回路与放电回路连通，放电时，不能充电
 	}
 	Charge_Set(I_Set);
 	/******************放电控制*******************/

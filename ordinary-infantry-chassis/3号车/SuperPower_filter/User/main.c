@@ -23,7 +23,7 @@ extern JudgeReceive_t JudgeReceive;
 int main()
 {
   BSP_Init();
-	Robot_ID=3;
+	Robot_ID=4;
 	Robot_Init();
 	
 	startTast();

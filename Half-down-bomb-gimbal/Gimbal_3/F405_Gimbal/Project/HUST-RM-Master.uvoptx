@@ -120,7 +120,7 @@
         <SetRegEntry>
           <Number>0</Number>
           <Key>DLGUARM</Key>
-          <Name></Name>
+          <Name>d</Name>
         </SetRegEntry>
         <SetRegEntry>
           <Number>0</Number>
@@ -214,6 +214,11 @@
           <count>10</count>
           <WinNumber>1</WinNumber>
           <ItemText>YawMotorReceive</ItemText>
+        </Ww>
+        <Ww>
+          <count>11</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>Robot_Disconnect</ItemText>
         </Ww>
       </WatchWindow1>
       <WatchWindow2>
