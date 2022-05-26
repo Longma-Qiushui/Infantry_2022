@@ -23,7 +23,7 @@ void SteeringEngine_Configuration(void)   //PB1 TIM3 CH4
 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM3,ENABLE);
 	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOB,ENABLE);			//时钟配置
 	
-	GPIO_PinAFConfig(GPIOB,GPIO_PinSource1,GPIO_AF_TIM2);			//引脚复用
+	GPIO_PinAFConfig(GPIOB,GPIO_PinSource1,GPIO_AF_TIM3);			//引脚复用
 	
 	GPIO_InitStruct.GPIO_Mode=GPIO_Mode_AF;										//GPIO配置
 	GPIO_InitStruct.GPIO_Pin=GPIO_Pin_1;

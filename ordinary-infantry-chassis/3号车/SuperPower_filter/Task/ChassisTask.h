@@ -18,7 +18,8 @@ typedef struct Power{
 	short Actual_P_max;							//最大功率
 	short Self_Protect_Limit;	//小陀螺转速限制
 	float k_BAT;						//不同功率下的直行速度上线
-	short Excess_P_max;			//最大超限功率
+	short Excess_P_max_J;			//起步时无输出滤波最大超限功率
+	short Excess_P_max_P;     //稳定时输出滤波后最大超限功率
 	short CurrentMax;				//最大输出电流
 	short Follow_W;         //跟随速度上限
 }Power_Typedef;

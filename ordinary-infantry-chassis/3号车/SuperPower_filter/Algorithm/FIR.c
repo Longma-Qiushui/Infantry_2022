@@ -50,9 +50,8 @@ void LowPass_SetChassis(float* output,float In)
   * @param  
   * @retval 滤波后最新值
   */
-float LowPass_SetWheel(float In)
+float LowPass_SetWheel(float In,float past)
 {
-	static float output;
-  output=(1-K_Low_setwheel)*output+K_Low_setwheel*In;
-  return output;	
+  past=(1-K_Low_setwheel)*past+K_Low_setwheel*In;
+  return past;	
 }

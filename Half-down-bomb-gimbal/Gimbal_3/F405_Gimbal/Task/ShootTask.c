@@ -383,7 +383,7 @@ void Pid_Friction_Init(void)
 		case 3:
 		{
 			Infantry.Low_FrictionSpeed = 4850;
-			Infantry.Medium_FrictionSpeed = 5800;
+			Infantry.Medium_FrictionSpeed = 5700;
 			Infantry.High_FrictionSpeed =16000;
 		} break;
 /********************************************* 4ºÅ³µ *******************************************************/	

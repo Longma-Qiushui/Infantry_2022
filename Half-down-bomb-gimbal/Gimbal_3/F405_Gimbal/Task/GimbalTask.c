@@ -7,8 +7,8 @@
 **********************************************************************************************************/
 #include "main.h"
 /*----------------------------------内部变量---------------------------*/
-int gimbal_pitch_max = 30;		//初始化PITCH限位
-int gimbal_pitch_min = -13;
+int gimbal_pitch_max = 34;		//初始化PITCH限位
+int gimbal_pitch_min = -11;
 
 int inttoshort[4];
 short GimbalAct_Init_Flag=0;
@@ -48,70 +48,77 @@ void Gimbal_Powerdown_Cal()
 		Laser_Off();
 	  GimbalAct_Init_Flag=Gimbal_Powerdown_Mode;
 	}
-	PidPitchSpeed.SetPoint=0;
-	PidPitchPos.SetPoint = Gimbal.Pitch.MotorTransAngle;
-	PidYawSpeed.SetPoint=0;
-  PidYawPos.SetPoint = Gimbal.Yaw.Gyro;
-	PitchCurrent=0;
-	YawCurrent=0;
-}
-
-/**********************************************************************************************************
-*函 数 名: Gimbal_Act_Cal
-*功能说明: 云台正常模式
-*形    参: rc  mouse  Pc_RecvData
-*返 回 值: 无
-**********************************************************************************************************/
-float test_pitch = 0;
-float test_yaw = 0;
-int aaaaa;
-void Gimbal_Act_Cal(Remote rc,Mouse mouse,PC_Receive_t *Pc_Recv)
-{
-	if( GimbalAct_Init_Flag!=Gimbal_Act_Mode)
-	{
-		Laser_On();
-		GimbalPitchPos = -GyroReceive.PITCH;				//从大符模式切回，保持pitch电机角，yaw陀螺仪角，不乱动
-		GimbalYawPos = Gimbal.Yaw.Gyro;
-		GimbalAct_Init_Flag=Gimbal_Act_Mode;
-	}
-
 	
-	if(Status.ControlMode==Control_RC_Mode)//Rc_Control
-	{
-	  GimbalYawPos   += (1024-rc.ch2)*0.0005f;
-	  GimbalPitchPos -= (1024-rc.ch3)*0.0003f;//旧陀螺仪
-	}
-	if(Status.ControlMode==Control_MouseKey_Mode)//Mouse_Key
-	{
-    GimbalPitchPos -= mouse.y*0.005f;
-    GimbalYawPos   -= mouse.x*0.005f;
-		GimbalPitchPos += mouse.z*0.001f;
-	}
-
-	GimbalPitchPos=LIMIT_MAX_MIN(GimbalPitchPos,gimbal_pitch_max,gimbal_pitch_min);//限位(用电机角度)	//限住大小，因此可用MotorTransangle来pid
-//YAW/***********************************************************************************/
-	PidPitchPos.SetPoint = GimbalPitchPos;
-	PidYawPos.SetPoint = GimbalYawPos;
-
+	/***********************************************************************************/
+	FuzzyPidPitchPos.SetPoint = gimbal_pitch_min;
+	FuzzyPidPitchPos.ActPoint = Gimbal.Pitch.MotorTransAngle;
 	
   /**************************************计算电流值**************************************/
-//PITCH                
-//  PidPitchSpeed.SetPoint=PID_Calc(&PidPitchPos,Gimbal.Pitch.MotorTransAngle);   
-  PidPitchSpeed.SetPoint=PID_Calc(&PidPitchPos,-GyroReceive.PITCH);   	
-	inttoshort[0]=-(PID_Calc(&PidPitchSpeed,-GyroReceive.GY));//旧陀螺仪
-	PitchCurrent=(short)inttoshort[0];
-//YAW
-	PidYawSpeed.SetPoint=PID_Calc(&PidYawPos,Gimbal.Yaw.Gyro);					//需要YAW轴陀螺仪角度做ActualValue
-	PidYawSpeed.SetPoint=LIMIT_MAX_MIN(PidYawSpeed.SetPoint,5.5f,-5.5f);    
-	inttoshort[1]=PID_Calc(&PidYawSpeed,GyroReceive.GZ);
-	YawCurrent=(short)inttoshort[1];
-	/* pid_test 负数*/
-//	test_gyro_pitch = -Gimbal.Pitch.Gyro;
-//	test_gyro_yaw = -Gimbal.Yaw.Gyro;
+//PITCH                 
+  PidPitchSpeed.SetPoint=FuzzyPID_Calc(&FuzzyPidPitchPos);   	
+	inttoshort[0]=(PID_Calc(&PidPitchSpeed,-GyroReceive.GY));//旧陀螺仪
+	PitchCurrent=(short)(-inttoshort[0]);
+
+	YawCurrent=0;
+	
 }
+
+///**********************************************************************************************************
+//*函 数 名: Gimbal_Act_Cal
+//*功能说明: 云台正常模式
+//*形    参: rc  mouse  Pc_RecvData
+//*返 回 值: 无
+//**********************************************************************************************************/
+//float test_pitch = 0;
+//float test_yaw = 0;
+//int aaaaa;
+//void Gimbal_Act_Cal(Remote rc,Mouse mouse,PC_Receive_t *Pc_Recv)
+//{
+//	if( GimbalAct_Init_Flag!=Gimbal_Act_Mode)
+//	{
+//		Laser_On();
+//		GimbalPitchPos = -GyroReceive.PITCH;				//从大符模式切回，保持pitch电机角，yaw陀螺仪角，不乱动
+//		GimbalYawPos = Gimbal.Yaw.Gyro;
+//		GimbalAct_Init_Flag=Gimbal_Act_Mode;
+//	}
+
+//	
+//	if(Status.ControlMode==Control_RC_Mode)//Rc_Control
+//	{
+//	  GimbalYawPos   += (1024-rc.ch2)*0.0005f;
+//	  GimbalPitchPos -= (1024-rc.ch3)*0.0003f;//旧陀螺仪
+//	}
+//	if(Status.ControlMode==Control_MouseKey_Mode)//Mouse_Key
+//	{
+//    GimbalPitchPos -= mouse.y*0.005f;
+//    GimbalYawPos   -= mouse.x*0.005f;
+//		GimbalPitchPos += mouse.z*0.001f;
+//	}
+
+//	GimbalPitchPos=LIMIT_MAX_MIN(GimbalPitchPos,gimbal_pitch_max,gimbal_pitch_min);//限位(用电机角度)	//限住大小，因此可用MotorTransangle来pid
+////YAW/***********************************************************************************/
+//	PidPitchPos.SetPoint = GimbalPitchPos;
+//	PidYawPos.SetPoint = GimbalYawPos;
+
+//	
+//  /**************************************计算电流值**************************************/
+////PITCH                
+////  PidPitchSpeed.SetPoint=PID_Calc(&PidPitchPos,Gimbal.Pitch.MotorTransAngle);   
+//  PidPitchSpeed.SetPoint=PID_Calc(&PidPitchPos,-GyroReceive.PITCH);   	
+//	inttoshort[0]=-(PID_Calc(&PidPitchSpeed,-GyroReceive.GY));//旧陀螺仪
+//	PitchCurrent=(short)inttoshort[0];
+////YAW
+//	PidYawSpeed.SetPoint=PID_Calc(&PidYawPos,Gimbal.Yaw.Gyro);					//需要YAW轴陀螺仪角度做ActualValue
+//	PidYawSpeed.SetPoint=LIMIT_MAX_MIN(PidYawSpeed.SetPoint,5.5f,-5.5f);    
+//	inttoshort[1]=PID_Calc(&PidYawSpeed,GyroReceive.GZ);
+//	YawCurrent=(short)inttoshort[1];
+//	/* pid_test 负数*/
+////	test_gyro_pitch = -Gimbal.Pitch.Gyro;
+////	test_gyro_yaw = -Gimbal.Yaw.Gyro;
+//}
 /**********************************************************************************************************
 *函 数 名: FuzzyGimbal_Act_Cal
-*功能说明: 模糊云台正常模式
+*功能说明: 模糊云台正常模式(电机角)
 *形    参: rc  mouse  Pc_RecvData
 *返 回 值: 无
 **********************************************************************************************************/
@@ -159,7 +166,12 @@ void FuzzyMotorGimbal_Act_Cal(Remote rc,Mouse mouse,PC_Receive_t *Pc_Recv)
 //	test_gyro_pitch = -Gimbal.Pitch.Gyro;
 //	test_gyro_yaw = -Gimbal.Yaw.Gyro;
 }
-
+/**********************************************************************************************************
+*函 数 名: FuzzyGimbal_Act_Cal
+*功能说明: 模糊云台正常模式(陀螺仪角)
+*形    参: rc  mouse  Pc_RecvData
+*返 回 值: 无
+**********************************************************************************************************/
 
 void FuzzyGyroGimbal_Act_Cal(Remote rc,Mouse mouse,PC_Receive_t *Pc_Recv)
 {

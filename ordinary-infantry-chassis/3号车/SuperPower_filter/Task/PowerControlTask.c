@@ -94,8 +94,7 @@ int MaxChargePower = 45000; 		//最大充电功率，最小充电功率
 extern uint16_t MyMaxPower;
 const short MinCharegePower = 5000;
 int ActualPower = 0;
-float MaxBatChargeCurrent = 5.0f;
-float MaxCAPChargeCurrent = 5.0f;
+float MaxBatChargeCurrent = 7.0f;
 float My_i;
 float ChargeCal()	//由剩余功率计算充电电流
 {
@@ -103,25 +102,10 @@ float ChargeCal()	//由剩余功率计算充电电流
 	MaxChargePower = 1000 * (MyMaxPower - 10) ;
 	if(PowerState == BAT)   //0 使用电池放电 此时电池给电容充电，电池给底盘供电
 	{
-//	  if(AD_actual_value > 21)		//电容实际电压 > 减缓充电功率阈值
-//		{
-//			ChargeCtl.SetPoint = MinCharegePower;
-//			MaxBatChargeCurrent = 1.0f;
-//		}
-//		else if(AD_actual_value < 21)
-//		{
-			MaxBatChargeCurrent = 6.0f;
 			ChargeCtl.SetPoint = LIMIT_MAX_MIN(MaxChargePower - INA260_2.Power,MaxChargePower,0);
-//		}
-		
 		//实际：电容充电功率  SetPoint: 希望充电的功率 单位mW
 		ActualPower = INA260_1.Power - INA260_2.Power;
 		i = PID_Calc(&ChargeCtl,ActualPower)/1000;
-	}
-	else if(PowerState == CAP)//1 使用电容放电 此时电池给电容充电，电容给底盘供电
-	{
-		ChargeCtl.SetPoint = MaxChargePower;
-		i = PID_Calc(&ChargeCtl,INA260_1.Power)/1000;
 	}
 	return i;
 }
@@ -234,11 +218,11 @@ void ChargeControl(void)
 			I_Set = 0;
 		}
 		
-	I_Set = LIMIT_MAX_MIN(I_Set,MaxBatChargeCurrent,0);  //Max=16.5？
+	I_Set = LIMIT_MAX_MIN(I_Set,MaxBatChargeCurrent,0);  //剩余缓冲能量为20J，即最大不能超过200W，即9A左右，取7A
 	}
 	else
 	{
-	I_Set = LIMIT_MAX_MIN(I_Set,MaxCAPChargeCurrent,0);  //Max=16.5？
+	I_Set = 0;         //超级电容充电回路与放电回路连通，放电时，不能充电
 	}
 	Charge_Set(I_Set);
 	/******************放电控制*******************/

@@ -1,5 +1,5 @@
 Dependencies for Project 'HUST-RM-Chassis', Target 'HUST-RM-Chassis': (DO NOT MODIFY !)
-F (..\User\main.c)(0x628A73DA)(--c99 -c --cpu Cortex-M3 -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\Library\inc -I ..\Mylib -I ..\Algorithm -I ..\Task -I ..\FreeRTOS\include -I ..\FreeRTOS\port\MemMang -I ..\FreeRTOS\port\RVDS\ARM_CM3 -I ..\Project-I.\RTE\_HUST-RM-Chassis-ID:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="525" -DSTM32F10X_CL -DSTM32F10X_CL -DUSE_STDPERIPH_DRIVER-o ..\obj\main.o --omf_browse ..\obj\main.crf --depend ..\obj\main.d)
+F (..\User\main.c)(0x628DF87D)(--c99 -c --cpu Cortex-M3 -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\Library\inc -I ..\Mylib -I ..\Algorithm -I ..\Task -I ..\FreeRTOS\include -I ..\FreeRTOS\port\MemMang -I ..\FreeRTOS\port\RVDS\ARM_CM3 -I ..\Project-I.\RTE\_HUST-RM-Chassis-ID:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="525" -DSTM32F10X_CL -DSTM32F10X_CL -DUSE_STDPERIPH_DRIVER-o ..\obj\main.o --omf_browse ..\obj\main.crf --depend ..\obj\main.d)
 I (..\User\main.h)(0x6284D621)
 I (..\User\stm32f10x.h)(0x625BA52C)
 I (..\User\core_cm3.h)(0x625BA52C)
@@ -31,12 +31,12 @@ I (..\Mylib\dac.h)(0x625BA52C)
 I (..\Mylib\ina260.h)(0x625BA52C)
 I (..\Mylib\i2c.h)(0x625BA52C)
 I (..\Algorithm\pid.h)(0x626A4846)
-I (..\Algorithm\FIR.h)(0x626BD67A)
+I (..\Algorithm\FIR.h)(0x628DA6D9)
 I (..\Algorithm\DataScope_DP.h)(0x625BA52C)
 I (..\Algorithm\algorithmOfCRC.h)(0x625BA52C)
 I (..\Task\DataReceiveTask.h)(0x628368B8)
 I (..\Task\DataSendTask.h)(0x625BA52C)
-I (..\Task\ChassisTask.h)(0x627A2DFB)
+I (..\Task\ChassisTask.h)(0x628DA031)
 I (..\Task\PowerControlTask.h)(0x625BA52C)
 I (..\Task\StartTask.h)(0x625BA52C)
 I (..\Task\CharSendTask.h)(0x625BA52C)
@@ -380,12 +380,12 @@ I (..\Mylib\dac.h)(0x625BA52C)
 I (..\Mylib\ina260.h)(0x625BA52C)
 I (..\Mylib\i2c.h)(0x625BA52C)
 I (..\Algorithm\pid.h)(0x626A4846)
-I (..\Algorithm\FIR.h)(0x626BD67A)
+I (..\Algorithm\FIR.h)(0x628DA6D9)
 I (..\Algorithm\DataScope_DP.h)(0x625BA52C)
 I (..\Algorithm\algorithmOfCRC.h)(0x625BA52C)
 I (..\Task\DataReceiveTask.h)(0x628368B8)
 I (..\Task\DataSendTask.h)(0x625BA52C)
-I (..\Task\ChassisTask.h)(0x627A2DFB)
+I (..\Task\ChassisTask.h)(0x628DA031)
 I (..\Task\PowerControlTask.h)(0x625BA52C)
 I (..\Task\StartTask.h)(0x625BA52C)
 I (..\Task\CharSendTask.h)(0x625BA52C)
@@ -433,12 +433,12 @@ I (..\Mylib\dac.h)(0x625BA52C)
 I (..\Mylib\ina260.h)(0x625BA52C)
 I (..\Mylib\i2c.h)(0x625BA52C)
 I (..\Algorithm\pid.h)(0x626A4846)
-I (..\Algorithm\FIR.h)(0x626BD67A)
+I (..\Algorithm\FIR.h)(0x628DA6D9)
 I (..\Algorithm\DataScope_DP.h)(0x625BA52C)
 I (..\Algorithm\algorithmOfCRC.h)(0x625BA52C)
 I (..\Task\DataReceiveTask.h)(0x628368B8)
 I (..\Task\DataSendTask.h)(0x625BA52C)
-I (..\Task\ChassisTask.h)(0x627A2DFB)
+I (..\Task\ChassisTask.h)(0x628DA031)
 I (..\Task\PowerControlTask.h)(0x625BA52C)
 I (..\Task\StartTask.h)(0x625BA52C)
 I (..\Task\CharSendTask.h)(0x625BA52C)
@@ -486,12 +486,12 @@ I (..\Mylib\dac.h)(0x625BA52C)
 I (..\Mylib\ina260.h)(0x625BA52C)
 I (..\Mylib\i2c.h)(0x625BA52C)
 I (..\Algorithm\pid.h)(0x626A4846)
-I (..\Algorithm\FIR.h)(0x626BD67A)
+I (..\Algorithm\FIR.h)(0x628DA6D9)
 I (..\Algorithm\DataScope_DP.h)(0x625BA52C)
 I (..\Algorithm\algorithmOfCRC.h)(0x625BA52C)
 I (..\Task\DataReceiveTask.h)(0x628368B8)
 I (..\Task\DataSendTask.h)(0x625BA52C)
-I (..\Task\ChassisTask.h)(0x627A2DFB)
+I (..\Task\ChassisTask.h)(0x628DA031)
 I (..\Task\PowerControlTask.h)(0x625BA52C)
 I (..\Task\StartTask.h)(0x625BA52C)
 I (..\Task\CharSendTask.h)(0x625BA52C)
@@ -539,12 +539,12 @@ I (..\Mylib\dac.h)(0x625BA52C)
 I (..\Mylib\ina260.h)(0x625BA52C)
 I (..\Mylib\i2c.h)(0x625BA52C)
 I (..\Algorithm\pid.h)(0x626A4846)
-I (..\Algorithm\FIR.h)(0x626BD67A)
+I (..\Algorithm\FIR.h)(0x628DA6D9)
 I (..\Algorithm\DataScope_DP.h)(0x625BA52C)
 I (..\Algorithm\algorithmOfCRC.h)(0x625BA52C)
 I (..\Task\DataReceiveTask.h)(0x628368B8)
 I (..\Task\DataSendTask.h)(0x625BA52C)
-I (..\Task\ChassisTask.h)(0x627A2DFB)
+I (..\Task\ChassisTask.h)(0x628DA031)
 I (..\Task\PowerControlTask.h)(0x625BA52C)
 I (..\Task\StartTask.h)(0x625BA52C)
 I (..\Task\CharSendTask.h)(0x625BA52C)
@@ -592,12 +592,12 @@ I (..\Mylib\dac.h)(0x625BA52C)
 I (..\Mylib\ina260.h)(0x625BA52C)
 I (..\Mylib\i2c.h)(0x625BA52C)
 I (..\Algorithm\pid.h)(0x626A4846)
-I (..\Algorithm\FIR.h)(0x626BD67A)
+I (..\Algorithm\FIR.h)(0x628DA6D9)
 I (..\Algorithm\DataScope_DP.h)(0x625BA52C)
 I (..\Algorithm\algorithmOfCRC.h)(0x625BA52C)
 I (..\Task\DataReceiveTask.h)(0x628368B8)
 I (..\Task\DataSendTask.h)(0x625BA52C)
-I (..\Task\ChassisTask.h)(0x627A2DFB)
+I (..\Task\ChassisTask.h)(0x628DA031)
 I (..\Task\PowerControlTask.h)(0x625BA52C)
 I (..\Task\StartTask.h)(0x625BA52C)
 I (..\Task\CharSendTask.h)(0x625BA52C)
@@ -645,12 +645,12 @@ I (..\Mylib\dac.h)(0x625BA52C)
 I (..\Mylib\ina260.h)(0x625BA52C)
 I (..\Mylib\i2c.h)(0x625BA52C)
 I (..\Algorithm\pid.h)(0x626A4846)
-I (..\Algorithm\FIR.h)(0x626BD67A)
+I (..\Algorithm\FIR.h)(0x628DA6D9)
 I (..\Algorithm\DataScope_DP.h)(0x625BA52C)
 I (..\Algorithm\algorithmOfCRC.h)(0x625BA52C)
 I (..\Task\DataReceiveTask.h)(0x628368B8)
 I (..\Task\DataSendTask.h)(0x625BA52C)
-I (..\Task\ChassisTask.h)(0x627A2DFB)
+I (..\Task\ChassisTask.h)(0x628DA031)
 I (..\Task\PowerControlTask.h)(0x625BA52C)
 I (..\Task\StartTask.h)(0x625BA52C)
 I (..\Task\CharSendTask.h)(0x625BA52C)
@@ -698,12 +698,12 @@ I (..\Mylib\dac.h)(0x625BA52C)
 I (..\Mylib\ina260.h)(0x625BA52C)
 I (..\Mylib\i2c.h)(0x625BA52C)
 I (..\Algorithm\pid.h)(0x626A4846)
-I (..\Algorithm\FIR.h)(0x626BD67A)
+I (..\Algorithm\FIR.h)(0x628DA6D9)
 I (..\Algorithm\DataScope_DP.h)(0x625BA52C)
 I (..\Algorithm\algorithmOfCRC.h)(0x625BA52C)
 I (..\Task\DataReceiveTask.h)(0x628368B8)
 I (..\Task\DataSendTask.h)(0x625BA52C)
-I (..\Task\ChassisTask.h)(0x627A2DFB)
+I (..\Task\ChassisTask.h)(0x628DA031)
 I (..\Task\PowerControlTask.h)(0x625BA52C)
 I (..\Task\StartTask.h)(0x625BA52C)
 I (..\Task\CharSendTask.h)(0x625BA52C)
@@ -751,12 +751,12 @@ I (..\Mylib\dac.h)(0x625BA52C)
 I (..\Mylib\ina260.h)(0x625BA52C)
 I (..\Mylib\i2c.h)(0x625BA52C)
 I (..\Algorithm\pid.h)(0x626A4846)
-I (..\Algorithm\FIR.h)(0x626BD67A)
+I (..\Algorithm\FIR.h)(0x628DA6D9)
 I (..\Algorithm\DataScope_DP.h)(0x625BA52C)
 I (..\Algorithm\algorithmOfCRC.h)(0x625BA52C)
 I (..\Task\DataReceiveTask.h)(0x628368B8)
 I (..\Task\DataSendTask.h)(0x625BA52C)
-I (..\Task\ChassisTask.h)(0x627A2DFB)
+I (..\Task\ChassisTask.h)(0x628DA031)
 I (..\Task\PowerControlTask.h)(0x625BA52C)
 I (..\Task\StartTask.h)(0x625BA52C)
 I (..\Task\CharSendTask.h)(0x625BA52C)
@@ -804,12 +804,12 @@ I (..\Mylib\dac.h)(0x625BA52C)
 I (..\Mylib\ina260.h)(0x625BA52C)
 I (..\Mylib\i2c.h)(0x625BA52C)
 I (..\Algorithm\pid.h)(0x626A4846)
-I (..\Algorithm\FIR.h)(0x626BD67A)
+I (..\Algorithm\FIR.h)(0x628DA6D9)
 I (..\Algorithm\DataScope_DP.h)(0x625BA52C)
 I (..\Algorithm\algorithmOfCRC.h)(0x625BA52C)
 I (..\Task\DataReceiveTask.h)(0x628368B8)
 I (..\Task\DataSendTask.h)(0x625BA52C)
-I (..\Task\ChassisTask.h)(0x627A2DFB)
+I (..\Task\ChassisTask.h)(0x628DA031)
 I (..\Task\PowerControlTask.h)(0x625BA52C)
 I (..\Task\StartTask.h)(0x625BA52C)
 I (..\Task\CharSendTask.h)(0x625BA52C)
@@ -870,12 +870,12 @@ I (..\Mylib\dac.h)(0x625BA52C)
 I (..\Mylib\ina260.h)(0x625BA52C)
 I (..\Mylib\i2c.h)(0x625BA52C)
 I (..\Algorithm\pid.h)(0x626A4846)
-I (..\Algorithm\FIR.h)(0x626BD67A)
+I (..\Algorithm\FIR.h)(0x628DA6D9)
 I (..\Algorithm\DataScope_DP.h)(0x625BA52C)
 I (..\Algorithm\algorithmOfCRC.h)(0x625BA52C)
 I (..\Task\DataReceiveTask.h)(0x628368B8)
 I (..\Task\DataSendTask.h)(0x625BA52C)
-I (..\Task\ChassisTask.h)(0x627A2DFB)
+I (..\Task\ChassisTask.h)(0x628DA031)
 I (..\Task\PowerControlTask.h)(0x625BA52C)
 I (..\Task\StartTask.h)(0x625BA52C)
 I (..\Task\CharSendTask.h)(0x625BA52C)
@@ -891,7 +891,7 @@ I (..\FreeRTOS\port\RVDS\ARM_CM3\portmacro.h)(0x625BA52C)
 I (..\FreeRTOS\include\mpu_wrappers.h)(0x625BA52C)
 I (..\FreeRTOS\include\task.h)(0x625BA52C)
 I (..\FreeRTOS\include\list.h)(0x625BA52C)
-F (..\Algorithm\FIR.c)(0x626C9A9A)(--c99 -c --cpu Cortex-M3 -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\Library\inc -I ..\Mylib -I ..\Algorithm -I ..\Task -I ..\FreeRTOS\include -I ..\FreeRTOS\port\MemMang -I ..\FreeRTOS\port\RVDS\ARM_CM3 -I ..\Project-I.\RTE\_HUST-RM-Chassis-ID:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="525" -DSTM32F10X_CL -DSTM32F10X_CL -DUSE_STDPERIPH_DRIVER-o ..\obj\fir.o --omf_browse ..\obj\fir.crf --depend ..\obj\fir.d)
+F (..\Algorithm\FIR.c)(0x628DB48C)(--c99 -c --cpu Cortex-M3 -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\Library\inc -I ..\Mylib -I ..\Algorithm -I ..\Task -I ..\FreeRTOS\include -I ..\FreeRTOS\port\MemMang -I ..\FreeRTOS\port\RVDS\ARM_CM3 -I ..\Project-I.\RTE\_HUST-RM-Chassis-ID:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="525" -DSTM32F10X_CL -DSTM32F10X_CL -DUSE_STDPERIPH_DRIVER-o ..\obj\fir.o --omf_browse ..\obj\fir.crf --depend ..\obj\fir.d)
 I (..\User\main.h)(0x6284D621)
 I (..\User\stm32f10x.h)(0x625BA52C)
 I (..\User\core_cm3.h)(0x625BA52C)
@@ -923,12 +923,12 @@ I (..\Mylib\dac.h)(0x625BA52C)
 I (..\Mylib\ina260.h)(0x625BA52C)
 I (..\Mylib\i2c.h)(0x625BA52C)
 I (..\Algorithm\pid.h)(0x626A4846)
-I (..\Algorithm\FIR.h)(0x626BD67A)
+I (..\Algorithm\FIR.h)(0x628DA6D9)
 I (..\Algorithm\DataScope_DP.h)(0x625BA52C)
 I (..\Algorithm\algorithmOfCRC.h)(0x625BA52C)
 I (..\Task\DataReceiveTask.h)(0x628368B8)
 I (..\Task\DataSendTask.h)(0x625BA52C)
-I (..\Task\ChassisTask.h)(0x627A2DFB)
+I (..\Task\ChassisTask.h)(0x628DA031)
 I (..\Task\PowerControlTask.h)(0x625BA52C)
 I (..\Task\StartTask.h)(0x625BA52C)
 I (..\Task\CharSendTask.h)(0x625BA52C)
@@ -976,12 +976,12 @@ I (..\Mylib\dac.h)(0x625BA52C)
 I (..\Mylib\ina260.h)(0x625BA52C)
 I (..\Mylib\i2c.h)(0x625BA52C)
 I (..\Algorithm\pid.h)(0x626A4846)
-I (..\Algorithm\FIR.h)(0x626BD67A)
+I (..\Algorithm\FIR.h)(0x628DA6D9)
 I (..\Algorithm\DataScope_DP.h)(0x625BA52C)
 I (..\Algorithm\algorithmOfCRC.h)(0x625BA52C)
 I (..\Task\DataReceiveTask.h)(0x628368B8)
 I (..\Task\DataSendTask.h)(0x625BA52C)
-I (..\Task\ChassisTask.h)(0x627A2DFB)
+I (..\Task\ChassisTask.h)(0x628DA031)
 I (..\Task\PowerControlTask.h)(0x625BA52C)
 I (..\Task\StartTask.h)(0x625BA52C)
 I (..\Task\CharSendTask.h)(0x625BA52C)
@@ -1029,12 +1029,12 @@ I (..\Mylib\dac.h)(0x625BA52C)
 I (..\Mylib\ina260.h)(0x625BA52C)
 I (..\Mylib\i2c.h)(0x625BA52C)
 I (..\Algorithm\pid.h)(0x626A4846)
-I (..\Algorithm\FIR.h)(0x626BD67A)
+I (..\Algorithm\FIR.h)(0x628DA6D9)
 I (..\Algorithm\DataScope_DP.h)(0x625BA52C)
 I (..\Algorithm\algorithmOfCRC.h)(0x625BA52C)
 I (..\Task\DataReceiveTask.h)(0x628368B8)
 I (..\Task\DataSendTask.h)(0x625BA52C)
-I (..\Task\ChassisTask.h)(0x627A2DFB)
+I (..\Task\ChassisTask.h)(0x628DA031)
 I (..\Task\PowerControlTask.h)(0x625BA52C)
 I (..\Task\StartTask.h)(0x625BA52C)
 I (..\Task\CharSendTask.h)(0x625BA52C)
@@ -1082,12 +1082,12 @@ I (..\Mylib\dac.h)(0x625BA52C)
 I (..\Mylib\ina260.h)(0x625BA52C)
 I (..\Mylib\i2c.h)(0x625BA52C)
 I (..\Algorithm\pid.h)(0x626A4846)
-I (..\Algorithm\FIR.h)(0x626BD67A)
+I (..\Algorithm\FIR.h)(0x628DA6D9)
 I (..\Algorithm\DataScope_DP.h)(0x625BA52C)
 I (..\Algorithm\algorithmOfCRC.h)(0x625BA52C)
 I (..\Task\DataReceiveTask.h)(0x628368B8)
 I (..\Task\DataSendTask.h)(0x625BA52C)
-I (..\Task\ChassisTask.h)(0x627A2DFB)
+I (..\Task\ChassisTask.h)(0x628DA031)
 I (..\Task\PowerControlTask.h)(0x625BA52C)
 I (..\Task\StartTask.h)(0x625BA52C)
 I (..\Task\CharSendTask.h)(0x625BA52C)
@@ -1103,7 +1103,7 @@ I (..\FreeRTOS\port\RVDS\ARM_CM3\portmacro.h)(0x625BA52C)
 I (..\FreeRTOS\include\mpu_wrappers.h)(0x625BA52C)
 I (..\FreeRTOS\include\task.h)(0x625BA52C)
 I (..\FreeRTOS\include\list.h)(0x625BA52C)
-F (..\Task\DataReceiveTask.c)(0x6285EDB5)(--c99 -c --cpu Cortex-M3 -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\Library\inc -I ..\Mylib -I ..\Algorithm -I ..\Task -I ..\FreeRTOS\include -I ..\FreeRTOS\port\MemMang -I ..\FreeRTOS\port\RVDS\ARM_CM3 -I ..\Project-I.\RTE\_HUST-RM-Chassis-ID:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="525" -DSTM32F10X_CL -DSTM32F10X_CL -DUSE_STDPERIPH_DRIVER-o ..\obj\datareceivetask.o --omf_browse ..\obj\datareceivetask.crf --depend ..\obj\datareceivetask.d)
+F (..\Task\DataReceiveTask.c)(0x628DB310)(--c99 -c --cpu Cortex-M3 -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\Library\inc -I ..\Mylib -I ..\Algorithm -I ..\Task -I ..\FreeRTOS\include -I ..\FreeRTOS\port\MemMang -I ..\FreeRTOS\port\RVDS\ARM_CM3 -I ..\Project-I.\RTE\_HUST-RM-Chassis-ID:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="525" -DSTM32F10X_CL -DSTM32F10X_CL -DUSE_STDPERIPH_DRIVER-o ..\obj\datareceivetask.o --omf_browse ..\obj\datareceivetask.crf --depend ..\obj\datareceivetask.d)
 I (..\User\main.h)(0x6284D621)
 I (..\User\stm32f10x.h)(0x625BA52C)
 I (..\User\core_cm3.h)(0x625BA52C)
@@ -1135,12 +1135,12 @@ I (..\Mylib\dac.h)(0x625BA52C)
 I (..\Mylib\ina260.h)(0x625BA52C)
 I (..\Mylib\i2c.h)(0x625BA52C)
 I (..\Algorithm\pid.h)(0x626A4846)
-I (..\Algorithm\FIR.h)(0x626BD67A)
+I (..\Algorithm\FIR.h)(0x628DA6D9)
 I (..\Algorithm\DataScope_DP.h)(0x625BA52C)
 I (..\Algorithm\algorithmOfCRC.h)(0x625BA52C)
 I (..\Task\DataReceiveTask.h)(0x628368B8)
 I (..\Task\DataSendTask.h)(0x625BA52C)
-I (..\Task\ChassisTask.h)(0x627A2DFB)
+I (..\Task\ChassisTask.h)(0x628DA031)
 I (..\Task\PowerControlTask.h)(0x625BA52C)
 I (..\Task\StartTask.h)(0x625BA52C)
 I (..\Task\CharSendTask.h)(0x625BA52C)
@@ -1156,7 +1156,7 @@ I (..\FreeRTOS\port\RVDS\ARM_CM3\portmacro.h)(0x625BA52C)
 I (..\FreeRTOS\include\mpu_wrappers.h)(0x625BA52C)
 I (..\FreeRTOS\include\task.h)(0x625BA52C)
 I (..\FreeRTOS\include\list.h)(0x625BA52C)
-F (..\Task\DataSendTask.c)(0x6284F261)(--c99 -c --cpu Cortex-M3 -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\Library\inc -I ..\Mylib -I ..\Algorithm -I ..\Task -I ..\FreeRTOS\include -I ..\FreeRTOS\port\MemMang -I ..\FreeRTOS\port\RVDS\ARM_CM3 -I ..\Project-I.\RTE\_HUST-RM-Chassis-ID:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="525" -DSTM32F10X_CL -DSTM32F10X_CL -DUSE_STDPERIPH_DRIVER-o ..\obj\datasendtask.o --omf_browse ..\obj\datasendtask.crf --depend ..\obj\datasendtask.d)
+F (..\Task\DataSendTask.c)(0x628DB61E)(--c99 -c --cpu Cortex-M3 -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\Library\inc -I ..\Mylib -I ..\Algorithm -I ..\Task -I ..\FreeRTOS\include -I ..\FreeRTOS\port\MemMang -I ..\FreeRTOS\port\RVDS\ARM_CM3 -I ..\Project-I.\RTE\_HUST-RM-Chassis-ID:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="525" -DSTM32F10X_CL -DSTM32F10X_CL -DUSE_STDPERIPH_DRIVER-o ..\obj\datasendtask.o --omf_browse ..\obj\datasendtask.crf --depend ..\obj\datasendtask.d)
 I (..\User\main.h)(0x6284D621)
 I (..\User\stm32f10x.h)(0x625BA52C)
 I (..\User\core_cm3.h)(0x625BA52C)
@@ -1188,12 +1188,12 @@ I (..\Mylib\dac.h)(0x625BA52C)
 I (..\Mylib\ina260.h)(0x625BA52C)
 I (..\Mylib\i2c.h)(0x625BA52C)
 I (..\Algorithm\pid.h)(0x626A4846)
-I (..\Algorithm\FIR.h)(0x626BD67A)
+I (..\Algorithm\FIR.h)(0x628DA6D9)
 I (..\Algorithm\DataScope_DP.h)(0x625BA52C)
 I (..\Algorithm\algorithmOfCRC.h)(0x625BA52C)
 I (..\Task\DataReceiveTask.h)(0x628368B8)
 I (..\Task\DataSendTask.h)(0x625BA52C)
-I (..\Task\ChassisTask.h)(0x627A2DFB)
+I (..\Task\ChassisTask.h)(0x628DA031)
 I (..\Task\PowerControlTask.h)(0x625BA52C)
 I (..\Task\StartTask.h)(0x625BA52C)
 I (..\Task\CharSendTask.h)(0x625BA52C)
@@ -1209,7 +1209,7 @@ I (..\FreeRTOS\port\RVDS\ARM_CM3\portmacro.h)(0x625BA52C)
 I (..\FreeRTOS\include\mpu_wrappers.h)(0x625BA52C)
 I (..\FreeRTOS\include\task.h)(0x625BA52C)
 I (..\FreeRTOS\include\list.h)(0x625BA52C)
-F (..\Task\ChassisTask.c)(0x6289BDCE)(--c99 -c --cpu Cortex-M3 -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\Library\inc -I ..\Mylib -I ..\Algorithm -I ..\Task -I ..\FreeRTOS\include -I ..\FreeRTOS\port\MemMang -I ..\FreeRTOS\port\RVDS\ARM_CM3 -I ..\Project-I.\RTE\_HUST-RM-Chassis-ID:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="525" -DSTM32F10X_CL -DSTM32F10X_CL -DUSE_STDPERIPH_DRIVER-o ..\obj\chassistask.o --omf_browse ..\obj\chassistask.crf --depend ..\obj\chassistask.d)
+F (..\Task\ChassisTask.c)(0x628DFA09)(--c99 -c --cpu Cortex-M3 -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\Library\inc -I ..\Mylib -I ..\Algorithm -I ..\Task -I ..\FreeRTOS\include -I ..\FreeRTOS\port\MemMang -I ..\FreeRTOS\port\RVDS\ARM_CM3 -I ..\Project-I.\RTE\_HUST-RM-Chassis-ID:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="525" -DSTM32F10X_CL -DSTM32F10X_CL -DUSE_STDPERIPH_DRIVER-o ..\obj\chassistask.o --omf_browse ..\obj\chassistask.crf --depend ..\obj\chassistask.d)
 I (..\User\main.h)(0x6284D621)
 I (..\User\stm32f10x.h)(0x625BA52C)
 I (..\User\core_cm3.h)(0x625BA52C)
@@ -1241,12 +1241,12 @@ I (..\Mylib\dac.h)(0x625BA52C)
 I (..\Mylib\ina260.h)(0x625BA52C)
 I (..\Mylib\i2c.h)(0x625BA52C)
 I (..\Algorithm\pid.h)(0x626A4846)
-I (..\Algorithm\FIR.h)(0x626BD67A)
+I (..\Algorithm\FIR.h)(0x628DA6D9)
 I (..\Algorithm\DataScope_DP.h)(0x625BA52C)
 I (..\Algorithm\algorithmOfCRC.h)(0x625BA52C)
 I (..\Task\DataReceiveTask.h)(0x628368B8)
 I (..\Task\DataSendTask.h)(0x625BA52C)
-I (..\Task\ChassisTask.h)(0x627A2DFB)
+I (..\Task\ChassisTask.h)(0x628DA031)
 I (..\Task\PowerControlTask.h)(0x625BA52C)
 I (..\Task\StartTask.h)(0x625BA52C)
 I (..\Task\CharSendTask.h)(0x625BA52C)
@@ -1262,7 +1262,7 @@ I (..\FreeRTOS\port\RVDS\ARM_CM3\portmacro.h)(0x625BA52C)
 I (..\FreeRTOS\include\mpu_wrappers.h)(0x625BA52C)
 I (..\FreeRTOS\include\task.h)(0x625BA52C)
 I (..\FreeRTOS\include\list.h)(0x625BA52C)
-F (..\Task\PowerControlTask.c)(0x6289B6AE)(--c99 -c --cpu Cortex-M3 -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\Library\inc -I ..\Mylib -I ..\Algorithm -I ..\Task -I ..\FreeRTOS\include -I ..\FreeRTOS\port\MemMang -I ..\FreeRTOS\port\RVDS\ARM_CM3 -I ..\Project-I.\RTE\_HUST-RM-Chassis-ID:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="525" -DSTM32F10X_CL -DSTM32F10X_CL -DUSE_STDPERIPH_DRIVER-o ..\obj\powercontroltask.o --omf_browse ..\obj\powercontroltask.crf --depend ..\obj\powercontroltask.d)
+F (..\Task\PowerControlTask.c)(0x628CDB61)(--c99 -c --cpu Cortex-M3 -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\Library\inc -I ..\Mylib -I ..\Algorithm -I ..\Task -I ..\FreeRTOS\include -I ..\FreeRTOS\port\MemMang -I ..\FreeRTOS\port\RVDS\ARM_CM3 -I ..\Project-I.\RTE\_HUST-RM-Chassis-ID:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="525" -DSTM32F10X_CL -DSTM32F10X_CL -DUSE_STDPERIPH_DRIVER-o ..\obj\powercontroltask.o --omf_browse ..\obj\powercontroltask.crf --depend ..\obj\powercontroltask.d)
 I (..\User\main.h)(0x6284D621)
 I (..\User\stm32f10x.h)(0x625BA52C)
 I (..\User\core_cm3.h)(0x625BA52C)
@@ -1294,12 +1294,12 @@ I (..\Mylib\dac.h)(0x625BA52C)
 I (..\Mylib\ina260.h)(0x625BA52C)
 I (..\Mylib\i2c.h)(0x625BA52C)
 I (..\Algorithm\pid.h)(0x626A4846)
-I (..\Algorithm\FIR.h)(0x626BD67A)
+I (..\Algorithm\FIR.h)(0x628DA6D9)
 I (..\Algorithm\DataScope_DP.h)(0x625BA52C)
 I (..\Algorithm\algorithmOfCRC.h)(0x625BA52C)
 I (..\Task\DataReceiveTask.h)(0x628368B8)
 I (..\Task\DataSendTask.h)(0x625BA52C)
-I (..\Task\ChassisTask.h)(0x627A2DFB)
+I (..\Task\ChassisTask.h)(0x628DA031)
 I (..\Task\PowerControlTask.h)(0x625BA52C)
 I (..\Task\StartTask.h)(0x625BA52C)
 I (..\Task\CharSendTask.h)(0x625BA52C)
@@ -1347,12 +1347,12 @@ I (..\Mylib\dac.h)(0x625BA52C)
 I (..\Mylib\ina260.h)(0x625BA52C)
 I (..\Mylib\i2c.h)(0x625BA52C)
 I (..\Algorithm\pid.h)(0x626A4846)
-I (..\Algorithm\FIR.h)(0x626BD67A)
+I (..\Algorithm\FIR.h)(0x628DA6D9)
 I (..\Algorithm\DataScope_DP.h)(0x625BA52C)
 I (..\Algorithm\algorithmOfCRC.h)(0x625BA52C)
 I (..\Task\DataReceiveTask.h)(0x628368B8)
 I (..\Task\DataSendTask.h)(0x625BA52C)
-I (..\Task\ChassisTask.h)(0x627A2DFB)
+I (..\Task\ChassisTask.h)(0x628DA031)
 I (..\Task\PowerControlTask.h)(0x625BA52C)
 I (..\Task\StartTask.h)(0x625BA52C)
 I (..\Task\CharSendTask.h)(0x625BA52C)
@@ -1400,12 +1400,12 @@ I (..\Mylib\dac.h)(0x625BA52C)
 I (..\Mylib\ina260.h)(0x625BA52C)
 I (..\Mylib\i2c.h)(0x625BA52C)
 I (..\Algorithm\pid.h)(0x626A4846)
-I (..\Algorithm\FIR.h)(0x626BD67A)
+I (..\Algorithm\FIR.h)(0x628DA6D9)
 I (..\Algorithm\DataScope_DP.h)(0x625BA52C)
 I (..\Algorithm\algorithmOfCRC.h)(0x625BA52C)
 I (..\Task\DataReceiveTask.h)(0x628368B8)
 I (..\Task\DataSendTask.h)(0x625BA52C)
-I (..\Task\ChassisTask.h)(0x627A2DFB)
+I (..\Task\ChassisTask.h)(0x628DA031)
 I (..\Task\PowerControlTask.h)(0x625BA52C)
 I (..\Task\StartTask.h)(0x625BA52C)
 I (..\Task\CharSendTask.h)(0x625BA52C)
@@ -1453,12 +1453,12 @@ I (..\Mylib\dac.h)(0x625BA52C)
 I (..\Mylib\ina260.h)(0x625BA52C)
 I (..\Mylib\i2c.h)(0x625BA52C)
 I (..\Algorithm\pid.h)(0x626A4846)
-I (..\Algorithm\FIR.h)(0x626BD67A)
+I (..\Algorithm\FIR.h)(0x628DA6D9)
 I (..\Algorithm\DataScope_DP.h)(0x625BA52C)
 I (..\Algorithm\algorithmOfCRC.h)(0x625BA52C)
 I (..\Task\DataReceiveTask.h)(0x628368B8)
 I (..\Task\DataSendTask.h)(0x625BA52C)
-I (..\Task\ChassisTask.h)(0x627A2DFB)
+I (..\Task\ChassisTask.h)(0x628DA031)
 I (..\Task\PowerControlTask.h)(0x625BA52C)
 I (..\Task\StartTask.h)(0x625BA52C)
 I (..\Task\CharSendTask.h)(0x625BA52C)
@@ -1506,12 +1506,12 @@ I (..\Mylib\dac.h)(0x625BA52C)
 I (..\Mylib\ina260.h)(0x625BA52C)
 I (..\Mylib\i2c.h)(0x625BA52C)
 I (..\Algorithm\pid.h)(0x626A4846)
-I (..\Algorithm\FIR.h)(0x626BD67A)
+I (..\Algorithm\FIR.h)(0x628DA6D9)
 I (..\Algorithm\DataScope_DP.h)(0x625BA52C)
 I (..\Algorithm\algorithmOfCRC.h)(0x625BA52C)
 I (..\Task\DataReceiveTask.h)(0x628368B8)
 I (..\Task\DataSendTask.h)(0x625BA52C)
-I (..\Task\ChassisTask.h)(0x627A2DFB)
+I (..\Task\ChassisTask.h)(0x628DA031)
 I (..\Task\PowerControlTask.h)(0x625BA52C)
 I (..\Task\StartTask.h)(0x625BA52C)
 I (..\Task\CharSendTask.h)(0x625BA52C)

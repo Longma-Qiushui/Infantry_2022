@@ -7,7 +7,7 @@
 **********************************************************************************************************/
 #include "main.h"
 
-char Robot_ID = 4;         // 不同机器人用不同的序号
+char Robot_ID = 3;         // 不同机器人用不同的序号
 
 extern KalmanFilter_t pitch_Kalman, yaw_Kalman;
 extern KalmanFilter_Init_t K;
@@ -29,13 +29,14 @@ int main()
 
 	BSP_Init();
 	delay_ms(3000);
+	SteeringEngine_Set(Infantry.MagOpen);
 	Robot_Init();
 	startTast();
   vTaskStartScheduler();
 	
 	while(1)
 	{
-
+	
 	}
 }
 	
@@ -110,8 +111,8 @@ switch(Robot_ID)
 {	
 	Infantry.Yaw_init=2750;                  //  3号车 
 	Infantry.Pitch_init=7440;
-	Infantry.MagOpen=2000;
-	Infantry.MagClose=540;
+	Infantry.MagOpen=2400;
+	Infantry.MagClose=530;
 	Infantry.Solo_Yaw_init = 7715;
 	Infantry.PitchMotorID = 0x206;
 	Infantry.YawMotorID = 0x205;
@@ -127,8 +128,8 @@ switch(Robot_ID)
 {	
 	Infantry.Yaw_init=6865;            // 4号车
 	Infantry.Pitch_init=4695;
-	Infantry.MagOpen=2400;
-	Infantry.MagClose=600;
+	Infantry.MagOpen=1500;
+	Infantry.MagClose=2550;
 	Infantry.Solo_Yaw_init = 20;
 	Infantry.PitchMotorID = 0x205;
 	Infantry.YawMotorID = 0x206;

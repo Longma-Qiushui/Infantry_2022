@@ -28,38 +28,45 @@ extern char Judge_Lost;
 short last[4],lastsum,sum;
 short post_filter[4];
 extern short CAP_CrossoverFlag;
-extern char filter_en;
+char output_filter;
 void ChassisCan1Send(short a,short b,short c,short d)
 {
+	static short chassis_send[4];
     CanTxMsg tx_message;
     tx_message.IDE = CAN_ID_STD;    
     tx_message.RTR = CAN_RTR_DATA; 
     tx_message.DLC = 0x08;    
     tx_message.StdId = 0x200;
   
-		a=LowPass_SetWheel(a);
-	  b=LowPass_SetWheel(b);
-	  c=LowPass_SetWheel(c);
-	  d=LowPass_SetWheel(d);
-	
-	  sum=ABS(a)+ABS(b)+ABS(c)+ABS(d);
+	if(output_filter)
+	{
+		chassis_send[0] = LowPass_SetWheel(a,chassis_send[0]);
+	  chassis_send[1] = LowPass_SetWheel(b,chassis_send[1]);
+	  chassis_send[2] = LowPass_SetWheel(c,chassis_send[2]);
+	  chassis_send[3] = LowPass_SetWheel(d,chassis_send[3]);
+	}
+	else 
+	{
+    chassis_send[0]= a;
+    chassis_send[1]= b;
+		chassis_send[2]= c;
+		chassis_send[3]= d;	
+	}
+	  sum=ABS(chassis_send[0])+ABS(chassis_send[1])+ABS(chassis_send[2])+ABS(chassis_send[3]);
 				if(sum-lastsum>2000)		//发生变化
 			{
 				CAP_CrossoverFlag = 1;																										//电容停止充电
 			}
 			lastsum=sum;
-//		post_filter[0]=a;
-//    post_filter[1]=b;
-//    post_filter[2]=c;
-//    post_filter[3]=d;			
-    tx_message.Data[0] = (unsigned char)((a>>8)&0xff);
-    tx_message.Data[1] = (unsigned char)(a&0xff);  
-    tx_message.Data[2] = (unsigned char)((b>>8)&0xff);
-    tx_message.Data[3] = (unsigned char)(b&0xff);
-    tx_message.Data[4] = (unsigned char)((c>>8)&0xff);
-    tx_message.Data[5] = (unsigned char)(c&0xff);
-    tx_message.Data[6] = (unsigned char)((d>>8)&0xff);
-    tx_message.Data[7] = (unsigned char)(d&0xff);
+
+    tx_message.Data[0] = (unsigned char)((chassis_send[0]>>8)&0xff);
+    tx_message.Data[1] = (unsigned char)(chassis_send[0]&0xff);  
+    tx_message.Data[2] = (unsigned char)((chassis_send[1]>>8)&0xff);
+    tx_message.Data[3] = (unsigned char)(chassis_send[1]&0xff);
+    tx_message.Data[4] = (unsigned char)((chassis_send[2]>>8)&0xff);
+    tx_message.Data[5] = (unsigned char)(chassis_send[2]&0xff);
+    tx_message.Data[6] = (unsigned char)((chassis_send[3]>>8)&0xff);
+    tx_message.Data[7] = (unsigned char)(chassis_send[3]&0xff);
     CAN_Transmit(CAN1,&tx_message);
 }
 /**********************************************************************************************************
