@@ -170,22 +170,22 @@ void Remote_Process(Remote rc)
 		Status.ShootMode=Shoot_Powerdown_Mode;
 		SteeringEngine_Set(Infantry.MagClose);
 	}
-	if(rc.s2==1) //检录模式
-	{
-		Status.GimbalMode=Gimbal_Act_Mode; 
-		Status.ChassisMode=Chassis_Act_Mode;
-		Status.ShootMode=Shoot_Check_Mode;
-		SteeringEngine_Set(Infantry.MagClose);	
-	}
-
-//	if(rc.s2==1) //辅瞄模式
+//	if(rc.s2==1) //检录模式
 //	{
-//		Status.GimbalMode=Gimbal_Armor_Mode; 
+//		Status.GimbalMode=Gimbal_Act_Mode; 
 //		Status.ChassisMode=Chassis_Act_Mode;
-//		Status.ShootMode=Shoot_Tx2_Mode;
-//		SteeringEngine_Set(Infantry.MagClose);
+//		Status.ShootMode=Shoot_Check_Mode;
+//		SteeringEngine_Set(Infantry.MagClose);	
 //	}
-//		if(rc.s2==2) //小陀螺模式
+
+	if(rc.s2==1) //辅瞄模式
+	{
+		Status.GimbalMode=Gimbal_Armor_Mode; 
+		Status.ChassisMode=Chassis_Act_Mode;
+		Status.ShootMode=Shoot_Tx2_Mode;
+		SteeringEngine_Set(Infantry.MagClose);
+	}
+//		if(rc.s2==1) //小陀螺模式
 //	{
 //		Status.GimbalMode=Gimbal_Act_Mode;
 //		Status.ChassisMode=Chassis_SelfProtect_Mode;
@@ -321,16 +321,16 @@ void MouseKey_Act_Cal(RC_Ctl_t RC_Ctl)
 				F405.Graphic_Init_Flag = 1;
 				Graphic_Init_flag=1;
 			}
-			else 
-			{
-				waitb++;
-				if(waitb>5)
-				{
-				F405.Graphic_Init_Flag = 0;
-				Graphic_Init_flag=0;
-				waitb=0;
-				}
-			}			
+//			else 
+//			{
+//				waitb++;
+//				if(waitb>5)
+//				{
+//				F405.Graphic_Init_Flag = 0;
+//				Graphic_Init_flag=0;
+//				waitb=0;
+//				}
+//			}			
 		}
 /******************************自我保护模式(小陀螺) ctrl键*****************************************/
 		ctrl_rising_flag = RC_Ctl.key.ctrl - pre_key_ctrl;

@@ -322,14 +322,12 @@ int Char_Change_Check(void)
 	Gimbal_flag = F405.Gimbal_Flag;
 	Chassis_flag = F405.Chassis_Flag;
 	Fric_flag = F405.Fric_Flag;
-//	Laser_flag = F405.Laser_Flag;
-//	Follow_state = F405.Follow_state;
+	Follow_state = F405.Follow_state;
 	
 	/*有变化，标志各个位*/
 	if(last_Mag != Mag_flag) Char_Change_Array[0] = Op_Change;
 	if(Gimbal_flag != last_Gimbal) Char_Change_Array[1] = Op_Change;
-//	if(Chassis_flag != last_Chassis || Follow_state != last_Follow) Char_Change_Array[2] = Op_Change;
-//	if(Laser_flag != last_Laser) Char_Change_Array[3] = Op_Change;
+	if(Chassis_flag != last_Chassis || Follow_state != last_Follow) Char_Change_Array[2] = Op_Change;
   if(Fric_flag != last_Fric ) Char_Change_Array[3]=Op_Change;	
 	if(PowerState != last_PowerState) Char_Change_Array[4]=Op_Change;
 	
@@ -338,7 +336,6 @@ int Char_Change_Check(void)
 	last_Gimbal = Gimbal_flag;
 	last_Chassis = Chassis_flag;
 	last_Fric = Fric_flag;
-//	last_Laser = Laser_flag;
 	last_Follow = Follow_state;
 	last_PowerState=PowerState;
 	

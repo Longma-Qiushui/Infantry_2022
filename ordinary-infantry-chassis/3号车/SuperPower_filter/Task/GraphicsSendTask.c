@@ -510,230 +510,230 @@ PITCH_:	pitch = F405.Gimbal_100 * 10;
 //				custom_grapic_draw.graphic_custom.grapic_data_struct[3].end_y=0;
 //				custom_grapic_draw.graphic_custom.grapic_data_struct[3].radius=Buff_flag?bias_r:0;
 //				if(Op_type == Op_Change) goto CONT_3;
-//				/*从这以下是射击辅助线*/
-//				/*********************************中线*********************************/
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[4].graphic_name[0] = 0;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[4].graphic_name[1] = 1;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[4].graphic_name[2] = 8;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[4].operate_tpye=Op_type;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[4].graphic_tpye=0;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[4].layer=0;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[4].color=Green;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[4].start_angle=0;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[4].end_angle=0;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[4].width=1;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[4].start_x=SCREEN_LENGTH/2 - placece_x[0] + AIM_bias_x;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[4].start_y=SCREEN_WIDTH/2 + placece_y[0] + AIM_bias_y;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[4].end_x  =SCREEN_LENGTH/2 - placece_x[0] + AIM_bias_x;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[4].end_y  =SCREEN_WIDTH/2 + placece_y[1] + AIM_bias_y;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[4].radius=0;
-//				
-//				/*********************************横线0，中间最长线*********************************/
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[5].graphic_name[0] = 0;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[5].graphic_name[1] = 1;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[5].graphic_name[2] = 9;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[5].operate_tpye=Op_type;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[5].graphic_tpye=0;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[5].layer=0;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[5].color=Green;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[5].start_angle=0;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[5].end_angle=0;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[5].width=1;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[5].start_x=SCREEN_LENGTH/2 - placece_x[1] + AIM_bias_x;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[5].start_y=SCREEN_WIDTH/2 + placece_y[2] + AIM_bias_y;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[5].end_x  =SCREEN_LENGTH/2 + placece_x[1] + AIM_bias_x;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[5].end_y  =SCREEN_WIDTH/2 + placece_y[2] + AIM_bias_y;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[5].radius=0;
-//				
-//				/*********************************横线1*********************************/
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[6].graphic_name[0] = 0;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[6].graphic_name[1] = 1;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[6].graphic_name[2] = 10;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[6].operate_tpye=Op_type;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[6].graphic_tpye=0;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[6].layer=0;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[6].color=Green;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[6].start_angle=0;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[6].end_angle=0;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[6].width=1;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[6].start_x=SCREEN_LENGTH/2 - placece_x[2] + AIM_bias_x;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[6].start_y=SCREEN_WIDTH/2 + placece_y[3] + AIM_bias_y;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[6].end_x  =SCREEN_LENGTH/2 + placece_x[2] + AIM_bias_x;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[6].end_y  =SCREEN_WIDTH/2 + placece_y[3] + AIM_bias_y;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[6].radius=0;
+				/*从这以下是射击辅助线*/
+				/*********************************中线*********************************/
+				custom_grapic_draw.graphic_custom.grapic_data_struct[4].graphic_name[0] = 0;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[4].graphic_name[1] = 1;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[4].graphic_name[2] = 8;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[4].operate_tpye=Op_type;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[4].graphic_tpye=0;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[4].layer=0;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[4].color=Green;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[4].start_angle=0;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[4].end_angle=0;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[4].width=1;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[4].start_x=SCREEN_LENGTH/2 - placece_x[0] + AIM_bias_x;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[4].start_y=SCREEN_WIDTH/2 + placece_y[0] + AIM_bias_y;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[4].end_x  =SCREEN_LENGTH/2 - placece_x[0] + AIM_bias_x;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[4].end_y  =SCREEN_WIDTH/2 + placece_y[1] + AIM_bias_y;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[4].radius=0;
+				
+				/*********************************横线0，中间最长线*********************************/
+				custom_grapic_draw.graphic_custom.grapic_data_struct[5].graphic_name[0] = 0;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[5].graphic_name[1] = 1;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[5].graphic_name[2] = 9;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[5].operate_tpye=Op_type;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[5].graphic_tpye=0;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[5].layer=0;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[5].color=Green;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[5].start_angle=0;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[5].end_angle=0;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[5].width=1;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[5].start_x=SCREEN_LENGTH/2 - placece_x[1] + AIM_bias_x;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[5].start_y=SCREEN_WIDTH/2 + placece_y[2] + AIM_bias_y;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[5].end_x  =SCREEN_LENGTH/2 + placece_x[1] + AIM_bias_x;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[5].end_y  =SCREEN_WIDTH/2 + placece_y[2] + AIM_bias_y;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[5].radius=0;
+				
+				/*********************************横线1*********************************/
+				custom_grapic_draw.graphic_custom.grapic_data_struct[6].graphic_name[0] = 0;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[6].graphic_name[1] = 1;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[6].graphic_name[2] = 10;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[6].operate_tpye=Op_type;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[6].graphic_tpye=0;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[6].layer=0;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[6].color=Green;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[6].start_angle=0;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[6].end_angle=0;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[6].width=1;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[6].start_x=SCREEN_LENGTH/2 - placece_x[2] + AIM_bias_x;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[6].start_y=SCREEN_WIDTH/2 + placece_y[3] + AIM_bias_y;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[6].end_x  =SCREEN_LENGTH/2 + placece_x[2] + AIM_bias_x;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[6].end_y  =SCREEN_WIDTH/2 + placece_y[3] + AIM_bias_y;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[6].radius=0;
 				
 				break;	
 			case 3:
 				/*********************************横线2*********************************/
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[0].graphic_name[0] = 0;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[0].graphic_name[1] = 1;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[0].graphic_name[2] = 11;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[0].operate_tpye=Op_type;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[0].graphic_tpye=0;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[0].layer=0;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[0].color=Green;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[0].start_angle=0;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[0].end_angle=0;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[0].width=1;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[0].start_x=SCREEN_LENGTH/2 - placece_x[3] + AIM_bias_x;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[0].start_y=SCREEN_WIDTH/2 + placece_y[4] + AIM_bias_y;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[0].end_x  =SCREEN_LENGTH/2 + placece_x[3] + AIM_bias_x;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[0].end_y  =SCREEN_WIDTH/2 + placece_y[4] + AIM_bias_y;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[0].radius=0;
-//			
-//				/*********************************横线3*********************************/
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[1].graphic_name[0] = 0;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[1].graphic_name[1] = 1;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[1].graphic_name[2] = 12;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[1].operate_tpye=Op_type;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[1].graphic_tpye=0;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[1].layer=0;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[1].color=Green;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[1].start_angle=0;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[1].end_angle=0;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[1].width=1;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[1].start_x=SCREEN_LENGTH/2 - placece_x[4] + AIM_bias_x;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[1].start_y=SCREEN_WIDTH/2 + placece_y[5] + AIM_bias_y;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[1].end_x  =SCREEN_LENGTH/2 + placece_x[4] + AIM_bias_x;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[1].end_y  =SCREEN_WIDTH/2 + placece_y[5] + AIM_bias_y;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[1].radius=0;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[0].graphic_name[0] = 0;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[0].graphic_name[1] = 1;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[0].graphic_name[2] = 11;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[0].operate_tpye=Op_type;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[0].graphic_tpye=0;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[0].layer=0;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[0].color=Green;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[0].start_angle=0;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[0].end_angle=0;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[0].width=1;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[0].start_x=SCREEN_LENGTH/2 - placece_x[3] + AIM_bias_x;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[0].start_y=SCREEN_WIDTH/2 + placece_y[4] + AIM_bias_y;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[0].end_x  =SCREEN_LENGTH/2 + placece_x[3] + AIM_bias_x;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[0].end_y  =SCREEN_WIDTH/2 + placece_y[4] + AIM_bias_y;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[0].radius=0;
+			
+				/*********************************横线3*********************************/
+				custom_grapic_draw.graphic_custom.grapic_data_struct[1].graphic_name[0] = 0;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[1].graphic_name[1] = 1;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[1].graphic_name[2] = 12;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[1].operate_tpye=Op_type;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[1].graphic_tpye=0;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[1].layer=0;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[1].color=Green;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[1].start_angle=0;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[1].end_angle=0;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[1].width=1;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[1].start_x=SCREEN_LENGTH/2 - placece_x[4] + AIM_bias_x;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[1].start_y=SCREEN_WIDTH/2 + placece_y[5] + AIM_bias_y;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[1].end_x  =SCREEN_LENGTH/2 + placece_x[4] + AIM_bias_x;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[1].end_y  =SCREEN_WIDTH/2 + placece_y[5] + AIM_bias_y;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[1].radius=0;
 
-//				/*********************************横线4*********************************/
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[2].graphic_name[0] = 0;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[2].graphic_name[1] = 1;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[2].graphic_name[2] = 13;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[2].operate_tpye=Op_type;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[2].graphic_tpye=0;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[2].layer=0;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[2].color=Green;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[2].start_angle=0;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[2].end_angle=0;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[2].width=1;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[2].start_x=SCREEN_LENGTH/2 - placece_x[5] + AIM_bias_x;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[2].start_y=SCREEN_WIDTH/2 + placece_y[6] + AIM_bias_y;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[2].end_x  =SCREEN_LENGTH/2 + placece_x[5] + AIM_bias_x;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[2].end_y  =SCREEN_WIDTH/2 + placece_y[6] + AIM_bias_y;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[2].radius=0;
+				/*********************************横线4*********************************/
+				custom_grapic_draw.graphic_custom.grapic_data_struct[2].graphic_name[0] = 0;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[2].graphic_name[1] = 1;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[2].graphic_name[2] = 13;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[2].operate_tpye=Op_type;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[2].graphic_tpye=0;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[2].layer=0;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[2].color=Green;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[2].start_angle=0;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[2].end_angle=0;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[2].width=1;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[2].start_x=SCREEN_LENGTH/2 - placece_x[5] + AIM_bias_x;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[2].start_y=SCREEN_WIDTH/2 + placece_y[6] + AIM_bias_y;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[2].end_x  =SCREEN_LENGTH/2 + placece_x[5] + AIM_bias_x;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[2].end_y  =SCREEN_WIDTH/2 + placece_y[6] + AIM_bias_y;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[2].radius=0;
 
-//				/*********************************横线5*********************************/
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[3].graphic_name[0] = 0;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[3].graphic_name[1] = 1;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[3].graphic_name[2] = 14;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[3].operate_tpye=Op_type;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[3].graphic_tpye=0;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[3].layer=0;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[3].color=Green;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[3].start_angle=0;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[3].end_angle=0;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[3].width=1;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[3].start_x=SCREEN_LENGTH/2 - placece_x[6] + AIM_bias_x;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[3].start_y=SCREEN_WIDTH/2 + placece_y[7] + AIM_bias_y;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[3].end_x  =SCREEN_LENGTH/2 + placece_x[6] + AIM_bias_x;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[3].end_y  =SCREEN_WIDTH/2 + placece_y[7] + AIM_bias_y;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[3].radius=0;
+				/*********************************横线5*********************************/
+				custom_grapic_draw.graphic_custom.grapic_data_struct[3].graphic_name[0] = 0;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[3].graphic_name[1] = 1;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[3].graphic_name[2] = 14;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[3].operate_tpye=Op_type;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[3].graphic_tpye=0;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[3].layer=0;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[3].color=Green;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[3].start_angle=0;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[3].end_angle=0;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[3].width=1;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[3].start_x=SCREEN_LENGTH/2 - placece_x[6] + AIM_bias_x;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[3].start_y=SCREEN_WIDTH/2 + placece_y[7] + AIM_bias_y;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[3].end_x  =SCREEN_LENGTH/2 + placece_x[6] + AIM_bias_x;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[3].end_y  =SCREEN_WIDTH/2 + placece_y[7] + AIM_bias_y;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[3].radius=0;
 
-//				/*********************************横线6*********************************/
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[4].graphic_name[0] = 0;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[4].graphic_name[1] = 1;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[4].graphic_name[2] = 15;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[4].operate_tpye=Op_type;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[4].graphic_tpye=0;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[4].layer=0;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[4].color=Green;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[4].start_angle=0;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[4].end_angle=0;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[4].width=1;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[4].start_x=SCREEN_LENGTH/2 - placece_x[7] + AIM_bias_x;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[4].start_y=SCREEN_WIDTH/2 + placece_y[8] + AIM_bias_y;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[4].end_x  =SCREEN_LENGTH/2 + placece_x[7] + AIM_bias_x;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[4].end_y  =SCREEN_WIDTH/2 + placece_y[8] + AIM_bias_y;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[4].radius=0;
+				/*********************************横线6*********************************/
+				custom_grapic_draw.graphic_custom.grapic_data_struct[4].graphic_name[0] = 0;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[4].graphic_name[1] = 1;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[4].graphic_name[2] = 15;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[4].operate_tpye=Op_type;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[4].graphic_tpye=0;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[4].layer=0;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[4].color=Green;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[4].start_angle=0;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[4].end_angle=0;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[4].width=1;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[4].start_x=SCREEN_LENGTH/2 - placece_x[7] + AIM_bias_x;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[4].start_y=SCREEN_WIDTH/2 + placece_y[8] + AIM_bias_y;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[4].end_x  =SCREEN_LENGTH/2 + placece_x[7] + AIM_bias_x;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[4].end_y  =SCREEN_WIDTH/2 + placece_y[8] + AIM_bias_y;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[4].radius=0;
 
-//				/*********************************横线7*********************************/
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[5].graphic_name[0] = 0;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[5].graphic_name[1] = 1;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[5].graphic_name[2] = 16;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[5].operate_tpye=Op_type;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[5].graphic_tpye=0;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[5].layer=0;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[5].color=Green;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[5].start_angle=0;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[5].end_angle=0;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[5].width=1;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[5].start_x=SCREEN_LENGTH/2 - placece_x[8] + AIM_bias_x;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[5].start_y=SCREEN_WIDTH/2 + placece_y[9] + AIM_bias_y;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[5].end_x  =SCREEN_LENGTH/2 + placece_x[8] + AIM_bias_x;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[5].end_y  =SCREEN_WIDTH/2 + placece_y[9] + AIM_bias_y;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[5].radius=0;
+				/*********************************横线7*********************************/
+				custom_grapic_draw.graphic_custom.grapic_data_struct[5].graphic_name[0] = 0;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[5].graphic_name[1] = 1;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[5].graphic_name[2] = 16;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[5].operate_tpye=Op_type;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[5].graphic_tpye=0;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[5].layer=0;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[5].color=Green;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[5].start_angle=0;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[5].end_angle=0;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[5].width=1;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[5].start_x=SCREEN_LENGTH/2 - placece_x[8] + AIM_bias_x;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[5].start_y=SCREEN_WIDTH/2 + placece_y[9] + AIM_bias_y;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[5].end_x  =SCREEN_LENGTH/2 + placece_x[8] + AIM_bias_x;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[5].end_y  =SCREEN_WIDTH/2 + placece_y[9] + AIM_bias_y;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[5].radius=0;
 
-//				/*********************************横线8*********************************/
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[6].graphic_name[0] = 0;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[6].graphic_name[1] = 1;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[6].graphic_name[2] = 17;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[6].operate_tpye=Op_type;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[6].graphic_tpye=0;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[6].layer=0;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[6].color=Green;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[6].start_angle=0;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[6].end_angle=0;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[6].width=1;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[6].start_x=SCREEN_LENGTH/2 - placece_x[9] + AIM_bias_x;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[6].start_y=SCREEN_WIDTH/2 + placece_y[10] + AIM_bias_y;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[6].end_x  =SCREEN_LENGTH/2 + placece_x[9] + AIM_bias_x;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[6].end_y  =SCREEN_WIDTH/2 + placece_y[10] + AIM_bias_y;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[6].radius=0;
+				/*********************************横线8*********************************/
+				custom_grapic_draw.graphic_custom.grapic_data_struct[6].graphic_name[0] = 0;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[6].graphic_name[1] = 1;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[6].graphic_name[2] = 17;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[6].operate_tpye=Op_type;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[6].graphic_tpye=0;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[6].layer=0;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[6].color=Green;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[6].start_angle=0;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[6].end_angle=0;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[6].width=1;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[6].start_x=SCREEN_LENGTH/2 - placece_x[9] + AIM_bias_x;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[6].start_y=SCREEN_WIDTH/2 + placece_y[10] + AIM_bias_y;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[6].end_x  =SCREEN_LENGTH/2 + placece_x[9] + AIM_bias_x;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[6].end_y  =SCREEN_WIDTH/2 + placece_y[10] + AIM_bias_y;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[6].radius=0;
 				break;
 			case 4:
-//				/*********************************横线9*********************************/
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[0].graphic_name[0] = 0;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[0].graphic_name[1] = 1;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[0].graphic_name[2] = 18;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[0].operate_tpye=Op_type;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[0].graphic_tpye=0;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[0].layer=0;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[0].color=Green;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[0].start_angle=0;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[0].end_angle=0;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[0].width=1;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[0].start_x=SCREEN_LENGTH/2 - placece_x[10] + AIM_bias_x;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[0].start_y=SCREEN_WIDTH/2 + placece_y[11] + AIM_bias_y;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[0].end_x  =SCREEN_LENGTH/2 + placece_x[10] + AIM_bias_x;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[0].end_y  =SCREEN_WIDTH/2 + placece_y[11] + AIM_bias_y;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[0].radius=0;
-//			
-//				/*********************************横线10*********************************/
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[1].graphic_name[0] = 0;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[1].graphic_name[1] = 1;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[1].graphic_name[2] = 19;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[1].operate_tpye=Op_type;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[1].graphic_tpye=0;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[1].layer=0;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[1].color=Green;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[1].start_angle=0;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[1].end_angle=0;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[1].width=1;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[1].start_x=SCREEN_LENGTH/2 - placece_x[11] + AIM_bias_x;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[1].start_y=SCREEN_WIDTH/2 + placece_y[12] + AIM_bias_y;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[1].end_x  =SCREEN_LENGTH/2 + placece_x[11] + AIM_bias_x;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[1].end_y  =SCREEN_WIDTH/2 + placece_y[12] + AIM_bias_y;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[1].radius=0;
+				/*********************************横线9*********************************/
+				custom_grapic_draw.graphic_custom.grapic_data_struct[0].graphic_name[0] = 0;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[0].graphic_name[1] = 1;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[0].graphic_name[2] = 18;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[0].operate_tpye=Op_type;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[0].graphic_tpye=0;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[0].layer=0;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[0].color=Green;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[0].start_angle=0;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[0].end_angle=0;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[0].width=1;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[0].start_x=SCREEN_LENGTH/2 - placece_x[10] + AIM_bias_x;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[0].start_y=SCREEN_WIDTH/2 + placece_y[11] + AIM_bias_y;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[0].end_x  =SCREEN_LENGTH/2 + placece_x[10] + AIM_bias_x;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[0].end_y  =SCREEN_WIDTH/2 + placece_y[11] + AIM_bias_y;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[0].radius=0;
+			
+				/*********************************横线10*********************************/
+				custom_grapic_draw.graphic_custom.grapic_data_struct[1].graphic_name[0] = 0;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[1].graphic_name[1] = 1;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[1].graphic_name[2] = 19;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[1].operate_tpye=Op_type;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[1].graphic_tpye=0;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[1].layer=0;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[1].color=Green;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[1].start_angle=0;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[1].end_angle=0;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[1].width=1;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[1].start_x=SCREEN_LENGTH/2 - placece_x[11] + AIM_bias_x;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[1].start_y=SCREEN_WIDTH/2 + placece_y[12] + AIM_bias_y;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[1].end_x  =SCREEN_LENGTH/2 + placece_x[11] + AIM_bias_x;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[1].end_y  =SCREEN_WIDTH/2 + placece_y[12] + AIM_bias_y;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[1].radius=0;
 
-//				/*********************************横线11*********************************/
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[2].graphic_name[0] = 0;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[2].graphic_name[1] = 1;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[2].graphic_name[2] = 20;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[2].operate_tpye=Op_type;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[2].graphic_tpye=0;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[2].layer=0;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[2].color=Green;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[2].start_angle=0;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[2].end_angle=0;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[2].width=1;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[2].start_x=SCREEN_LENGTH/2 - placece_x[12] + AIM_bias_x;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[2].start_y=SCREEN_WIDTH/2 + placece_y[13] + AIM_bias_y;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[2].end_x  =SCREEN_LENGTH/2 + placece_x[12] + AIM_bias_x;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[2].end_y  =SCREEN_WIDTH/2 + placece_y[13] + AIM_bias_y;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[2].radius=0;	
+				/*********************************横线11*********************************/
+				custom_grapic_draw.graphic_custom.grapic_data_struct[2].graphic_name[0] = 0;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[2].graphic_name[1] = 1;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[2].graphic_name[2] = 20;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[2].operate_tpye=Op_type;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[2].graphic_tpye=0;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[2].layer=0;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[2].color=Green;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[2].start_angle=0;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[2].end_angle=0;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[2].width=1;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[2].start_x=SCREEN_LENGTH/2 - placece_x[12] + AIM_bias_x;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[2].start_y=SCREEN_WIDTH/2 + placece_y[13] + AIM_bias_y;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[2].end_x  =SCREEN_LENGTH/2 + placece_x[12] + AIM_bias_x;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[2].end_y  =SCREEN_WIDTH/2 + placece_y[13] + AIM_bias_y;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[2].radius=0;	
 				break;
 			default:
 				break;

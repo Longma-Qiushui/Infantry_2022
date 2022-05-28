@@ -12,8 +12,13 @@
 enum POWERSTATE_Typedef
 {
 	BAT = 0,
-	CAP
-//	CAP2BAT
+	CAP,
+	HalfCAP
+};
+enum CHARGESTATE_Typedef
+{
+	ChargeOn = 0,
+	ChargeOff
 };
 
 void ChargeIO_Configuration(void);

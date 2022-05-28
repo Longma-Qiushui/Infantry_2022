@@ -14,6 +14,7 @@ extern ChassisSpeed_t chassis;
 short Judgement_DisConnect;
 extern uint16_t  MyMaxPower;
 extern JudgeReceive_t JudgeReceive;
+extern enum CHARGESTATE_Typedef ChargeState;
 /**********************************************************************************************************
 *函 数 名: main
 *功能说明: 主函数
@@ -23,7 +24,7 @@ extern JudgeReceive_t JudgeReceive;
 int main()
 {
   BSP_Init();
-	Robot_ID=4;
+	Robot_ID=3;
 	Robot_Init();
 	
 	startTast();
@@ -55,6 +56,7 @@ void BSP_Init(void)
 	i2c_init();
 	ChargeIO_Configuration();
 	Charge_Off;
+	ChargeState = ChargeOff;
 	delay_ms(300);//等主控板初始化完成，防止主控板初始化过程中向底盘发送错误数据
 }
 /**********************************************************************************************************

@@ -7,7 +7,7 @@
 **********************************************************************************************************/
 #include "main.h"
 
-#define CAP_MAX_W   8000
+#define CAP_MAX_W   7000
 float k_CAP = 2.5f;
 /*----------------------------------内部变量---------------------------*/
 short WheelCurrentSend[4];
@@ -54,7 +54,7 @@ float Goready_flag=0;
 float T_ABS=1000.0f;//刹车时间
 float T_SETUP=800.0f;//启动时间
 extern char output_filter;
-
+extern enum CHARGESTATE_Typedef ChargeState;
 uint16_t  MyMaxPower=0;
 /**********************************************************************************************************
 *函 数 名: ABS_Cal
@@ -278,12 +278,12 @@ void Chassis_Speed_Cal(void)
 					 {
 						 if(MyMaxPower == 100)
 						 {
-						 	k_xy = 1.7f;              // 100W 参数
-							rotation_lim=0.7f;
+						 	k_xy = 0.8f;              // 100W 参数
+							rotation_lim=0.9f;
 						 }
 						 else
 						 {
-							k_xy = 1.95f;            // 60W 80W 参数
+							k_xy = 1.85f;            // 60W 80W 参数
 							rotation_lim=0.8f;
 						 }
 					 }
@@ -291,8 +291,8 @@ void Chassis_Speed_Cal(void)
 					 {
 						 if(MyMaxPower == 100)
 						 {
-					 	k_xy = 1.6f;               // 100W 参数
-						rotation_lim=0.65f;
+					 	k_xy = 0.8f;               // 100W 参数
+						rotation_lim=0.9f;
 						 }
 						 else
 						 {
@@ -306,13 +306,13 @@ void Chassis_Speed_Cal(void)
 					k_xy=0.0f;
 					rotation_lim=1.0f;
 				}		
-				if(PowerState == BAT)
-				{
-					carSpeedw = LIMIT_MAX_MIN(chassis.carSpeedw, rotation_lim*Self_Protect_Limit, -rotation_lim*Self_Protect_Limit);
-				}
-				else if(PowerState == CAP)
+				if(PowerState == CAP)
 				{
 					carSpeedw = LIMIT_MAX_MIN(chassis.carSpeedw,CAP_MAX_W,-CAP_MAX_W);
+				}
+				else 
+				{
+				carSpeedw = LIMIT_MAX_MIN(chassis.carSpeedw, rotation_lim*Self_Protect_Limit, -rotation_lim*Self_Protect_Limit);
 				}
 			}
 		break;
@@ -340,14 +340,13 @@ void Chassis_Speed_Cal(void)
 	
 	
 //根据不同功率 对应不同xy向速度系数
-	if(PowerState == BAT)
-	{
-//		k_xy *= test_k_BAT;
-		k_xy *= k_BAT;
-	}
-	else if(PowerState == CAP)
+	if(PowerState == CAP)
 	{
 		k_xy *= k_CAP;
+	}
+	else 
+	{
+		k_xy *= k_BAT;
 	}
 //	ABS_Cal();
 	Filter_Cal();
@@ -467,11 +466,7 @@ void Chassis_CurrentPid_Cal(void)
 	Method_Check();			//设置当前功率参数
 	Chassis_Speed_Cal();//根据xyw向速度计算目标速度值
 	
-	if(PowerState == BAT)
-	{
-		PowerLimit();
-	}
-	else if(PowerState == CAP)
+	if(PowerState == CAP)
 	{
 		
 		for(i=0;i<4;i++)
@@ -481,10 +476,7 @@ void Chassis_CurrentPid_Cal(void)
 	}
 	else
 	{
-		for(i=0;i<4;i++)
-		{
-			WheelCurrentSend[i] = 0;
-		}
+		PowerLimit();
 	}
 	//发送电流值在任务函数中
 }
@@ -579,7 +571,7 @@ void Chassis_Power_Control_Init(void)
 	/****************60W********************/
 	num++;                                             //3号车
 	Power_method[num].Actual_P_max = 60;                   
-	Power_method[num].Self_Protect_Limit = 3300;  //小陀螺控制转速
+	Power_method[num].Self_Protect_Limit = 2800;  //小陀螺控制转速
 	Power_method[num].k_BAT = 0.75f;   // 0.9f              //xy向速度系数
 	Power_method[num].Excess_P_max_J = 300;  //3000   750  //太小起步较慢匀速直行时会缓存能量太少会无法转弯，较大的值可以保证起步后可以保留缓存能量可以转弯，但连续转弯有限
 	Power_method[num].Excess_P_max_P = 2000;
@@ -588,7 +580,7 @@ void Chassis_Power_Control_Init(void)
 	/****************80W********************/
 	num++;
 	Power_method[num].Actual_P_max = 80;               //3号车
-	Power_method[num].Self_Protect_Limit = 4200;
+	Power_method[num].Self_Protect_Limit = 3700;
 	Power_method[num].k_BAT = 0.95f;   //
 	Power_method[num].Excess_P_max_J = 330;  //1350
 	Power_method[num].Excess_P_max_P = 1300;
@@ -597,7 +589,7 @@ void Chassis_Power_Control_Init(void)
 	/****************100W********************/
 	num++;                                             //3号车
 	Power_method[num].Actual_P_max = 100;
-	Power_method[num].Self_Protect_Limit = 4800;
+	Power_method[num].Self_Protect_Limit = 4400;
 	Power_method[num].k_BAT = 1.05f;
 	Power_method[num].Excess_P_max_J = 370;
 	Power_method[num].Excess_P_max_P = 1200;
@@ -1000,11 +992,17 @@ void Chassis_task(void *pvParameters)
   while (1) {
     TestNowTick=xLastWakeTime = xTaskGetTickCount();
 		//电容充放电控制
-	if(JudgeReceive.remainEnergy > 20 && PowerState == BAT)
-    Charge_On;
-	else
+		if(JudgeReceive.remainEnergy<40)
+		{
 		Charge_Off;
-		
+		ChargeState = ChargeOff ;
+		}
+		else
+		{
+			Charge_On;
+			ChargeState = ChargeOn;
+		}	
+	
 		//功率限制
     Chassis_CurrentPid_Cal();
 	
@@ -1016,7 +1014,7 @@ void Chassis_task(void *pvParameters)
 		Can2Send0(&F105);
 		
    //DataView
-   	VOFA_Send();
+   //	VOFA_Send();
 	
 		IWDG_Feed();//喂狗		
 		vTaskDelayUntil(&xLastWakeTime,xFrequency); 

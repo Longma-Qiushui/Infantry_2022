@@ -13,6 +13,7 @@ float temperate,temp3v3;
 float I_Set = 0;
 Pid_Typedef ChargeCtl;
 enum POWERSTATE_Typedef PowerState = BAT;
+enum CHARGESTATE_Typedef ChargeState = ChargeOff;
 
 extern unsigned short ADC_ConvertedValue[90];
 extern INA260 INA260_1,INA260_2;
@@ -21,7 +22,6 @@ extern JudgeReceive_t JudgeReceive;
 extern ChassisSpeed_t chassis;
 extern F105_Typedef F105;
 extern int P_State;
-
 extern short CAP_CrossoverFlag;
 
 /**********************************************************************************************************
@@ -94,21 +94,47 @@ int MaxChargePower = 45000; 		//最大充电功率，最小充电功率
 extern uint16_t MyMaxPower;
 const short MinCharegePower = 5000;
 int ActualPower = 0;
-float MaxBatChargeCurrent = 7.0f;
+float MaxBatChargeCurrent = 5.0f;
 float MaxCAPChargeCurrent = 7.0f;
 float My_i;
 float ChargeCal()	//由剩余功率计算充电电流
 {
 	float i;
-	MaxChargePower = 1000 * (MyMaxPower - 10) ;
+	MaxChargePower = 1000 * (MyMaxPower-5) ;
 	if(PowerState == BAT)   //0 使用电池放电 此时电池给电容充电，电池给底盘供电
 	{
 			ChargeCtl.SetPoint = LIMIT_MAX_MIN(MaxChargePower - INA260_2.Power,MaxChargePower,0);
 		//实际：电容充电功率  SetPoint: 希望充电的功率 单位mW
-		ActualPower = INA260_1.Power - INA260_2.Power;
-		i = PID_Calc(&ChargeCtl,ActualPower)/1000;
 	}
+	else 
+	{
+				ChargeCtl.SetPoint = MaxChargePower;
+	}
+  	ActualPower = INA260_1.Power - INA260_2.Power;
+		i = PID_Calc(&ChargeCtl,ActualPower)/1000;
 	return i;
+}
+/**********************************************************************************************************
+*函 数 名: HalfCAPCal
+*功能说明: 被动电容
+*形    参: 无
+*返 回 值: 无
+**********************************************************************************************************/
+void HalfCAPCal()
+{
+	if(AD_actual_value>17.0f)  
+		{
+			PowerState = HalfCAP;
+			Bat_off;
+			CAP_on;
+		}			
+	else  
+		{
+			PowerState = BAT;  					//电容放电
+			Bat_on;
+			CAP_off;
+		}
+
 }
 
 //float AvailableChargePower;
@@ -202,16 +228,13 @@ int t;
 void ChargeControl(void)
 {
 	/******************充电控制*******************/
-	
-//	test_current = ChargeCal();
-//	I_Set += test_current;	
    I_Set = ChargeCal(); 
 	if(PowerState == BAT)  //bat
 	{
 		if(CAP_CrossoverFlag == 1)			//启动/停止，大幅转向，有大电流，直接关闭电容充电
 		{
 			t++;
-			if(t>10)
+			if(t>500)
 			{
 			CAP_CrossoverFlag = 0;
 			t=0;
@@ -223,7 +246,7 @@ void ChargeControl(void)
 	}
 	else
 	{
-	I_Set = 2.0;         //超级电容充电回路与放电回路连通，放电时，不能充电
+	I_Set = LIMIT_MAX_MIN(I_Set,MaxCAPChargeCurrent,0);  //剩余缓冲能量为20J，即最大不能超过200W，即9A左右，取7A
 	}
 	Charge_Set(I_Set);
 	/******************放电控制*******************/
@@ -231,7 +254,7 @@ void ChargeControl(void)
 	{
 		if(PowerState == CAP)		//刚从电容切回
 		{
-			if(JudgeReceive.remainEnergy > 20)		//缓存能量够用才切回
+			if(JudgeReceive.remainEnergy > 40)		//缓存能量够用才切回
 				{
 					CAP_off;   
 					Bat_on;
@@ -243,7 +266,7 @@ void ChargeControl(void)
 //AD_L AD_H有差值：刚开启电容时，由于电容有内阻，瞬间会有4V压降
 	else if(F405.SuperPowerLimit > 0)				//操作手开启超级电容
 	{
-		if(AD_actual_value<AD_L)  	//电容实际电压<13.5
+		if(AD_actual_value<AD_L)  	//电容实际电压<10V
 		{
 			PowerState = BAT;						//电池放电
 			CAP_off;   
@@ -274,7 +297,8 @@ void PowerControl_task(void *pvParameters)
 			INA_READ_Power();
 			ADC_Filter();
 			/*****************超级电容控制****************/
-			ChargeControl();
+	//	 HalfCAPCal();
+		 ChargeControl();
 	 
 	   IWDG_Feed();
      vTaskDelay(1); 

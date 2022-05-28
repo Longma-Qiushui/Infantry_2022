@@ -310,15 +310,15 @@ void Shoot_Tx2_Cal()
 *形    参: 无
 *返 回 值: 无
 **********************************************************************************************************/
-short Last_ShootState;
+short Last_GimbalState;
 void BodanMotor_CurrentPid_Cal(void)
 {
 	//清空上一次辅瞄模式的标志位
-	if(Last_ShootState == Shoot_Tx2_Mode && Last_ShootState != Status.ShootMode)
+	if((Last_GimbalState == Gimbal_Armor_Mode||Last_GimbalState == Gimbal_Buff_Mode) && Last_GimbalState != Status.GimbalMode)
 	{
 	  armor_state=ARMOR_NO_AIM;
 	}
-	Last_ShootState = Status.ShootMode;
+	Last_GimbalState = Status.ShootMode;
 	
 	
 	switch(Status.ShootMode)//射击模式选择
