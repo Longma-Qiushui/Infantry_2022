@@ -7,7 +7,7 @@
 **********************************************************************************************************/
 #include "main.h"
 
-char Robot_ID = 4;         // 不同机器人用不同的序号
+char Robot_ID = 3;         // 不同机器人用不同的序号
 
 extern KalmanFilter_t pitch_Kalman, yaw_Kalman;
 extern KalmanFilter_Init_t K;

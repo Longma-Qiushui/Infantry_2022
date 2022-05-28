@@ -229,7 +229,7 @@ int placece_y[14]={-80,-320,-80,-100,-120,-140,-160,-180,-200,-220,-240,-260,-28
 int Road_bias_x = 0;
 int Road_bias_y = 0;
 
-#define PACK_NUM 2
+#define PACK_NUM 5
 void referee_data_load_Graphic(int Op_type)
 {
 	static int pack_tick = 0;			//数据包计数器

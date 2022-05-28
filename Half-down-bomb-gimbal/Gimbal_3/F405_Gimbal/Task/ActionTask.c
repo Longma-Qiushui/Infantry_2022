@@ -321,16 +321,16 @@ void MouseKey_Act_Cal(RC_Ctl_t RC_Ctl)
 				F405.Graphic_Init_Flag = 1;
 				Graphic_Init_flag=1;
 			}
-//			else 
-//			{
-//				waitb++;
-//				if(waitb>5)
-//				{
-//				F405.Graphic_Init_Flag = 0;
-//				Graphic_Init_flag=0;
-//				waitb=0;
-//				}
-//			}			
+			else 
+			{
+				waitb++;
+				if(waitb>5)
+				{
+				F405.Graphic_Init_Flag = 0;
+				Graphic_Init_flag=0;
+				waitb=0;
+				}
+			}			
 		}
 /******************************自我保护模式(小陀螺) ctrl键*****************************************/
 		ctrl_rising_flag = RC_Ctl.key.ctrl - pre_key_ctrl;

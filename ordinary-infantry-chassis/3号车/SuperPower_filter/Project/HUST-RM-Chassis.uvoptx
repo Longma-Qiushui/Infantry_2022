@@ -392,6 +392,11 @@
           <WinNumber>2</WinNumber>
           <ItemText>Judgement_DisConnect</ItemText>
         </Ww>
+        <Ww>
+          <count>16</count>
+          <WinNumber>2</WinNumber>
+          <ItemText>Mag_flag</ItemText>
+        </Ww>
       </WatchWindow2>
       <MemoryWindow2>
         <Mm>

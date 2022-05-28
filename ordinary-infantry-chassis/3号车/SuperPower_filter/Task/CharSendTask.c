@@ -303,19 +303,11 @@ int Char_Change_Check(void)
 	static int delete_flag;
 	char Mag_flag,Gimbal_flag,Chassis_flag,Laser_flag,Follow_state,Fric_flag;
 
-	/*图形界面初始化提示的显示和删除*/
-	if(F405.Graphic_Init_Flag == 0 || delete_flag < 3)			//删除几次，保证删除成功，就不删除了，防止占带宽
-	{
-		Load_Char_Init(F405.Graphic_Init_Flag);
-		referee_data_pack_handle(0xA5,0x0301,(uint8_t *)&custom_char_draw,sizeof(custom_char_draw));
-	}
-	/*用于图形界面初始化*/
+
 	if(F405.Graphic_Init_Flag == 0)		
 	{
-		delete_flag = 0;
-		return Op_Init;	//返回Init,会使一直发送Add，添加所有图层
-	}else 
-	delete_flag++;
+		return Op_Init;	//返回Init,会一直发送Add，添加所有图层
+	}
 		
 	/*读取云台发送的各种状态*/
 	Mag_flag = F405.Mag_Flag;
