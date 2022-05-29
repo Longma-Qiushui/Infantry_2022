@@ -5,16 +5,25 @@
  * @作者     陈志鹏
  * @日期     2021.4
 **********************************************************************************************************/
+/**********************************************************************************************************
+ * @文件     main.c
+ * @说明     主文件
+ * @版本  	 V2.0
+ * @作者     戴军
+ * @日期     2022.5
+**********************************************************************************************************/
 #include "main.h"
 
 char Robot_ID;
+roboDisconnect Robot_Disconnect;
 char Judge_Lost;
 //unsigned char PowerState = 0;
 extern ChassisSpeed_t chassis;
-short Judgement_DisConnect;
 extern uint16_t  MyMaxPower;
 extern JudgeReceive_t JudgeReceive;
 extern enum CHARGESTATE_Typedef ChargeState;
+extern TaskHandle_t ChassisTask_Handler; //任务句柄
+extern TaskHandle_t PowerControlTask_Handler; //任务句柄
 /**********************************************************************************************************
 *函 数 名: main
 *功能说明: 主函数
@@ -24,7 +33,7 @@ extern enum CHARGESTATE_Typedef ChargeState;
 int main()
 {
   BSP_Init();
-	Robot_ID=3;
+	Robot_ID=4;
 	Robot_Init();
 	
 	startTast();
@@ -89,28 +98,23 @@ void Judge_Rst()
 *返 回 值: 无
 **********************************************************************************************************/
 uint32_t Offline_Check_high_water;
-char Chassis_DisConnect;
-extern short F405_DisConnect;//主控板掉线检测
-
 extern ext_student_interactive_header_data_t custom_grapic_draw;
 extern uint8_t seq;
 void Offline_Check_task(void *pvParameters)
 {
+	static char ChassisSuspend[4];
    while (1) {
     
 
 		/*主控板掉线检测*/
-		if(F405_DisConnect>5)
+		if(Robot_Disconnect.F405Disconnect>5)
 		{
 			F405_Rst();
-		}else
-		{
-		
 		}
-		F405_DisConnect++;
+		Robot_Disconnect.F405Disconnect++;
 		
 		/*裁判系统掉线检测*/
-		if(Judgement_DisConnect>100)
+		if(Robot_Disconnect.JudgeDisconnect>100)
 		{
 			Judge_Rst();
 			Judge_Lost=1;
@@ -118,24 +122,38 @@ void Offline_Check_task(void *pvParameters)
 		{
 		  Judge_Lost=0;
 		}
-		Judgement_DisConnect++;
+		Robot_Disconnect.JudgeDisconnect++;
 		
 			/*底盘电机掉线检测*/
-		if(Chassis_DisConnect>100)
+		for(int i=0;i<4;i++)
+	{
+		if(Robot_Disconnect.ChassisDisconnect[i]>100)
 		{
-			
-	
+			vTaskSuspend(ChassisTask_Handler);
+			ChassisSuspend[i]=1;
 		}else
 		{
-		 
+			if(ChassisSuspend[i])
+			{
+			vTaskResume(ChassisTask_Handler);
+			ChassisSuspend[i]=0;
+			}
 		}
-	  Chassis_DisConnect++;
+	  Robot_Disconnect.ChassisDisconnect[i]++;
+	}	
+	
+				/*超级电容掉线检测*/
+
+		if(Robot_Disconnect.SuperPowerDisconnect>100)
+		{
 		
+		}
+	  Robot_Disconnect.SuperPowerDisconnect++;	
 		
 		
 		IWDG_Feed();//喂狗
 
-		vTaskDelay(5); 
+		vTaskDelay(10); 
 		 
 #if INCLUDE_uxTaskGetStackHighWaterMark
         Offline_Check_high_water = uxTaskGetStackHighWaterMark(NULL);

@@ -23,7 +23,7 @@ extern ChassisSpeed_t chassis;
 extern F105_Typedef F105;
 extern int P_State;
 extern short CAP_CrossoverFlag;
-
+extern roboDisconnect Robot_Disconnect;
 /**********************************************************************************************************
 *函 数 名: ChargeIO_Configuration
 *功能说明: 充放电IO口初始化
@@ -296,6 +296,10 @@ void PowerControl_task(void *pvParameters)
 			INA_READ_Current();
 			INA_READ_Power();
 			ADC_Filter();
+		 if(AD_actual_value>3)
+		 {
+		 Robot_Disconnect.SuperPowerDisconnect=0;
+		 }
 			/*****************超级电容控制****************/
 	//	 HalfCAPCal();
 		 ChargeControl();

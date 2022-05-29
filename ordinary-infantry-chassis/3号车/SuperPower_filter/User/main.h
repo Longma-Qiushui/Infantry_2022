@@ -103,6 +103,13 @@ typedef union
 }
 FloatCharType;
 
+typedef  struct{
+short ChassisDisconnect[4];
+short JudgeDisconnect;
+short F405Disconnect;
+short SuperPowerDisconnect;
+} roboDisconnect;
+
 void BSP_Init(void);
 void Robot_Init(void);
 

@@ -8,7 +8,7 @@
 #include "main.h"
 unsigned char SaveBuffer[90];
 JudgeReceive_t JudgeReceive;
-short F405_DisConnect;
+extern roboDisconnect Robot_Disconnect;
 //short BAT_StartFlag;
 //short BAT_StopFlag;
 short CAP_CrossoverFlag;
@@ -16,9 +16,9 @@ short CrossoverFlagMax = 10;
 F405_typedef F405;
 RM820RReceive_Typedef ChassisMotorCanReceive[4];
 ChassisSpeed_t chassis;
-extern short Judgement_DisConnect;
 extern char Robot_ID;
 extern char SelfProtect_Cross_Flag;
+
 /**********************************************************************************************************
 *函 数 名: Can1Receive0
 *功能说明: can1接收函数，接收电调传回的速度，电流值
@@ -32,18 +32,22 @@ void Can1Receive0(CanRxMsg rx_message0)
 		case 0x201:                                                          
 				 ChassisMotorCanReceive[0].RealSpeed=rx_message0.Data[2]<<8 | rx_message0.Data[3];		//转子转速
 		     ChassisMotorCanReceive[0].Current=rx_message0.Data[4]<<8 | rx_message0.Data[5];			//实际转矩电流
+				 Robot_Disconnect.ChassisDisconnect[0]=0;
 		 break;
 		case 0x202:
 				 ChassisMotorCanReceive[1].RealSpeed=rx_message0.Data[2]<<8 | rx_message0.Data[3];
 		     ChassisMotorCanReceive[1].Current=rx_message0.Data[4]<<8 | rx_message0.Data[5];
+		     Robot_Disconnect.ChassisDisconnect[1]=0;
 		 break;
 		case 0x203:
 				 ChassisMotorCanReceive[2].RealSpeed=rx_message0.Data[2]<<8 | rx_message0.Data[3];
 		     ChassisMotorCanReceive[2].Current=rx_message0.Data[4]<<8 | rx_message0.Data[5];
+		     Robot_Disconnect.ChassisDisconnect[2]=0;
 		 break;
 		case 0x204:
 				 ChassisMotorCanReceive[3].RealSpeed=rx_message0.Data[2]<<8 | rx_message0.Data[3];
 		     ChassisMotorCanReceive[3].Current=rx_message0.Data[4]<<8 | rx_message0.Data[5];
+		     Robot_Disconnect.ChassisDisconnect[3]=0;
 		 break; 
 	}
 }
@@ -91,7 +95,7 @@ void Can2Receive1(CanRxMsg *rx_message)
 //			chassis.Last_carSpeedy = chassis.carSpeedy;
 //			chassis.Last_carSpeedw = chassis.carSpeedw;
 			
-			F405_DisConnect=0; 
+			Robot_Disconnect.F405Disconnect=0; 
 		break;
 		case 0x102:
 			memcpy(&F405.SuperPowerLimit, &rx_message->Data[0], 1);
@@ -206,7 +210,7 @@ void JudgeBuffReceive(unsigned char ReceiveBuffer[],uint16_t DataLen)
 				
 			}
 		}
-	Judgement_DisConnect =0;
+	Robot_Disconnect.JudgeDisconnect =0;
 	memcpy(&SaveBuffer[0],&SaveBuffer[JudgeBufBiggestSize],JudgeBufBiggestSize);		//把SaveBuffer[24]地址拷贝到SaveBuffer[0], 依次拷贝24个，把之前存到后面的数据提到前面，准备处理
 	}
 }

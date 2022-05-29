@@ -553,14 +553,14 @@ void Pid_ChassisPosition_Init(void)
 	/********************************************* 4号车 ***********************************************************/	
 		case 4:
 	{
-		pidChassisPosition.P = 1.6f;				//2.0				位置环	4号车
+		pidChassisPosition.P = 2.5f;				//2.0				位置环	4号车
 	  pidChassisPosition.I = 0.00f;					
 	  pidChassisPosition.D = 0.0f;				
 	  pidChassisPosition.IMax = 300.0f;
 	  pidChassisPosition.OutMax = 4000.0f;
 	  pidChassisPosition.DeadZone=0.0f;
 	
-	  SOLO_pidChassisPosition.P = 1.4f;		
+	  SOLO_pidChassisPosition.P = 1.8f;		
 	  SOLO_pidChassisPosition.I = 0.0f;					
 	  SOLO_pidChassisPosition.D = 0.0f;				
 	  SOLO_pidChassisPosition.IMax = 200.0f;

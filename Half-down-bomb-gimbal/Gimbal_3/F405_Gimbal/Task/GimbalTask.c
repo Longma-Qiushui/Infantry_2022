@@ -227,7 +227,7 @@ void FuzzyGyroGimbal_Act_Cal(Remote rc,Mouse mouse,PC_Receive_t *Pc_Recv)
 *返 回 值: 无
 **********************************************************************************************************/
 float speed_limit = 30.0f;
-float init_mouse_z;
+float Inte_z;
 void Gimbal_Armor_Cal(Remote rc,Mouse mouse,PC_Receive_t *Pc_Recv)
 {
 	if(GimbalAct_Init_Flag!=Gimbal_Armor_Mode)
@@ -237,8 +237,6 @@ void Gimbal_Armor_Cal(Remote rc,Mouse mouse,PC_Receive_t *Pc_Recv)
 	  GimbalPitchPos=Gimbal.Pitch.MotorTransAngle;
 		Pc_Recv->RCPitch=Gimbal.Pitch.MotorTransAngle;
 		Pc_Recv->RCYaw = Gimbal.Yaw.Gyro;
-		init_mouse_z = mouse.z;
-		
 	}
 	/**解决过零问题***/
 	Recent_Pitch_Angle_Armor = Pc_Recv->RCPitch;
@@ -259,8 +257,8 @@ void Gimbal_Armor_Cal(Remote rc,Mouse mouse,PC_Receive_t *Pc_Recv)
 		else
 			 Recent_Yaw_Angle_Armor=Recent_Yaw_Angle_Armor+360;
 	}
-		
-	GimbalPitchPos= Recent_Pitch_Angle_Armor + (mouse.z-init_mouse_z)*0.002f;
+	Inte_z += mouse.z*0.002f;
+	GimbalPitchPos= Recent_Pitch_Angle_Armor + Inte_z;
 	GimbalYawPos = Recent_Yaw_Angle_Armor;
 	
 //	GimbalYawPos = 20.0f;
@@ -651,7 +649,7 @@ void PidGimbalMotor_Init(void)
 	PidYawSpeed.OutMax=30000.0f;
 	
 	//辅瞄pitch速度环
-  PidPitchAidSpeed.P=7000.0f;	  //10000
+  PidPitchAidSpeed.P=10000.0f;	  //10000
 	PidPitchAidSpeed.I=14.0f; 
 	PidPitchAidSpeed.D=0.0f;
 	PidPitchAidSpeed.IMax=250.0f;
@@ -800,14 +798,14 @@ void FuzzyPidGimbalMotor_Init(void)
 			FuzzyPidPitchPos.SetPoint=0.0f;
 	
 				//辅瞄pitch角度环
-			FuzzyAidPidPitchPos.Kp=0.23f;       //0.25
+			FuzzyAidPidPitchPos.Kp=0.26f;       //0.25
 			FuzzyAidPidPitchPos.Ki=0.0005f;  //0.0003f;
 			FuzzyAidPidPitchPos.Kd=0.0f;
 			FuzzyAidPidPitchPos.IMax=40.0f;
 			FuzzyAidPidPitchPos.SetPoint=0.0f;
 	
 			 //辅瞄yaw角度环
-			FuzzyAidPidYawPos.Kp=0.35f;
+			FuzzyAidPidYawPos.Kp=0.4f;
 			FuzzyAidPidYawPos.Ki=0.0005f;  //0.005f;
 			FuzzyAidPidYawPos.Kd=0.0f;
 			FuzzyAidPidYawPos.IMax=40.0f;

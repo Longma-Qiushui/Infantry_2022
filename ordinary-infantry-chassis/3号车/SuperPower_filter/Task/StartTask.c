@@ -32,15 +32,15 @@ static TaskHandle_t OfflineCheckTask_Handler; //任务句柄
 
 #define POWERCONTROL_TASK_PRIO 17  //任务优先级
 #define POWERCONTROL_STK_SIZE 512 //任务堆栈3
-static TaskHandle_t PowerControlTask_Handler; //任务句柄
+TaskHandle_t PowerControlTask_Handler; //任务句柄
 
 #define CHASSIS_TASK_PRIO 18  //任务优先级
 #define CHASSIS_STK_SIZE 512 //任务堆栈4
-static TaskHandle_t ChassisTask_Handler; //任务句柄
+TaskHandle_t ChassisTask_Handler; //任务句柄
 
 #define JUMPCAL_TASK_PRIO 18  //任务优先级
 #define JUMPCAL_TASK_SIZE 512 //任务堆栈4
-static TaskHandle_t JumpCalTask_Handler; //任务句柄
+TaskHandle_t JumpCalTask_Handler; //任务句柄
 
 /**********************************************************************************************************
 *函 数 名: start_task

@@ -276,29 +276,29 @@ void Chassis_Speed_Cal(void)
 				{
 					 if((ABS(chassis.carSpeedx) >100) && (ABS(chassis.carSpeedy) >100))
 					 {
-						 if(MyMaxPower == 100)
-						 {
-						 	k_xy = 0.8f;              // 100W 参数
-							rotation_lim=0.9f;
-						 }
-						 else
-						 {
-							k_xy = 1.85f;            // 60W 80W 参数
-							rotation_lim=0.8f;
-						 }
+//						 if(MyMaxPower == 100)
+//						 {
+//						 	k_xy = 0.8f;              // 100W 参数
+//							rotation_lim=0.9f;
+//						 }
+//						 else
+//						 {
+							k_xy = 1.7f;            // 60W 80W 参数
+							rotation_lim=0.80f;
+//						 }
 					 }
 					 if(SelfProtect_Cross_Flag)
 					 {
-						 if(MyMaxPower == 100)
-						 {
-					 	k_xy = 0.8f;               // 100W 参数
-						rotation_lim=0.9f;
-						 }
-						 else
-						 {
+//						 if(MyMaxPower == 100)
+//						 {
+//					 	k_xy = 0.8f;               // 100W 参数
+//						rotation_lim=0.9f;
+//						 }
+//						 else
+//						 {
 					 	k_xy = 1.85f;             // 60W 80W参数
 						rotation_lim=0.75f;
-						 }
+//						 }
 					 }
 				}
 				else
@@ -571,7 +571,7 @@ void Chassis_Power_Control_Init(void)
 	/****************60W********************/
 	num++;                                             //3号车
 	Power_method[num].Actual_P_max = 60;                   
-	Power_method[num].Self_Protect_Limit = 2800;  //小陀螺控制转速
+	Power_method[num].Self_Protect_Limit = 3300;  //小陀螺控制转速
 	Power_method[num].k_BAT = 0.75f;   // 0.9f              //xy向速度系数
 	Power_method[num].Excess_P_max_J = 300;  //3000   750  //太小起步较慢匀速直行时会缓存能量太少会无法转弯，较大的值可以保证起步后可以保留缓存能量可以转弯，但连续转弯有限
 	Power_method[num].Excess_P_max_P = 2000;
@@ -580,19 +580,19 @@ void Chassis_Power_Control_Init(void)
 	/****************80W********************/
 	num++;
 	Power_method[num].Actual_P_max = 80;               //3号车
-	Power_method[num].Self_Protect_Limit = 3700;
+	Power_method[num].Self_Protect_Limit = 4200;
 	Power_method[num].k_BAT = 0.95f;   //
 	Power_method[num].Excess_P_max_J = 330;  //1350
-	Power_method[num].Excess_P_max_P = 1300;
+	Power_method[num].Excess_P_max_P = 1000;
 	Power_method[num].CurrentMax = 10000;
 	Power_method[num].Follow_W =5000;
 	/****************100W********************/
 	num++;                                             //3号车
 	Power_method[num].Actual_P_max = 100;
-	Power_method[num].Self_Protect_Limit = 4400;
+	Power_method[num].Self_Protect_Limit = 4700;
 	Power_method[num].k_BAT = 1.05f;
 	Power_method[num].Excess_P_max_J = 370;
-	Power_method[num].Excess_P_max_P = 1200;
+	Power_method[num].Excess_P_max_P = 1100;
 	Power_method[num].CurrentMax = 12000;
 	Power_method[num].Follow_W = 5600;
 	/****************120W********************/
@@ -645,7 +645,7 @@ case 4:
 	/****************60W********************/
 	num++;                                             //4号车
 	Power_method[num].Actual_P_max = 60;                   
-	Power_method[num].Self_Protect_Limit = 3300;  //小陀螺控制转速
+	Power_method[num].Self_Protect_Limit = 3400;  //小陀螺控制转速
 	Power_method[num].k_BAT = 0.75f;   // 0.9f              //xy向速度系数
 	Power_method[num].Excess_P_max_J = 300;  //3000   750  //太小起步较慢匀速直行时会缓存能量太少会无法转弯，较大的值可以保证起步后可以保留缓存能量可以转弯，但连续转弯有限
 	Power_method[num].Excess_P_max_P = 2000;
@@ -654,10 +654,10 @@ case 4:
 	/****************80W********************/
 	num++;
 	Power_method[num].Actual_P_max = 80;               //4号车
-	Power_method[num].Self_Protect_Limit = 4200;
+	Power_method[num].Self_Protect_Limit = 4300;
 	Power_method[num].k_BAT = 0.95f;   //
 	Power_method[num].Excess_P_max_J = 330;  //1350
-	Power_method[num].Excess_P_max_P = 1300;
+	Power_method[num].Excess_P_max_P = 1000;
 	Power_method[num].CurrentMax = 10000;
 	Power_method[num].Follow_W =5000;
 	/****************100W********************/
@@ -783,7 +783,7 @@ void Pid_ChassisWheelInit(void)
 		Pid_Current[i].OutMax = 8000.0f;	//8000.0f
 		
 		//速度环
-		pidChassisWheelSpeed[i].P = 12.0f;
+		pidChassisWheelSpeed[i].P = 3.0f;
 		pidChassisWheelSpeed[i].I = 0.0f;
 		pidChassisWheelSpeed[i].D = 0.0f;
 		pidChassisWheelSpeed[i].ErrorMax = 1000.0f;
@@ -803,7 +803,7 @@ void Pid_ChassisWheelInit(void)
 		Pid_Current[i].OutMax = 8000.0f;	//8000.0f
 		
 		//速度环
-		pidChassisWheelSpeed[i].P = 12.0f;
+		pidChassisWheelSpeed[i].P = 3.0f;
 		pidChassisWheelSpeed[i].I = 0.0f;
 		pidChassisWheelSpeed[i].D = 0.0f;
 		pidChassisWheelSpeed[i].ErrorMax = 1000.0f;

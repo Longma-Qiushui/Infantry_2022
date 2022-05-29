@@ -30,7 +30,7 @@ void JudgementCustomizeChar(int Op_type)
 		if(JudgeReceive.robot_id == 5)
 				custom_char_draw.receiver_ID = 0x0105;
 
-/*********************************自定义图像数据***********************************/
+/*********************************自定义字符数据***********************************/
 		referee_data_load_String(Op_type);
 }
 
@@ -40,18 +40,17 @@ void JudgementCustomizeChar(int Op_type)
 *形    参: 操作类型
 *返 回 值: 无
 **********************************************************************************************************/
-float c_pos_x[10] = {0.57,0.34,0.4,0.52,0.34,0.42,0.62,0.5,0.42,0.53};
+float c_pos_x[10] = {0.57,0.34,0.4,0.52,0.34,0.42,0.62,0.5,0.40,0.53};
 float c_pos_y[10] = {0.65,0.15,0.8,0.1,0.1,0.15,0.1,0.8,0.1,0.15};
 extern enum POWERSTATE_Typedef PowerState;
 void referee_data_load_String(int Op_type)
 {
-	static int tick;
+	static int tick=0;
 	static char Mag_State[2][6] = {"CLOSE","OPEN"};
 	static char Gimbal_State[5][7] = {"OFF","NORMAL","HACKER","BUFF","DROP"};
 	static char Chassis_State[5][9] = {"OFF","FOLLOW","SelfPro","SOLO","NOFOLLOW"};
 	static char Power_State[2][4] = {"Bat","Cap"};
 	static char Friction[2][9]={"Firc off","Fric on"};
-//	static char Laser_State[2][4] = {"ON","OFF"};
 	/*初始化操作，轮流生成图层*/
 	if(Op_type == Op_Init)
 	{
@@ -133,7 +132,7 @@ PS:		custom_char_draw.char_custom.grapic_data_struct.graphic_name[0] = 0;
 			custom_char_draw.char_custom.grapic_data_struct.graphic_name[2] = 4;
 			custom_char_draw.char_custom.grapic_data_struct.operate_tpye=Op_type;
 			custom_char_draw.char_custom.grapic_data_struct.graphic_tpye=7;
-			custom_char_draw.char_custom.grapic_data_struct.layer=9;
+			custom_char_draw.char_custom.grapic_data_struct.layer=5;
 			custom_char_draw.char_custom.grapic_data_struct.color=Orange;
 			custom_char_draw.char_custom.grapic_data_struct.start_angle=25;
 			custom_char_draw.char_custom.grapic_data_struct.end_angle=strlen(Power_State[PowerState]);
@@ -142,20 +141,7 @@ PS:		custom_char_draw.char_custom.grapic_data_struct.graphic_name[0] = 0;
 			custom_char_draw.char_custom.grapic_data_struct.start_y=c_pos_y[4]*SCREEN_WIDTH;
 			memset(custom_char_draw.char_custom.data,'\0',sizeof(custom_char_draw.char_custom.data));
 			strcpy(custom_char_draw.char_custom.data,Power_State[PowerState]);
-//			custom_char_draw.char_custom.grapic_data_struct.graphic_name[0] = 0;
-//			custom_char_draw.char_custom.grapic_data_struct.graphic_name[1] = 41;
-//			custom_char_draw.char_custom.grapic_data_struct.graphic_name[2] = 4;
-//			custom_char_draw.char_custom.grapic_data_struct.operate_tpye=Op_type;
-//			custom_char_draw.char_custom.grapic_data_struct.graphic_tpye=7;
-//			custom_char_draw.char_custom.grapic_data_struct.layer=9;
-//			custom_char_draw.char_custom.grapic_data_struct.color=Orange;
-//			custom_char_draw.char_custom.grapic_data_struct.start_angle=25;
-//			custom_char_draw.char_custom.grapic_data_struct.end_angle=strlen("LASER:");
-//			custom_char_draw.char_custom.grapic_data_struct.width=3;
-//			custom_char_draw.char_custom.grapic_data_struct.start_x=c_pos_x[4]*SCREEN_LENGTH;
-//			custom_char_draw.char_custom.grapic_data_struct.start_y=c_pos_y[4]*SCREEN_WIDTH;
-//			memset(custom_char_draw.char_custom.data,'\0',sizeof(custom_char_draw.char_custom.data));
-//			strcpy(custom_char_draw.char_custom.data,"LASER:");
+			goto PSBack;
 			break;
 			/*可变状态字符*/
 			case 5:
@@ -165,7 +151,7 @@ MAG:  custom_char_draw.char_custom.grapic_data_struct.graphic_name[0] = 0;
 			custom_char_draw.char_custom.grapic_data_struct.graphic_name[2] = 5;
 			custom_char_draw.char_custom.grapic_data_struct.operate_tpye=Op_type;
 			custom_char_draw.char_custom.grapic_data_struct.graphic_tpye=7;
-			custom_char_draw.char_custom.grapic_data_struct.layer=9;
+			custom_char_draw.char_custom.grapic_data_struct.layer=5;
 			custom_char_draw.char_custom.grapic_data_struct.color=Green;
 			custom_char_draw.char_custom.grapic_data_struct.start_angle=25;
 			custom_char_draw.char_custom.grapic_data_struct.end_angle=strlen(Mag_State[F405.Mag_Flag]);
@@ -174,6 +160,7 @@ MAG:  custom_char_draw.char_custom.grapic_data_struct.graphic_name[0] = 0;
 			custom_char_draw.char_custom.grapic_data_struct.start_y=c_pos_y[5]*SCREEN_WIDTH;
 			memset(custom_char_draw.char_custom.data,'\0',sizeof(custom_char_draw.char_custom.data));
 			strcpy(custom_char_draw.char_custom.data,Mag_State[F405.Mag_Flag]);
+			goto MagBack;
 			break;
 			case 6:
 			/*******************************云台状态*********************************/
@@ -182,7 +169,7 @@ GIMBAL:custom_char_draw.char_custom.grapic_data_struct.graphic_name[0] = 0;
 			custom_char_draw.char_custom.grapic_data_struct.graphic_name[2] = 6;
 			custom_char_draw.char_custom.grapic_data_struct.operate_tpye=Op_type;
 			custom_char_draw.char_custom.grapic_data_struct.graphic_tpye=7;
-			custom_char_draw.char_custom.grapic_data_struct.layer=9;
+			custom_char_draw.char_custom.grapic_data_struct.layer=5;
 			custom_char_draw.char_custom.grapic_data_struct.color=Green;
 			custom_char_draw.char_custom.grapic_data_struct.start_angle=25;
 			custom_char_draw.char_custom.grapic_data_struct.end_angle=strlen(Gimbal_State[F405.Gimbal_Flag]);
@@ -191,6 +178,7 @@ GIMBAL:custom_char_draw.char_custom.grapic_data_struct.graphic_name[0] = 0;
 			custom_char_draw.char_custom.grapic_data_struct.start_y=c_pos_y[6]*SCREEN_WIDTH;
 			memset(custom_char_draw.char_custom.data,'\0',sizeof(custom_char_draw.char_custom.data));
 			strcpy(custom_char_draw.char_custom.data,Gimbal_State[F405.Gimbal_Flag]);
+			goto GimbalBack;
 			break;
 			case 7:
 			/*******************************底盘状态*********************************/
@@ -199,7 +187,7 @@ CHASSIS:custom_char_draw.char_custom.grapic_data_struct.graphic_name[0] = 0;
 			custom_char_draw.char_custom.grapic_data_struct.graphic_name[2] = 7;
 			custom_char_draw.char_custom.grapic_data_struct.operate_tpye=Op_type;
 			custom_char_draw.char_custom.grapic_data_struct.graphic_tpye=7;
-			custom_char_draw.char_custom.grapic_data_struct.layer=9;
+			custom_char_draw.char_custom.grapic_data_struct.layer=5;
 			custom_char_draw.char_custom.grapic_data_struct.color=F405.Follow_state?White:Green;
 			custom_char_draw.char_custom.grapic_data_struct.start_angle=25;
 			custom_char_draw.char_custom.grapic_data_struct.end_angle=strlen(Chassis_State[F405.Chassis_Flag]);
@@ -208,6 +196,7 @@ CHASSIS:custom_char_draw.char_custom.grapic_data_struct.graphic_name[0] = 0;
 			custom_char_draw.char_custom.grapic_data_struct.start_y=c_pos_y[7]*SCREEN_WIDTH;
 			memset(custom_char_draw.char_custom.data,'\0',sizeof(custom_char_draw.char_custom.data));
 			strcpy(custom_char_draw.char_custom.data,Chassis_State[F405.Chassis_Flag]);
+			goto ChassisBack;
 			break;
 			case 8:
 		/*******************************摩擦轮*********************************/
@@ -218,7 +207,7 @@ Fric:
 			custom_char_draw.char_custom.grapic_data_struct.graphic_name[2] = 8;
 			custom_char_draw.char_custom.grapic_data_struct.operate_tpye=Op_type;
 			custom_char_draw.char_custom.grapic_data_struct.graphic_tpye=7;
-			custom_char_draw.char_custom.grapic_data_struct.layer=9;
+			custom_char_draw.char_custom.grapic_data_struct.layer=5;
 			custom_char_draw.char_custom.grapic_data_struct.color=Orange;
 			custom_char_draw.char_custom.grapic_data_struct.start_angle=25;
 			custom_char_draw.char_custom.grapic_data_struct.end_angle=strlen(Friction[F405.Fric_Flag]);
@@ -227,20 +216,7 @@ Fric:
 			custom_char_draw.char_custom.grapic_data_struct.start_y=c_pos_y[8]*SCREEN_WIDTH;
 			memset(custom_char_draw.char_custom.data,'\0',sizeof(custom_char_draw.char_custom.data));
 			strcpy(custom_char_draw.char_custom.data,Friction[F405.Fric_Flag]);
-//LASER:custom_char_draw.char_custom.grapic_data_struct.graphic_name[0] = 0;
-//			custom_char_draw.char_custom.grapic_data_struct.graphic_name[1] = 41;
-//			custom_char_draw.char_custom.grapic_data_struct.graphic_name[2] = 8;
-//			custom_char_draw.char_custom.grapic_data_struct.operate_tpye=Op_type;
-//			custom_char_draw.char_custom.grapic_data_struct.graphic_tpye=7;
-//			custom_char_draw.char_custom.grapic_data_struct.layer=9;
-//			custom_char_draw.char_custom.grapic_data_struct.color=Green;
-//			custom_char_draw.char_custom.grapic_data_struct.start_angle=25;
-//			custom_char_draw.char_custom.grapic_data_struct.end_angle=strlen(Laser_State[F405.Laser_Flag]);
-//			custom_char_draw.char_custom.grapic_data_struct.width=2;
-//			custom_char_draw.char_custom.grapic_data_struct.start_x=c_pos_x[8]*SCREEN_LENGTH;
-//			custom_char_draw.char_custom.grapic_data_struct.start_y=c_pos_y[8]*SCREEN_WIDTH;
-//			memset(custom_char_draw.char_custom.data,'\0',sizeof(custom_char_draw.char_custom.data));
-//			strcpy(custom_char_draw.char_custom.data,Laser_State[F405.Laser_Flag]);
+      goto FricBack;
 			break;
 			case 9:
 			/*******************************电容电压字符*********************************/
@@ -249,7 +225,7 @@ Fric:
 			custom_char_draw.char_custom.grapic_data_struct.graphic_name[2] = 9;
 			custom_char_draw.char_custom.grapic_data_struct.operate_tpye=Op_type;
 			custom_char_draw.char_custom.grapic_data_struct.graphic_tpye=7;
-			custom_char_draw.char_custom.grapic_data_struct.layer=8;
+			custom_char_draw.char_custom.grapic_data_struct.layer=9;
 			custom_char_draw.char_custom.grapic_data_struct.color=Orange;
 			custom_char_draw.char_custom.grapic_data_struct.start_angle=25;
 			custom_char_draw.char_custom.grapic_data_struct.end_angle=strlen("CAP:     V");
@@ -270,22 +246,27 @@ Fric:
 		{
 			Char_Change_Array[0] = Op_None;
 			goto MAG;
+			MagBack:return;
 		}else if(Char_Change_Array[1] == Op_Change)
 		{
 			Char_Change_Array[1] = Op_None;
 			goto GIMBAL;
+			GimbalBack:return;
 		}else if(Char_Change_Array[2] == Op_Change)
 		{
 			Char_Change_Array[2] = Op_None;
 			goto CHASSIS;
+			ChassisBack: return;
 		}else if(Char_Change_Array[3] == Op_Change)
 		{
 			Char_Change_Array[3] = Op_None;
 			goto Fric;
+			FricBack: return;
 		}else if(Char_Change_Array[4] == Op_Change)
 		{
 			Char_Change_Array[4] = Op_None;
 			goto PS;	
+			PSBack: return;
 		}
 	}
 }

@@ -178,20 +178,20 @@ void Remote_Process(Remote rc)
 //		SteeringEngine_Set(Infantry.MagClose);	
 //	}
 
-	if(rc.s2==1) //辅瞄模式
-	{
-		Status.GimbalMode=Gimbal_Armor_Mode; 
-		Status.ChassisMode=Chassis_Act_Mode;
-		Status.ShootMode=Shoot_Tx2_Mode;
-		SteeringEngine_Set(Infantry.MagClose);
-	}
-//		if(rc.s2==1) //小陀螺模式
+//	if(rc.s2==1) //辅瞄模式
 //	{
-//		Status.GimbalMode=Gimbal_Act_Mode;
-//		Status.ChassisMode=Chassis_SelfProtect_Mode;
-//		Status.ShootMode=Shoot_Powerdown_Mode;
-//    SteeringEngine_Set(Infantry.MagClose);
+//		Status.GimbalMode=Gimbal_Armor_Mode; 
+//		Status.ChassisMode=Chassis_Act_Mode;
+//		Status.ShootMode=Shoot_Tx2_Mode;
+//		SteeringEngine_Set(Infantry.MagClose);
 //	}
+		if(rc.s2==1) //小陀螺模式
+	{
+		Status.GimbalMode=Gimbal_Act_Mode;
+		Status.ChassisMode=Chassis_SelfProtect_Mode;
+		Status.ShootMode=Shoot_Powerdown_Mode;
+    SteeringEngine_Set(Infantry.MagClose);
+	}
 //	
 //	if(rc.s2==1) //小陀螺辅瞄模式
 //	{
@@ -357,36 +357,36 @@ void MouseKey_Act_Cal(RC_Ctl_t RC_Ctl)
 		}
 		
 /******************************单挑模式 e键*****************************************/	
-			e_rising_flag=RC_Ctl.key.e-pre_key_e;
-			pre_key_e = RC_Ctl.key.e;
-		
-		  /*按住才单挑*/
-			if(RC_Ctl.key.e==1)//还没有被设置模式或者一直按着的情况
-			{
-				if(Status.ChassisMode == Chassis_Act_Mode || Status.ChassisMode == Chassis_Solo_Mode)
-				Status.ChassisMode=Chassis_Solo_Mode;
-			}
-			else if(Status.ChassisMode == Chassis_Solo_Mode)
-			{
-				Status.ChassisMode = Chassis_Act_Mode;
-			}
-			
-/*按下一次切换模式*/
-			if(e_rising_flag == 1)
-			{
-				if(Status.ChassisMode == Chassis_Act_Mode || Status.ChassisMode == Chassis_Solo_Mode)
-					Solo_flag++;
-			}		
-//Solo_flag为偶 进正常；为奇，进单挑；错位：+1恢复
-			if(Solo_flag % 2 == 0 && Status.ChassisMode == Chassis_Solo_Mode)				//还原
-			{
-				Status.ChassisMode = Chassis_Act_Mode;
-			}
-			else if(Solo_flag % 2 == 1 && Status.ChassisMode == Chassis_Act_Mode)		//设置为单挑模式
-			{
-				Status.ChassisMode = Chassis_Solo_Mode;
-			}
-			
+//			e_rising_flag=RC_Ctl.key.e-pre_key_e;
+//			pre_key_e = RC_Ctl.key.e;
+//		
+//		  /*按住才单挑*/
+//			if(RC_Ctl.key.e==1)//还没有被设置模式或者一直按着的情况
+//			{
+//				if(Status.ChassisMode == Chassis_Act_Mode || Status.ChassisMode == Chassis_Solo_Mode)
+//				Status.ChassisMode=Chassis_Solo_Mode;
+//			}
+//			else if(Status.ChassisMode == Chassis_Solo_Mode)
+//			{
+//				Status.ChassisMode = Chassis_Act_Mode;
+//			}
+//			
+///*按下一次切换模式*/
+//			if(e_rising_flag == 1)
+//			{
+//				if(Status.ChassisMode == Chassis_Act_Mode || Status.ChassisMode == Chassis_Solo_Mode)
+//					Solo_flag++;
+//			}		
+////Solo_flag为偶 进正常；为奇，进单挑；错位：+1恢复
+//			if(Solo_flag % 2 == 0 && Status.ChassisMode == Chassis_Solo_Mode)				//还原
+//			{
+//				Status.ChassisMode = Chassis_Act_Mode;
+//			}
+//			else if(Solo_flag % 2 == 1 && Status.ChassisMode == Chassis_Act_Mode)		//设置为单挑模式
+//			{
+//				Status.ChassisMode = Chassis_Solo_Mode;
+//			}
+//			
 
 /*******************************回城补弹控制 r键**********************************************/			
 	 r_rising_flag=RC_Ctl.key.r-pre_key_r;
