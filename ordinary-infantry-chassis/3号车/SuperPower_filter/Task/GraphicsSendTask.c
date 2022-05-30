@@ -214,9 +214,6 @@ void referee_data_load_NumberUI(void)
 *返 回 值: 无
 **********************************************************************************************************/
 extern float AD_actual_value;		//电容实际电压
-char Voltage_array[CAP_GRAPHIC_NUM] = {0,0,0,0,0,0,0,0,0};	//电容每1V可以给一位赋1，超级电容一般是从14V~22V
-char last_Voltage_array[CAP_GRAPHIC_NUM] = {0,0,0,0,0,0,0,0,0};	//记录上次格子
-char Voltage_change[CAP_GRAPHIC_NUM] = {0,0,0,0,0,0,0,0,0};			//记录是否有格子变化
 char Color_array[CAP_GRAPHIC_NUM] = {Green,Green,Green,Green,Green,Green,Green,Green,Green};//储存颜色
 float g_pos_x[CAP_GRAPHIC_NUM] = {0.57,0.34,0.4,0.52,0.34,0.42,0.62,0.5,0.42};
 float g_pos_y[CAP_GRAPHIC_NUM] = {0.65,0.15,0.8,0.1,0.1,0.15,0.1,0.8,0.1};
@@ -225,9 +222,6 @@ int AIM_bias_x = 0;
 int AIM_bias_y = 0;
 int placece_x[13]={0,   	100,  20,  20, 	20,  40,  20,  20,  20,  40,  20,  20,  20};
 int placece_y[14]={-80,-320,-80,-100,-120,-140,-160,-180,-200,-220,-240,-260,-280,-300};
-/*车道线偏移量*/
-int Road_bias_x = 0;
-int Road_bias_y = 0;
 
 #define PACK_NUM 4
 void referee_data_load_Graphic(int Op_type)
@@ -296,7 +290,7 @@ Buff:		custom_grapic_draw.graphic_custom.grapic_data_struct[3].graphic_name[0] =
 				custom_grapic_draw.graphic_custom.grapic_data_struct[3].operate_tpye=Op_type;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[3].graphic_tpye=2;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[3].layer=0;
-				custom_grapic_draw.graphic_custom.grapic_data_struct[3].color=Red_Blue;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[3].color=Green;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[3].start_angle=0;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[3].end_angle=0;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[3].width=2;
@@ -304,7 +298,8 @@ Buff:		custom_grapic_draw.graphic_custom.grapic_data_struct[3].graphic_name[0] =
 				custom_grapic_draw.graphic_custom.grapic_data_struct[3].start_y=SCREEN_WIDTH/2 + bias_y[0] + AIM_bias_y;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[3].end_x=0;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[3].end_y=0;
-				custom_grapic_draw.graphic_custom.grapic_data_struct[3].radius=Buff_flag?bias_r:0;
+//				custom_grapic_draw.graphic_custom.grapic_data_struct[3].radius=Buff_flag?bias_r:0;
+		    custom_grapic_draw.graphic_custom.grapic_data_struct[3].radius=bias_r;
 				/*从这以下是射击辅助线*/
 				/*********************************中线*********************************/
 				custom_grapic_draw.graphic_custom.grapic_data_struct[4].graphic_name[0] = 0;
@@ -657,14 +652,6 @@ void GraphicSendtask(void *pvParameters)
 	
    while (1) {
     
-			/*字符，英文*/
-			char_change_state = Char_Change_Check();
-			if(char_change_state)			//检查有没有变化，没有变化就不发，节省带宽
-			{
-				JudgementCustomizeChar(char_change_state);
-				if(char_change_state != Op_None)
-					referee_data_pack_handle(0xA5,0x0301,(uint8_t *)&custom_char_draw,sizeof(custom_char_draw));
-			}
 			/*浮点数，图形*/
 			graphic_change_state = Graphic_Change_Check();
 			if(graphic_change_state)

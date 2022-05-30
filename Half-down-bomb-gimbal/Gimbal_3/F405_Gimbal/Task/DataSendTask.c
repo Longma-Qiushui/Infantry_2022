@@ -254,9 +254,12 @@ int Debug_yaw = 0;
 int pitch_send ;
 extern float GimbalYawPos,GimbalPitchPos;
 extern float Buff_Yaw_Motor;
+extern char SPaim_flag;
+extern char smallBuff_flag;
 void USART6_SendtoPC(void)
 {
 	char Mode_Flag;
+
 	if(PC_TX_num % down_sampling_rate == 0)
 	{
 		//if(PC_TX_num % down_sampling_rate == 0)
@@ -267,7 +270,7 @@ void USART6_SendtoPC(void)
 //		PC_TX_num = 0;
 		SendToPC_Buff[0] = '!';
     Mode_Flag=(Status.GimbalMode==Gimbal_Buff_Mode?1:0);
-		SendToPC_Buff[1] = (Mode_Flag<<3|F105.BulletSpeedLevel<<1|F105.RobotRed)&0XFF; // 1为红色，0为蓝色
+		SendToPC_Buff[1] = (smallBuff_flag<<5|SPaim_flag<<4|Mode_Flag<<3|F105.BulletSpeedLevel<<1|F105.RobotRed)&0XFF; // 1为红色，0为蓝色
 	
 			
 		pitch = (short)(Gimbal.Pitch.MotorTransAngle*100);

@@ -237,6 +237,7 @@ void Gimbal_Armor_Cal(Remote rc,Mouse mouse,PC_Receive_t *Pc_Recv)
 	  GimbalPitchPos=Gimbal.Pitch.MotorTransAngle;
 		Pc_Recv->RCPitch=Gimbal.Pitch.MotorTransAngle;
 		Pc_Recv->RCYaw = Gimbal.Yaw.Gyro;
+		Inte_z = 0;
 	}
 	/**解决过零问题***/
 	Recent_Pitch_Angle_Armor = Pc_Recv->RCPitch;

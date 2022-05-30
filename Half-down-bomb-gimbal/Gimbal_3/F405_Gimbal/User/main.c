@@ -111,8 +111,8 @@ switch(Robot_ID)
 {	
 	Infantry.Yaw_init=2750;                  //  3ºÅ³µ 
 	Infantry.Pitch_init=7440;
-	Infantry.MagOpen=2400;
-	Infantry.MagClose=530;
+	Infantry.MagOpen=530;
+	Infantry.MagClose=1900;
 	Infantry.Solo_Yaw_init = 7715;
 	Infantry.PitchMotorID = 0x206;
 	Infantry.YawMotorID = 0x205;

@@ -120,7 +120,7 @@
         <SetRegEntry>
           <Number>0</Number>
           <Key>DLGUARM</Key>
-          <Name></Name>
+          <Name>d</Name>
         </SetRegEntry>
         <SetRegEntry>
           <Number>0</Number>
@@ -168,52 +168,52 @@
         <Ww>
           <count>1</count>
           <WinNumber>1</WinNumber>
-          <ItemText>rc</ItemText>
+          <ItemText>Gimbal</ItemText>
         </Ww>
         <Ww>
           <count>2</count>
           <WinNumber>1</WinNumber>
-          <ItemText>Gimbal</ItemText>
+          <ItemText>Robot_ID</ItemText>
         </Ww>
         <Ww>
           <count>3</count>
           <WinNumber>1</WinNumber>
-          <ItemText>mag_place,0x0A</ItemText>
+          <ItemText>YawMotorReceive</ItemText>
         </Ww>
         <Ww>
           <count>4</count>
           <WinNumber>1</WinNumber>
-          <ItemText>PidFrictionSpeed[0]</ItemText>
+          <ItemText>Robot_Disconnect</ItemText>
         </Ww>
         <Ww>
           <count>5</count>
           <WinNumber>1</WinNumber>
-          <ItemText>PidBodanMotorSpeed</ItemText>
+          <ItemText>FuzzyAidPidPitchPos</ItemText>
         </Ww>
         <Ww>
           <count>6</count>
           <WinNumber>1</WinNumber>
-          <ItemText>Robot_Disconnect</ItemText>
+          <ItemText>FuzzyAidPidYawPos</ItemText>
         </Ww>
         <Ww>
           <count>7</count>
           <WinNumber>1</WinNumber>
-          <ItemText>F105</ItemText>
+          <ItemText>PidYawAidSpeed</ItemText>
         </Ww>
         <Ww>
           <count>8</count>
           <WinNumber>1</WinNumber>
-          <ItemText>Gimbal</ItemText>
+          <ItemText>PidPitchAidSpeed</ItemText>
         </Ww>
         <Ww>
           <count>9</count>
           <WinNumber>1</WinNumber>
-          <ItemText>Robot_ID</ItemText>
+          <ItemText>PidPitchAidSpeed</ItemText>
         </Ww>
         <Ww>
           <count>10</count>
           <WinNumber>1</WinNumber>
-          <ItemText>YawMotorReceive</ItemText>
+          <ItemText>BodanMotorCurrent,0x0A</ItemText>
         </Ww>
         <Ww>
           <count>11</count>
@@ -223,52 +223,22 @@
         <Ww>
           <count>12</count>
           <WinNumber>1</WinNumber>
-          <ItemText>FuzzyAidPidPitchPos</ItemText>
+          <ItemText>SendToPC_Buff[0]</ItemText>
         </Ww>
         <Ww>
           <count>13</count>
           <WinNumber>1</WinNumber>
-          <ItemText>FuzzyAidPidYawPos</ItemText>
+          <ItemText>SendToPC_Buff[1]</ItemText>
         </Ww>
         <Ww>
           <count>14</count>
           <WinNumber>1</WinNumber>
-          <ItemText>PidYawAidSpeed</ItemText>
+          <ItemText>Status,0x0A</ItemText>
         </Ww>
         <Ww>
           <count>15</count>
           <WinNumber>1</WinNumber>
-          <ItemText>PidPitchAidSpeed</ItemText>
-        </Ww>
-        <Ww>
-          <count>16</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>PidPitchAidSpeed</ItemText>
-        </Ww>
-        <Ww>
-          <count>17</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>FuzzyAidPidPitchPos.SetPoint</ItemText>
-        </Ww>
-        <Ww>
-          <count>18</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>RC_Ctl</ItemText>
-        </Ww>
-        <Ww>
-          <count>19</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>RC_Ctl.mouse.z</ItemText>
-        </Ww>
-        <Ww>
-          <count>20</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>RC_Ctl.mouse.y</ItemText>
-        </Ww>
-        <Ww>
-          <count>21</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>Robot_Disconnect.RC_DisConnect</ItemText>
+          <ItemText>PC_Receive</ItemText>
         </Ww>
       </WatchWindow1>
       <WatchWindow2>

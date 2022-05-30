@@ -31,7 +31,7 @@ extern RobotInit_Struct Infantry;
 extern short FrictionReceive[2];
 extern char Robot_ID;
 #define PullerSpeed  3000
-#define checkPullerSpeed  1000
+#define checkPullerSpeed  3000
 /**********************************************************************************************************
 *函 数 名: FrictionSpeedChoose
 *功能说明: 摩擦轮转速选择
@@ -147,7 +147,9 @@ void Shoot_Check_Cal()
 		if(F105.IsShootAble==1)
 		{
       if(Shoot_Init_flag == 1)
-			{
+			{				
+//				PidBodanMotorPos.SetPoint=PidBodanMotorPos.SetPoint+500; 
+//				PidBodanMotorSpeed.SetPoint = PID_Calc(&PidBodanMotorPos,Bodan_Pos);
 				PidBodanMotorSpeed.SetPoint=checkPullerSpeed;
 				delay_time=0;	
 			}

@@ -310,6 +310,11 @@
           <WinNumber>1</WinNumber>
           <ItemText>ChargeState</ItemText>
         </Ww>
+        <Ww>
+          <count>30</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>Robot_Disconnect</ItemText>
+        </Ww>
       </WatchWindow1>
       <WatchWindow2>
         <Ww>

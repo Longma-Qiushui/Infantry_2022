@@ -18,9 +18,9 @@ static TaskHandle_t StartTask_Handler; //任务句柄
 #define CPU_STK_SIZE 128 //任务堆栈2
 static TaskHandle_t CPUTask_Handler; //任务句柄
 
-//#define CHAR_TASK_PRIO 3  //任务优先级
-//#define CHAR_STK_SIZE 128 //任务堆栈
-//static TaskHandle_t Char_Handler; //任务句柄
+#define CHAR_TASK_PRIO 17  //任务优先级
+#define CHAR_STK_SIZE 128 //任务堆栈
+static TaskHandle_t Char_Handler; //任务句柄
 
 #define GRAPHIC_TASK_PRIO 17  //任务优先级
 #define GRAPHIC_STK_SIZE 128 //任务堆栈
@@ -59,14 +59,13 @@ void start_task(void *pvParameters)
                 (UBaseType_t)CPU_TASK_PRIO,        //任务优先级
                 (TaskHandle_t *)&CPUTask_Handler); //任务句柄
 								
-//	xTaskCreate((TaskFunction_t)CharSendtask,          //任务函数
-//								(const char *)"Char_task",          //任务名称
-//								(uint16_t)CHAR_STK_SIZE,            //任务堆栈大小
-//								(void *)NULL,                        //传递给任务函数的参数
-//								(UBaseType_t)CHAR_TASK_PRIO,        //任务优先级
-//									(TaskHandle_t *)&Char_Handler); //任务句柄
-	
-	//  客户端原本发送图形和字符两种信息在两个任务中，现在都合并入图形发送任务中							
+	xTaskCreate((TaskFunction_t)CharSendtask,          //任务函数
+								(const char *)"Char_task",          //任务名称
+								(uint16_t)CHAR_STK_SIZE,            //任务堆栈大小
+								(void *)NULL,                        //传递给任务函数的参数
+								(UBaseType_t)CHAR_TASK_PRIO,        //任务优先级
+									(TaskHandle_t *)&Char_Handler); //任务句柄
+							
 	xTaskCreate((TaskFunction_t)GraphicSendtask,          //任务函数
 								(const char *)"Graphic_task",          //任务名称
 								(uint16_t)GRAPHIC_STK_SIZE,            //任务堆栈大小
