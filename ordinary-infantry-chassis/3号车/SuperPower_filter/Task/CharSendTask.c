@@ -40,15 +40,16 @@ void JudgementCustomizeChar(int Op_type)
 *形    参: 操作类型
 *返 回 值: 无
 **********************************************************************************************************/
-float c_pos_x[10] = {0.57,0.34,0.4,0.52,0.34,0.42,0.62,0.5,0.40,0.53};
-float c_pos_y[10] = {0.65,0.15,0.8,0.1,0.1,0.15,0.1,0.8,0.1,0.15};
+float c_pos_x[10] = {0.57,0.34,0.4,0.54,0.3, 0.41,0.64,0.54 ,0.40,0.53};
+float c_pos_y[10] = {0.65,0.15,0.05,0.1 ,0.1, 0.15,0.1, 0.05,0.1 ,0.15};
 extern enum POWERSTATE_Typedef PowerState;
+char change_cnt[5];
 void referee_data_load_String(int Op_type)
 {
 	static int tick=0;
 	static char Mag_State[2][6] = {"CLOSE","OPEN"};
-	static char Gimbal_State[5][7] = {"OFF","NORMAL","HACKER","BUFF","DROP"};
-	static char Chassis_State[5][9] = {"OFF","FOLLOW","SelfPro","SOLO","NOFOLLOW"};
+	static char Gimbal_State[9][8] = {"OFF","Normal","Armor","BigBuf","Drop","SI","Jump","AntiSP","SmalBuf"};
+	static char Chassis_State[5][9] = {"OFF","Normal","SelfPro","SOLO","JUMP"};
 	static char Power_State[2][4] = {"Bat","Cap"};
 	static char Friction[2][9]={"Firc off","Fric on"};
 	/*初始化操作，轮流生成图层*/
@@ -141,7 +142,6 @@ PS:		custom_char_draw.char_custom.grapic_data_struct.graphic_name[0] = 0;
 			custom_char_draw.char_custom.grapic_data_struct.start_y=c_pos_y[4]*SCREEN_WIDTH;
 			memset(custom_char_draw.char_custom.data,'\0',sizeof(custom_char_draw.char_custom.data));
 			strcpy(custom_char_draw.char_custom.data,Power_State[PowerState]);
-			goto PSBack;
 			break;
 			/*可变状态字符*/
 			case 5:
@@ -160,7 +160,6 @@ MAG:  custom_char_draw.char_custom.grapic_data_struct.graphic_name[0] = 0;
 			custom_char_draw.char_custom.grapic_data_struct.start_y=c_pos_y[5]*SCREEN_WIDTH;
 			memset(custom_char_draw.char_custom.data,'\0',sizeof(custom_char_draw.char_custom.data));
 			strcpy(custom_char_draw.char_custom.data,Mag_State[F405.Mag_Flag]);
-			goto MagBack;
 			break;
 			case 6:
 			/*******************************云台状态*********************************/
@@ -178,7 +177,6 @@ GIMBAL:custom_char_draw.char_custom.grapic_data_struct.graphic_name[0] = 0;
 			custom_char_draw.char_custom.grapic_data_struct.start_y=c_pos_y[6]*SCREEN_WIDTH;
 			memset(custom_char_draw.char_custom.data,'\0',sizeof(custom_char_draw.char_custom.data));
 			strcpy(custom_char_draw.char_custom.data,Gimbal_State[F405.Gimbal_Flag]);
-			goto GimbalBack;
 			break;
 			case 7:
 			/*******************************底盘状态*********************************/
@@ -196,7 +194,6 @@ CHASSIS:custom_char_draw.char_custom.grapic_data_struct.graphic_name[0] = 0;
 			custom_char_draw.char_custom.grapic_data_struct.start_y=c_pos_y[7]*SCREEN_WIDTH;
 			memset(custom_char_draw.char_custom.data,'\0',sizeof(custom_char_draw.char_custom.data));
 			strcpy(custom_char_draw.char_custom.data,Chassis_State[F405.Chassis_Flag]);
-			goto ChassisBack;
 			break;
 			case 8:
 		/*******************************摩擦轮*********************************/
@@ -216,7 +213,6 @@ Fric:
 			custom_char_draw.char_custom.grapic_data_struct.start_y=c_pos_y[8]*SCREEN_WIDTH;
 			memset(custom_char_draw.char_custom.data,'\0',sizeof(custom_char_draw.char_custom.data));
 			strcpy(custom_char_draw.char_custom.data,Friction[F405.Fric_Flag]);
-      goto FricBack;
 			break;
 			case 9:
 			/*******************************电容电压字符*********************************/
@@ -239,34 +235,72 @@ Fric:
 				break;
 		}
 		tick++;
+		return ;
+		
 	}else if(Op_type == Op_Change)		//如果是标志为修改
 	{
 		/*寻找是哪个发生了变化*/
 		if(Char_Change_Array[0] == Op_Change)
 		{
+			if(change_cnt[0]>0)
+			{
+			 change_cnt[0] -- ;
+			}
+			else
+			{
 			Char_Change_Array[0] = Op_None;
+			}
 			goto MAG;
-			MagBack:return;
-		}else if(Char_Change_Array[1] == Op_Change)
+		}
+		
+		if(Char_Change_Array[1] == Op_Change)
 		{
+			if(change_cnt[1]>0)
+			{
+			 change_cnt[1] -- ;
+			}
+			else
+			{
 			Char_Change_Array[1] = Op_None;
+			}
 			goto GIMBAL;
-			GimbalBack:return;
-		}else if(Char_Change_Array[2] == Op_Change)
+		}
+		
+ 		if(Char_Change_Array[2] == Op_Change)
 		{
+			if(change_cnt[2]>0)
+			{
+			 change_cnt[2] -- ;
+			}
+			else
+			{
 			Char_Change_Array[2] = Op_None;
+			}
 			goto CHASSIS;
-			ChassisBack: return;
-		}else if(Char_Change_Array[3] == Op_Change)
+		}
+		if(Char_Change_Array[3] == Op_Change)
 		{
+			if(change_cnt[3]>0)
+			{
+			 change_cnt[3] -- ;
+			}
+			else
+			{
 			Char_Change_Array[3] = Op_None;
+			}
 			goto Fric;
-			FricBack: return;
-		}else if(Char_Change_Array[4] == Op_Change)
+		}
+		if(Char_Change_Array[4] == Op_Change)
 		{
+			if(change_cnt[4]>0)
+			{
+			 change_cnt[4] -- ;
+			}
+			else
+			{
 			Char_Change_Array[4] = Op_None;
+			}
 			goto PS;	
-			PSBack: return;
 		}
 	}
 }
@@ -277,6 +311,7 @@ Fric:
 *形    参: 无
 *返 回 值: 
 **********************************************************************************************************/
+
 int Char_Change_Check(void)
 {
 	int i;
@@ -284,18 +319,13 @@ int Char_Change_Check(void)
 	static int delete_flag;
 	char Mag_flag,Gimbal_flag,Chassis_flag,Laser_flag,Follow_state,Fric_flag;
 
-//		/*图形界面初始化提示的显示和删除*/
-	if(F405.Graphic_Init_Flag == 0 || delete_flag < 3)			//删除几次，保证删除成功，就不删除了，防止占带宽
-	{
-		Load_Char_Init(F405.Graphic_Init_Flag);
-		referee_data_pack_handle(0xA5,0x0301,(uint8_t *)&custom_char_draw,sizeof(custom_char_draw));
-	}
 	/*用于图形界面初始化*/
 	if(F405.Graphic_Init_Flag == 0)		
 	{
-		delete_flag = 0;
+//		delete_flag = 0;
 		return Op_Init;	//返回Init,会使一直发送Add，添加所有图层
-	}else delete_flag++;
+	}
+//	else delete_flag++;
 	
 		
 	/*读取云台发送的各种状态*/
@@ -306,11 +336,31 @@ int Char_Change_Check(void)
 	Follow_state = F405.Follow_state;
 	
 	/*有变化，标志各个位*/
-	if(last_Mag != Mag_flag) Char_Change_Array[0] = Op_Change;
-	if(Gimbal_flag != last_Gimbal) Char_Change_Array[1] = Op_Change;
-	if(Chassis_flag != last_Chassis || Follow_state != last_Follow) Char_Change_Array[2] = Op_Change;
-  if(Fric_flag != last_Fric ) Char_Change_Array[3]=Op_Change;	
-	if(PowerState != last_PowerState) Char_Change_Array[4]=Op_Change;
+	if(last_Mag != Mag_flag) 
+	{
+		Char_Change_Array[0] = Op_Change;
+    change_cnt[0] = 3;
+	}
+	if(Gimbal_flag != last_Gimbal) 
+	{
+			Char_Change_Array[1] = Op_Change;
+			change_cnt[1] = 3;
+	}
+	if(Chassis_flag != last_Chassis )
+	{
+			Char_Change_Array[2] = Op_Change;
+      change_cnt[2] = 3;
+	}
+  if(Fric_flag != last_Fric ) 
+	{
+		Char_Change_Array[3]=Op_Change;	
+		change_cnt[3] = 3;
+	}
+	if(PowerState != last_PowerState) 
+	{
+		Char_Change_Array[4]=Op_Change;
+		change_cnt[4] = 3;
+	}
 	
 	/*保存这次标志和上次比较*/
 	last_Mag = Mag_flag;
@@ -377,6 +427,7 @@ void Load_Char_Init(char Init_Flag)
 *形    参: 无
 *返 回 值: 无
 **********************************************************************************************************/
+int charTask_cnt=0;
 void CharSendtask(void *pvParameters)
 {
 	 static int char_change_state;
@@ -390,9 +441,10 @@ void CharSendtask(void *pvParameters)
 				if(char_change_state != Op_None)
 					referee_data_pack_handle(0xA5,0x0301,(uint8_t *)&custom_char_draw,sizeof(custom_char_draw));
 			}
-	   VOFA_Send();
+	//   VOFA_Send();
 		 IWDG_Feed();//喂狗
-			vTaskDelay(1); 
+			charTask_cnt++;
+			vTaskDelay(50); 
 		 
 #if INCLUDE_uxTaskGetStackHighWaterMark
 		

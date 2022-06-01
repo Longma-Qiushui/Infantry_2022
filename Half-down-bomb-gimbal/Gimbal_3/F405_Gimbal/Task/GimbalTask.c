@@ -168,7 +168,7 @@ void FuzzyMotorGimbal_Act_Cal(Remote rc,Mouse mouse,PC_Receive_t *Pc_Recv)
 }
 /**********************************************************************************************************
 *函 数 名: FuzzyGimbal_Act_Cal
-*功能说明: 模糊云台正常模式(陀螺仪角)
+*功能说明: 模糊云台正常模式(IMU角)
 *形    参: rc  mouse  Pc_RecvData
 *返 回 值: 无
 **********************************************************************************************************/
@@ -178,7 +178,7 @@ void FuzzyGyroGimbal_Act_Cal(Remote rc,Mouse mouse,PC_Receive_t *Pc_Recv)
 	if( GimbalAct_Init_Flag!=Gimbal_Act_Mode)
 	{
 		Laser_On();
-		GimbalPitchPos = -GyroReceive.PITCH;				//从大符模式切回，保持pitch电机角，yaw陀螺仪角，不乱动
+		GimbalPitchPos = -GyroReceive.PITCH;				
 		GimbalYawPos = Gimbal.Yaw.Gyro;
 		GimbalAct_Init_Flag=Gimbal_Act_Mode;
 	}
@@ -239,6 +239,7 @@ void Gimbal_Armor_Cal(Remote rc,Mouse mouse,PC_Receive_t *Pc_Recv)
 		Pc_Recv->RCYaw = Gimbal.Yaw.Gyro;
 		Inte_z = 0;
 	}
+
 	/**解决过零问题***/
 	Recent_Pitch_Angle_Armor = Pc_Recv->RCPitch;
 	while(ABS(Recent_Pitch_Angle_Armor) >= 90 )
@@ -291,14 +292,16 @@ void Gimbal_Armor_Cal(Remote rc,Mouse mouse,PC_Receive_t *Pc_Recv)
 **********************************************************************************************************/
 void Gimbal_Buff_Cal(Remote rc,Mouse mouse,PC_Receive_t *Pc_Recv)
 {
-	if(GimbalAct_Init_Flag!=Gimbal_Buff_Mode)
+	if(GimbalAct_Init_Flag!=Gimbal_BigBuf_Mode)
 	{
-		GimbalAct_Init_Flag=Gimbal_Buff_Mode;
+		GimbalAct_Init_Flag=Gimbal_BigBuf_Mode;
 		GimbalYawPos = Gimbal.Yaw.MotorTransAngle;
 	  GimbalPitchPos=Gimbal.Pitch.MotorTransAngle;
 		Pc_Recv->RCPitch=Gimbal.Pitch.MotorTransAngle;
 		Pc_Recv->RCYaw = Gimbal.Yaw.MotorTransAngle;
 	}
+
+	
 	/**解决过零问题***/
 	Recent_Pitch_Angle_Armor = Pc_Recv->RCPitch;
 	while(ABS(Recent_Pitch_Angle_Armor) >= 90 )
@@ -359,7 +362,7 @@ void Gimbal_DropShot_Cal(Remote rc,Mouse mouse,PC_Receive_t *Pc_Recv)
 	if(Status.ControlMode==Control_RC_Mode)//Rc_Control
 	{
 	  GimbalYawPos   += (1024-rc.ch2)*0.0005f;
-		GimbalPitchPos -= (1024-rc.ch3)*0.0005f;//旧陀螺仪
+		GimbalPitchPos -= (1024-rc.ch3)*0.0005f;//陀螺仪
 	}
 	if(Status.ControlMode==Control_MouseKey_Mode)//Mouse_Key
 	{
@@ -545,13 +548,14 @@ void Gimbal_CurrentPid_Cal(void)
 			Gimbal_Powerdown_Cal();
 			break;
 		case Gimbal_Act_Mode:
-			//Gimbal_Act_Cal(RC_Ctl.rc,RC_Ctl.mouse,&PC_Receive);
 			FuzzyMotorGimbal_Act_Cal(RC_Ctl.rc,RC_Ctl.mouse,&PC_Receive);
 			break;  
 		case Gimbal_Armor_Mode:
+		case Gimbal_AntiSP_Mode:
 			Gimbal_Armor_Cal(RC_Ctl.rc,RC_Ctl.mouse,&PC_Receive);
 			break;
-		case Gimbal_Buff_Mode:
+		case Gimbal_BigBuf_Mode:
+		case Gimbal_SmlBuf_Mode:
 			Gimbal_Buff_Cal(RC_Ctl.rc,RC_Ctl.mouse,&PC_Receive);
 			break;
 		case Gimbal_DropShot_Mode:
@@ -594,15 +598,15 @@ void PidGimbalMotor_Init(void)
 	PidPitchSpeed.OutMax=30000.0f;
   
 	//手动yaw双环                                 // 3号车
-  PidYawPos.P=0.30f;     
-	PidYawPos.I=0.03f;
+  PidYawPos.P=0.23f;     
+	PidYawPos.I=0.00f;
 	PidYawPos.D=0.0f;       
 	PidYawPos.IMax=10.0f;
 	PidYawPos.SetPoint=0.0f;
 	PidYawPos.OutMax=5.5f;
 	PidYawPos.DeadZone=0.2f;
-	PidYawSpeed.P=10000.0f;   //30000
-	PidYawSpeed.I=0.0f;
+	PidYawSpeed.P=9000.0f;   //30000
+	PidYawSpeed.I=5.0f;
 	PidYawSpeed.D=0.0f;
 	PidYawSpeed.IMax=2000.0f;
 	PidYawSpeed.SetPoint=0.0f;

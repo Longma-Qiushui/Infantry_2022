@@ -39,15 +39,15 @@ void Can1Receive0(CanRxMsg rx_message1)
 	{ 
 		case 0x095:
 		     memcpy(&F105.bulletSpeed,&rx_message1.Data[0], 4); 
-		     memcpy(&Chassis_ID,&rx_message1.Data[4],1);
-				 memcpy(&Judge_Lost,&rx_message1.Data[5],1);
-		    if(Robot_ID!=Chassis_ID)
-				{
-				Robot_ID=Chassis_ID;
-				Robot_Init();
-				}
+				 memcpy(&Judge_Lost,&rx_message1.Data[4],1);
+				 memcpy(&F105.bulltFreq,&rx_message1.Data[5],1);
 		     Robot_Disconnect.F105_DisConect=0;
 		 break;		
+		case 0x094:
+		     memcpy(&F105.HeatMax17,&rx_message1.Data[0], 4); 
+				 memcpy(&F105.HeatCool17,&rx_message1.Data[4],1);
+				 memcpy(&F105.shooterHeat17,&rx_message1.Data[5],1);
+		     Robot_Disconnect.F105_DisConect=0;
 
 	}
 }
@@ -68,6 +68,7 @@ void Can1Receive1(CanRxMsg rx_message1)
 	    	 memcpy(&F105.IsShootAble, &rx_message1.Data[4], 1);
 				 memcpy(&F105.RobotRed, &rx_message1.Data[5], 1);  
 		     memcpy(&F105.BulletSpeedLevel, &rx_message1.Data[6], 1);
+				 memcpy(&Chassis_ID,&rx_message1.Data[7],1);
 		     Robot_Disconnect.F105_DisConect=0;
 		 break;		
 
@@ -218,7 +219,7 @@ void PCReceive(unsigned char PCReceivebuffer[])
 	}
 		tx2_last_receive_flag = tx2_receive_flag;
 
-		if(Status.GimbalMode == Gimbal_Armor_Mode)
+		if(Status.GimbalMode == Gimbal_Armor_Mode || Status.GimbalMode == Gimbal_AntiSP_Mode)
 		{	
 			if(ABS(aim_yaw - Gimbal.Yaw.Gyro) < 90 && ABS(aim_pitch -( Gimbal.Pitch.MotorTransAngle))< 60)		//程序安全
 			{
@@ -231,7 +232,7 @@ void PCReceive(unsigned char PCReceivebuffer[])
 				PC_Receive.RCYaw = Gimbal.Yaw.Gyro;
 			}
 		}
-		else if(Status.GimbalMode == Gimbal_Buff_Mode)
+		else if(Status.GimbalMode == Gimbal_BigBuf_Mode || Status.GimbalMode == Gimbal_SmlBuf_Mode)
 		{
 			if(ABS(aim_yaw+Buff_Yaw_Motor - Gimbal.Yaw.MotorTransAngle) < 90 && ABS(aim_pitch - Gimbal.Pitch.MotorTransAngle)< 60)		//程序安全
 			{

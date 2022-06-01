@@ -146,28 +146,35 @@ void JudgeBuffReceive(unsigned char ReceiveBuffer[],uint16_t DataLen)
 				//机器人状态数据
 				if((cmd_id==0x0201)&&(Verify_CRC16_Check_Sum(&SaveBuffer[PackPoint],DataLen+9))) 
 				{
-					JudgeReceive.robot_id=SaveBuffer[PackPoint+7+0];  //  3 4 5 红方机器人  103 104 105 蓝方机器人
-					JudgeReceive.RobotLevel=SaveBuffer[PackPoint+7+1];
-					JudgeReceive.remainHP=(SaveBuffer[PackPoint+7+3]<<8)|SaveBuffer[PackPoint+7+2]; 
-					JudgeReceive.maxHP=(SaveBuffer[PackPoint+7+5]<<8)|SaveBuffer[PackPoint+7+4]; 
-					JudgeReceive.HeatCool17=(SaveBuffer[PackPoint+7+7]<<8)|SaveBuffer[PackPoint+7+6];
-					JudgeReceive.HeatMax17=(SaveBuffer[PackPoint+7+9]<<8)|SaveBuffer[PackPoint+7+8];
-					JudgeReceive.BulletSpeedMax17=(SaveBuffer[PackPoint+7+11]<<8)|SaveBuffer[PackPoint+7+10];
-					receivePower=(SaveBuffer[PackPoint+7+25]<<8)|SaveBuffer[PackPoint+7+24];
+					memcpy(&JudgeReceive.robot_id,&SaveBuffer[PackPoint+7+0],1);
+					memcpy(&JudgeReceive.remainHP,&SaveBuffer[PackPoint+7+2],2);
+					memcpy(&JudgeReceive.maxHP,&SaveBuffer[PackPoint+7+4],2);
+					memcpy(&JudgeReceive.HeatCool17,&SaveBuffer[PackPoint+7+6],2);
+					memcpy(&JudgeReceive.HeatMax17,&SaveBuffer[PackPoint+7+8],2);
+					memcpy(&JudgeReceive.BulletSpeedMax17,&SaveBuffer[PackPoint+7+10],2);
+					memcpy(&receivePower,&SaveBuffer[PackPoint+7+24],2);
+//					JudgeReceive.robot_id=SaveBuffer[PackPoint+7+0];  //  3 4 5 红方机器人  103 104 105 蓝方机器人
+//					JudgeReceive.remainHP=(SaveBuffer[PackPoint+7+3]<<8)|SaveBuffer[PackPoint+7+2]; 
+//					JudgeReceive.maxHP=(SaveBuffer[PackPoint+7+5]<<8)|SaveBuffer[PackPoint+7+4]; 
+//					JudgeReceive.HeatCool17=(SaveBuffer[PackPoint+7+7]<<8)|SaveBuffer[PackPoint+7+6];                //
+//					JudgeReceive.HeatMax17=(SaveBuffer[PackPoint+7+9]<<8)|SaveBuffer[PackPoint+7+8];								 //
+//					JudgeReceive.BulletSpeedMax17=(SaveBuffer[PackPoint+7+11]<<8)|SaveBuffer[PackPoint+7+10];
+//					receivePower=(SaveBuffer[PackPoint+7+25]<<8)|SaveBuffer[PackPoint+7+24];
 				  if(receivePower>10)
 					{
 					JudgeReceive.MaxPower=receivePower;
 					}
 				}
 					
-				//实时功率热量数据
+				//实时功率、热量数据
 				if((cmd_id==0x0202)&&(Verify_CRC16_Check_Sum(&SaveBuffer[PackPoint],DataLen+9)))
 				{
 					memcpy(&JudgeReceive.realChassisOutV,&SaveBuffer[PackPoint+7+0],2);
 					memcpy(&JudgeReceive.realChassisOutA,&SaveBuffer[PackPoint+7+2],2);
 					memcpy(&JudgeReceive.realChassispower,&SaveBuffer[PackPoint+7+4],4);
 					memcpy(&JudgeReceive.remainEnergy,&SaveBuffer[PackPoint+7+8],2);
-					memcpy(&JudgeReceive.shooterHeat17,&SaveBuffer[PackPoint+7+10],2);
+					memcpy(&JudgeReceive.shooterHeat17,&SaveBuffer[PackPoint+7+10],2);                              // 2个字节
+					Can2Send1();
 					TickCount++;
 					if(TickCount==5)
 					{
@@ -202,7 +209,7 @@ void JudgeBuffReceive(unsigned char ReceiveBuffer[],uint16_t DataLen)
 				//实时射击信息
 					if((cmd_id==0x0207)&&(Verify_CRC16_Check_Sum(&SaveBuffer[PackPoint],DataLen+9)))
 				{
-					JudgeReceive.bulletFreq = SaveBuffer[PackPoint+7+2];
+					memcpy(&JudgeReceive.bulletFreq, &SaveBuffer[PackPoint+7+2],1);
 					memcpy(&JudgeReceive.bulletSpeed,&SaveBuffer[PackPoint+7+3],4);
 					JudgeReceive.ShootCpltFlag = 1;
 					Can2Send2();

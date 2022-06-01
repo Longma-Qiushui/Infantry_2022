@@ -19,31 +19,23 @@ typedef struct
 #define Control_MouseKey_Mode 301
 #define Control_Powerdown_Mode 302
 
-//#define Chassis_Act_Mode 303
-//#define Chassis_SelfProtect_Mode 304
-//#define Chassis_Solo_Mode 	305
-//#define Chassis_Crazy_Mode	306
-//#define Chassis_Powerdown_Mode 307
 
-//#define Gimbal_Act_Mode 311
-//#define Gimbal_Armor_Mode  312
-//#define Gimbal_Buff_Mode 313
-//#define Gimbal_DropShot_Mode 314
-//#define Gimbal_Powerdown_Mode 315
 
 #define Chassis_Powerdown_Mode 					0
 #define Chassis_Act_Mode  							1
 #define Chassis_SelfProtect_Mode 				2
 #define Chassis_Solo_Mode  							3
-#define Chassis_NoFollow_Mode  					4
+#define Chassis_Jump_Mode               4
 
 #define Gimbal_Powerdown_Mode 					0
 #define Gimbal_Act_Mode 								1
 #define Gimbal_Armor_Mode  							2
-#define Gimbal_Buff_Mode 								3
+#define Gimbal_BigBuf_Mode 						  3
 #define Gimbal_DropShot_Mode 						4
 #define Gimbal_SI_Mode 									5
 #define Gimbal_Jump_Mode                6
+#define Gimbal_AntiSP_Mode              7
+#define Gimbal_SmlBuf_Mode              8
 
 #define Shoot_Fire_Mode  344
 #define Shoot_Powerdown_Mode 345

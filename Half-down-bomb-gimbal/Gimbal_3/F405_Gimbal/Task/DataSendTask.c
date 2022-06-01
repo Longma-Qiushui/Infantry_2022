@@ -158,9 +158,9 @@ void FrictionBodanCan2Send(short X,short Y,short Z)
     tx_message.RTR = CAN_RTR_DATA; 
     tx_message.DLC = 0x08;    
     tx_message.StdId = 0x200;
-		X=LIMIT_MAX_MIN(X,10000,-10000);
-	  Y=LIMIT_MAX_MIN(Y,10000,-10000);
-		Z=LIMIT_MAX_MIN(Z,10000,-10000);
+		X=LIMIT_MAX_MIN(X,9000,-9000);
+	  Y=LIMIT_MAX_MIN(Y,9000,-9000);
+		Z=LIMIT_MAX_MIN(Z,8500,-8500);
 	 	 switch(Infantry.FricMotorID[0])
 		 { 
 		 case 0x201:		 
@@ -262,27 +262,19 @@ void USART6_SendtoPC(void)
 
 	if(PC_TX_num % down_sampling_rate == 0)
 	{
-		//if(PC_TX_num % down_sampling_rate == 0)
-//		{
-//			GPIO_SetBits(GPIOA,GPIO_Pin_1);
-//		}
-		
-//		PC_TX_num = 0;
 		SendToPC_Buff[0] = '!';
-    Mode_Flag=(Status.GimbalMode==Gimbal_Buff_Mode?1:0);
+    Mode_Flag=(Status.GimbalMode==Gimbal_BigBuf_Mode?1:0);
 		SendToPC_Buff[1] = (smallBuff_flag<<5|SPaim_flag<<4|Mode_Flag<<3|F105.BulletSpeedLevel<<1|F105.RobotRed)&0XFF; // 1为红色，0为蓝色
 	
 			
 		pitch = (short)(Gimbal.Pitch.MotorTransAngle*100);
 		yaw = (int)(Gimbal.Yaw.Gyro*100);
-		if(Status.GimbalMode == Gimbal_Armor_Mode || Status.GimbalMode == Gimbal_Act_Mode)
+		if(Status.GimbalMode == Gimbal_Armor_Mode || Status.GimbalMode == Gimbal_Act_Mode|| Status.GimbalMode == Gimbal_AntiSP_Mode)
 		{
 			pitch = (short)(Gimbal.Pitch.MotorTransAngle*100);
 			yaw = (int)(Gimbal.Yaw.Gyro*100);
-//			pitch = (short)(GimbalPitchPos*100);
-//			yaw = (int)(Gimbal.Pitch.MotorTransAngle*100);
 		}
-		else if(Status.GimbalMode == Gimbal_Buff_Mode)
+		else if(Status.GimbalMode == Gimbal_BigBuf_Mode || Status.GimbalMode == Gimbal_SmlBuf_Mode)
 		{
 			pitch = (short)(Gimbal.Pitch.MotorTransAngle*100);
 			yaw = (int)((Gimbal.Yaw.MotorTransAngle-Buff_Yaw_Motor)*100);
@@ -296,9 +288,6 @@ void USART6_SendtoPC(void)
 		SendToPC_Buff[6] = (unsigned char)((yaw >> 8) & 0x000000FF);
 		SendToPC_Buff[7] = (unsigned char)((yaw >> 0) & 0x000000FF);
 		
-		
-		//	Tx2_Off_CheckAndSet(SendToPC_Buff);
-		//?????
 		sendTOPC_time.xTickCount = xTaskGetTickCountFromISR();
 		SendToPC_Buff[8] = sendTOPC_time.data[3];
 		SendToPC_Buff[9] = sendTOPC_time.data[2];
@@ -311,10 +300,7 @@ void USART6_SendtoPC(void)
 		SendToPC_Buff[15] = '#';
 		Append_CRC8_Check_Sum(SendToPC_Buff,16);
 
-		//if(PC_TX_num % down_sampling_rate == 500)
-		{
-		//		GPIO_ResetBits(GPIOA,GPIO_Pin_1);
-		}
+
 		DMA_Cmd(DMA1_Stream6, ENABLE);
 		
 	}

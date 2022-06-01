@@ -220,8 +220,8 @@ float g_pos_y[CAP_GRAPHIC_NUM] = {0.65,0.15,0.8,0.1,0.1,0.15,0.1,0.8,0.1};
 /*瞄准线偏移量*/
 int AIM_bias_x = 0;
 int AIM_bias_y = 0;
-int placece_x[13]={0,   	100,  20,  20, 	20,  40,  20,  20,  20,  40,  20,  20,  20};
-int placece_y[14]={-80,-320,-80,-100,-120,-140,-160,-180,-200,-220,-240,-260,-280,-300};
+int placece_x[14]={0  , 100, 60,  60, 60,  20,  15,  15,  15,  20,  15,  15,  15 ,20 };
+int placece_y[15]={-80,-320,-80,-100,-120,-140,-160,-180,-200,-220,-240,-260,-280,-300,-320 };
 
 #define PACK_NUM 4
 void referee_data_load_Graphic(int Op_type)
@@ -283,23 +283,22 @@ PITCH_:	pitch = F405.Gimbal_100 * 10;
 				
 		case 2:
 
-				/*******************************大符圆形*********************************/
-Buff:		custom_grapic_draw.graphic_custom.grapic_data_struct[3].graphic_name[0] = 0;
-				custom_grapic_draw.graphic_custom.grapic_data_struct[3].graphic_name[1] = 1;
-				custom_grapic_draw.graphic_custom.grapic_data_struct[3].graphic_name[2] = 7;
-				custom_grapic_draw.graphic_custom.grapic_data_struct[3].operate_tpye=Op_type;
-				custom_grapic_draw.graphic_custom.grapic_data_struct[3].graphic_tpye=2;
-				custom_grapic_draw.graphic_custom.grapic_data_struct[3].layer=0;
-				custom_grapic_draw.graphic_custom.grapic_data_struct[3].color=Green;
-				custom_grapic_draw.graphic_custom.grapic_data_struct[3].start_angle=0;
-				custom_grapic_draw.graphic_custom.grapic_data_struct[3].end_angle=0;
-				custom_grapic_draw.graphic_custom.grapic_data_struct[3].width=2;
-				custom_grapic_draw.graphic_custom.grapic_data_struct[3].start_x=SCREEN_LENGTH/2 + bias_x[0] + AIM_bias_x;
-				custom_grapic_draw.graphic_custom.grapic_data_struct[3].start_y=SCREEN_WIDTH/2 + bias_y[0] + AIM_bias_y;
-				custom_grapic_draw.graphic_custom.grapic_data_struct[3].end_x=0;
-				custom_grapic_draw.graphic_custom.grapic_data_struct[3].end_y=0;
-//				custom_grapic_draw.graphic_custom.grapic_data_struct[3].radius=Buff_flag?bias_r:0;
-		    custom_grapic_draw.graphic_custom.grapic_data_struct[3].radius=bias_r;
+				/*********************************横线12*********************************/
+				custom_grapic_draw.graphic_custom.grapic_data_struct[5].graphic_name[0] = 0;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[5].graphic_name[1] = 1;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[5].graphic_name[2] = 9;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[5].operate_tpye=Op_type;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[5].graphic_tpye=0;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[5].layer=0;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[5].color=Green;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[5].start_angle=0;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[5].end_angle=0;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[5].width=2;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[5].start_x=SCREEN_LENGTH/2 - placece_x[13] + AIM_bias_x;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[5].start_y=SCREEN_WIDTH/2 + placece_y[14] + AIM_bias_y;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[5].end_x  =SCREEN_LENGTH/2 + placece_x[13] + AIM_bias_x;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[5].end_y  =SCREEN_WIDTH/2 + placece_y[14] + AIM_bias_y;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[5].radius=0;
 				/*从这以下是射击辅助线*/
 				/*********************************中线*********************************/
 				custom_grapic_draw.graphic_custom.grapic_data_struct[4].graphic_name[0] = 0;
@@ -311,7 +310,7 @@ Buff:		custom_grapic_draw.graphic_custom.grapic_data_struct[3].graphic_name[0] =
 				custom_grapic_draw.graphic_custom.grapic_data_struct[4].color=Green;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[4].start_angle=0;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[4].end_angle=0;
-				custom_grapic_draw.graphic_custom.grapic_data_struct[4].width=1;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[4].width=2;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[4].start_x=SCREEN_LENGTH/2 - placece_x[0] + AIM_bias_x;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[4].start_y=SCREEN_WIDTH/2 + placece_y[0] + AIM_bias_y;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[4].end_x  =SCREEN_LENGTH/2 - placece_x[0] + AIM_bias_x;
@@ -328,7 +327,7 @@ Buff:		custom_grapic_draw.graphic_custom.grapic_data_struct[3].graphic_name[0] =
 				custom_grapic_draw.graphic_custom.grapic_data_struct[5].color=Green;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[5].start_angle=0;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[5].end_angle=0;
-				custom_grapic_draw.graphic_custom.grapic_data_struct[5].width=1;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[5].width=2;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[5].start_x=SCREEN_LENGTH/2 - placece_x[1] + AIM_bias_x;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[5].start_y=SCREEN_WIDTH/2 + placece_y[2] + AIM_bias_y;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[5].end_x  =SCREEN_LENGTH/2 + placece_x[1] + AIM_bias_x;
@@ -345,7 +344,7 @@ Buff:		custom_grapic_draw.graphic_custom.grapic_data_struct[3].graphic_name[0] =
 				custom_grapic_draw.graphic_custom.grapic_data_struct[6].color=Green;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[6].start_angle=0;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[6].end_angle=0;
-				custom_grapic_draw.graphic_custom.grapic_data_struct[6].width=1;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[6].width=2;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[6].start_x=SCREEN_LENGTH/2 - placece_x[2] + AIM_bias_x;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[6].start_y=SCREEN_WIDTH/2 + placece_y[3] + AIM_bias_y;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[6].end_x  =SCREEN_LENGTH/2 + placece_x[2] + AIM_bias_x;
@@ -363,7 +362,7 @@ Buff:		custom_grapic_draw.graphic_custom.grapic_data_struct[3].graphic_name[0] =
 				custom_grapic_draw.graphic_custom.grapic_data_struct[0].color=Green;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[0].start_angle=0;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[0].end_angle=0;
-				custom_grapic_draw.graphic_custom.grapic_data_struct[0].width=1;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[0].width=2;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[0].start_x=SCREEN_LENGTH/2 - placece_x[3] + AIM_bias_x;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[0].start_y=SCREEN_WIDTH/2 + placece_y[4] + AIM_bias_y;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[0].end_x  =SCREEN_LENGTH/2 + placece_x[3] + AIM_bias_x;
@@ -380,7 +379,7 @@ Buff:		custom_grapic_draw.graphic_custom.grapic_data_struct[3].graphic_name[0] =
 				custom_grapic_draw.graphic_custom.grapic_data_struct[1].color=Green;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[1].start_angle=0;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[1].end_angle=0;
-				custom_grapic_draw.graphic_custom.grapic_data_struct[1].width=1;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[1].width=2;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[1].start_x=SCREEN_LENGTH/2 - placece_x[4] + AIM_bias_x;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[1].start_y=SCREEN_WIDTH/2 + placece_y[5] + AIM_bias_y;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[1].end_x  =SCREEN_LENGTH/2 + placece_x[4] + AIM_bias_x;
@@ -397,7 +396,7 @@ Buff:		custom_grapic_draw.graphic_custom.grapic_data_struct[3].graphic_name[0] =
 				custom_grapic_draw.graphic_custom.grapic_data_struct[2].color=Green;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[2].start_angle=0;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[2].end_angle=0;
-				custom_grapic_draw.graphic_custom.grapic_data_struct[2].width=1;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[2].width=2;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[2].start_x=SCREEN_LENGTH/2 - placece_x[5] + AIM_bias_x;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[2].start_y=SCREEN_WIDTH/2 + placece_y[6] + AIM_bias_y;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[2].end_x  =SCREEN_LENGTH/2 + placece_x[5] + AIM_bias_x;
@@ -417,7 +416,7 @@ Buff:		custom_grapic_draw.graphic_custom.grapic_data_struct[3].graphic_name[0] =
 				custom_grapic_draw.graphic_custom.grapic_data_struct[3].color=Green;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[3].start_angle=0;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[3].end_angle=0;
-				custom_grapic_draw.graphic_custom.grapic_data_struct[3].width=1;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[3].width=2;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[3].start_x=SCREEN_LENGTH/2 - placece_x[6] + AIM_bias_x;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[3].start_y=SCREEN_WIDTH/2 + placece_y[7] + AIM_bias_y;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[3].end_x  =SCREEN_LENGTH/2 + placece_x[6] + AIM_bias_x;
@@ -434,7 +433,7 @@ Buff:		custom_grapic_draw.graphic_custom.grapic_data_struct[3].graphic_name[0] =
 				custom_grapic_draw.graphic_custom.grapic_data_struct[4].color=Green;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[4].start_angle=0;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[4].end_angle=0;
-				custom_grapic_draw.graphic_custom.grapic_data_struct[4].width=1;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[4].width=2;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[4].start_x=SCREEN_LENGTH/2 - placece_x[7] + AIM_bias_x;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[4].start_y=SCREEN_WIDTH/2 + placece_y[8] + AIM_bias_y;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[4].end_x  =SCREEN_LENGTH/2 + placece_x[7] + AIM_bias_x;
@@ -451,7 +450,7 @@ Buff:		custom_grapic_draw.graphic_custom.grapic_data_struct[3].graphic_name[0] =
 				custom_grapic_draw.graphic_custom.grapic_data_struct[5].color=Green;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[5].start_angle=0;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[5].end_angle=0;
-				custom_grapic_draw.graphic_custom.grapic_data_struct[5].width=1;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[5].width=2;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[5].start_x=SCREEN_LENGTH/2 - placece_x[8] + AIM_bias_x;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[5].start_y=SCREEN_WIDTH/2 + placece_y[9] + AIM_bias_y;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[5].end_x  =SCREEN_LENGTH/2 + placece_x[8] + AIM_bias_x;
@@ -468,7 +467,7 @@ Buff:		custom_grapic_draw.graphic_custom.grapic_data_struct[3].graphic_name[0] =
 				custom_grapic_draw.graphic_custom.grapic_data_struct[6].color=Green;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[6].start_angle=0;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[6].end_angle=0;
-				custom_grapic_draw.graphic_custom.grapic_data_struct[6].width=1;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[6].width=2;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[6].start_x=SCREEN_LENGTH/2 - placece_x[9] + AIM_bias_x;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[6].start_y=SCREEN_WIDTH/2 + placece_y[10] + AIM_bias_y;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[6].end_x  =SCREEN_LENGTH/2 + placece_x[9] + AIM_bias_x;
@@ -485,7 +484,7 @@ Buff:		custom_grapic_draw.graphic_custom.grapic_data_struct[3].graphic_name[0] =
 				custom_grapic_draw.graphic_custom.grapic_data_struct[0].color=Green;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[0].start_angle=0;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[0].end_angle=0;
-				custom_grapic_draw.graphic_custom.grapic_data_struct[0].width=1;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[0].width=2;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[0].start_x=SCREEN_LENGTH/2 - placece_x[10] + AIM_bias_x;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[0].start_y=SCREEN_WIDTH/2 + placece_y[11] + AIM_bias_y;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[0].end_x  =SCREEN_LENGTH/2 + placece_x[10] + AIM_bias_x;
@@ -502,7 +501,7 @@ Buff:		custom_grapic_draw.graphic_custom.grapic_data_struct[3].graphic_name[0] =
 				custom_grapic_draw.graphic_custom.grapic_data_struct[1].color=Green;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[1].start_angle=0;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[1].end_angle=0;
-				custom_grapic_draw.graphic_custom.grapic_data_struct[1].width=1;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[1].width=2;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[1].start_x=SCREEN_LENGTH/2 - placece_x[11] + AIM_bias_x;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[1].start_y=SCREEN_WIDTH/2 + placece_y[12] + AIM_bias_y;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[1].end_x  =SCREEN_LENGTH/2 + placece_x[11] + AIM_bias_x;
@@ -519,7 +518,7 @@ Buff:		custom_grapic_draw.graphic_custom.grapic_data_struct[3].graphic_name[0] =
 				custom_grapic_draw.graphic_custom.grapic_data_struct[2].color=Green;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[2].start_angle=0;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[2].end_angle=0;
-				custom_grapic_draw.graphic_custom.grapic_data_struct[2].width=1;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[2].width=2;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[2].start_x=SCREEN_LENGTH/2 - placece_x[12] + AIM_bias_x;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[2].start_y=SCREEN_WIDTH/2 + placece_y[13] + AIM_bias_y;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[2].end_x  =SCREEN_LENGTH/2 + placece_x[12] + AIM_bias_x;
@@ -574,16 +573,16 @@ int Graphic_Change_Check(void)
 	if(pitch_100 != last_pitch_100) pitch_change_flag = Op_Change;
 	last_pitch_100 = pitch_100;
 	
-	/***********************Buff状态变化检测部分************************/
-	if(F405.Gimbal_Flag == Gimbal_Buff_Mode)
-		Buff_flag = 1;
-	else
-		Buff_flag = 0;
-	if(Buff_flag != last_Buff_Flag)
-	{
-			buff_change_flag = Op_Change;
-	}
-	last_Buff_Flag = Buff_flag;
+//	/***********************Buff状态变化检测部分************************/
+//	if(F405.Gimbal_Flag == Gimbal_Buff_Mode)
+//		Buff_flag = 1;
+//	else
+//		Buff_flag = 0;
+//	if(Buff_flag != last_Buff_Flag)
+//	{
+//			buff_change_flag = Op_Change;
+//	}
+//	last_Buff_Flag = Buff_flag;
 	
 	/*电容电压检测部分*/
 	if(last_cap_vol != AD_actual_value) cap_change_flag = Op_Change;
@@ -647,6 +646,7 @@ void referee_data_pack_handle(uint8_t sof,uint16_t cmd_id, uint8_t *p_data, uint
 **********************************************************************************************************/
 extern ext_student_interactive_char_header_data_t custom_char_draw;  //自定义字符绘制
 int char_change_state,graphic_change_state;
+int GraficTaskcnt = 0;
 void GraphicSendtask(void *pvParameters)
 {
 	
@@ -662,6 +662,7 @@ void GraphicSendtask(void *pvParameters)
 			}
 	
       IWDG_Feed();//喂狗
+			GraficTaskcnt++;
 			vTaskDelay(50); 	 
 #if INCLUDE_uxTaskGetStackHighWaterMark
 		

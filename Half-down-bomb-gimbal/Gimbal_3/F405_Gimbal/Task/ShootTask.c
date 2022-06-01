@@ -200,52 +200,52 @@ void Shoot_Powerdown_Cal(void)
 	PidBodanMotorSpeed.SetPoint=PID_Calc(&PidBodanMotorPos,Bodan_Pos);
 }
 
-/**********************************************************************************************************
-*函 数 名: Shoot_Tx2_Cal
-*功能说明: 辅瞄模式
-*形    参: rc
-*返 回 值: 无
-**********************************************************************************************************/
-extern short armor_state;
-extern float k_onegrid;
-void Shoot_Tx2_Cal()
-{
-	if(ShootAct_Init_Flag!=3)
-	{
-		MirocPosition = 0;
-		ShootAct_Init_Flag=3;
-		SendToTx2BullectCnt=PC_Receive.ReceiveFromTx2BullectCnt=0;
-	}
-/***********************************************Armor******************************************/	
-	if(Status.GimbalMode == Gimbal_Armor_Mode)
-	{
-		if(F105.IsShootAble==1)
-  	{
-			if(ABS(PC_Receive.RCPitch - (-Gimbal.Pitch.Gyro))<1.5f && ABS(PC_Receive.RCYaw - Gimbal.Yaw.Gyro)<1.5f)	//已经辅瞄到位，自动开火
-			{
-				if(ABS(PidBodanMotorPos.SetPoint-Bodan_Pos)<5000)
-				{
-					MirocPosition = k_onegrid * Onegrid;
-					SendToTx2BullectCnt++;
-				}
-			}
-    }
-	}
-	
-	if(Status.GimbalMode == Gimbal_Buff_Mode)
-	{
-		if(F105.IsShootAble==1 && armor_state == ARMOR_AIMED)
-  	{
-			if(ABS(PC_Receive.RCPitch - Gimbal.Pitch.MotorTransAngle)<1.5f && ABS(PC_Receive.RCYaw - Gimbal.Yaw.MotorTransAngle)<1.5f)	//已经辅瞄到位，自动开火
-			{
-				if(ABS(PidBodanMotorPos.SetPoint-Bodan_Pos)<8000)
-				{
-					MirocPosition = k_onegrid * Onegrid;
-					SendToTx2BullectCnt++;
-				}
-			}
-    }
-	}	
+///**********************************************************************************************************
+//*函 数 名: Shoot_Tx2_Cal
+//*功能说明: 辅瞄模式
+//*形    参: rc
+//*返 回 值: 无
+//**********************************************************************************************************/
+//extern short armor_state;
+//extern float k_onegrid;
+//void Shoot_Tx2_Cal()
+//{
+//	if(ShootAct_Init_Flag!=3)
+//	{
+//		MirocPosition = 0;
+//		ShootAct_Init_Flag=3;
+//		SendToTx2BullectCnt=PC_Receive.ReceiveFromTx2BullectCnt=0;
+//	}
+///***********************************************Armor******************************************/	
+//	if(Status.GimbalMode == Gimbal_Armor_Mode)
+//	{
+//		if(F105.IsShootAble==1)
+//  	{
+//			if(ABS(PC_Receive.RCPitch - (-Gimbal.Pitch.Gyro))<1.5f && ABS(PC_Receive.RCYaw - Gimbal.Yaw.Gyro)<1.5f)	//已经辅瞄到位，自动开火
+//			{
+//				if(ABS(PidBodanMotorPos.SetPoint-Bodan_Pos)<5000)
+//				{
+//					MirocPosition = k_onegrid * Onegrid;
+//					SendToTx2BullectCnt++;
+//				}
+//			}
+//    }
+//	}
+//	
+//	if(Status.GimbalMode == Gimbal_Buff_Mode)
+//	{
+//		if(F105.IsShootAble==1 && armor_state == ARMOR_AIMED)
+//  	{
+//			if(ABS(PC_Receive.RCPitch - Gimbal.Pitch.MotorTransAngle)<1.5f && ABS(PC_Receive.RCYaw - Gimbal.Yaw.MotorTransAngle)<1.5f)	//已经辅瞄到位，自动开火
+//			{
+//				if(ABS(PidBodanMotorPos.SetPoint-Bodan_Pos)<8000)
+//				{
+//					MirocPosition = k_onegrid * Onegrid;
+//					SendToTx2BullectCnt++;
+//				}
+//			}
+//    }
+//	}	
 //测试
 //		if(armor_state == ARMOR_AIMED)
 //  	{
@@ -302,9 +302,9 @@ void Shoot_Tx2_Cal()
 //	}
 	
 //	if(F105.IsShootAble==1)
-		PidBodanMotorPos.SetPoint=PidBodanMotorPos.SetPoint+MirocPosition;  
-		MirocPosition = 0;
-}
+//		PidBodanMotorPos.SetPoint=PidBodanMotorPos.SetPoint+MirocPosition;  
+//		MirocPosition = 0;
+//}
 
 /**********************************************************************************************************
 *函 数 名: BodanMotor_CurrentPid_Cal
@@ -316,7 +316,7 @@ short Last_GimbalState;
 void BodanMotor_CurrentPid_Cal(void)
 {
 	//清空上一次辅瞄模式的标志位
-	if((Last_GimbalState == Gimbal_Armor_Mode||Last_GimbalState == Gimbal_Buff_Mode) && Last_GimbalState != Status.GimbalMode)
+	if((Last_GimbalState == Gimbal_Armor_Mode||Last_GimbalState == Gimbal_AntiSP_Mode ||Last_GimbalState == Gimbal_BigBuf_Mode ||Last_GimbalState == Gimbal_SmlBuf_Mode) && Last_GimbalState != Status.GimbalMode)
 	{
 	  armor_state=ARMOR_NO_AIM;
 	}
@@ -376,7 +376,7 @@ void Pid_BodanMotor_Init(void)
 	PidBodanMotorSpeed.DeadZone=50.0f;
 	PidBodanMotorSpeed.IMax=1000.0f;
 	PidBodanMotorSpeed.SetPoint=0.0f;
-	PidBodanMotorSpeed.OutMax = 10000.0f;
+	PidBodanMotorSpeed.OutMax = 9900.0f;
 }
 
 /**********************************************************************************************************
@@ -423,14 +423,14 @@ void Pid_Friction_Init(void)
 	PidFrictionSpeed[0].D=0.0f;
 	PidFrictionSpeed[0].IMax=1500.0f;
 	PidFrictionSpeed[0].SetPoint=0.0f;
-	PidFrictionSpeed[0].OutMax = 10000.0f;
+	PidFrictionSpeed[0].OutMax = 9900.0f;
 	
   PidFrictionSpeed[1].P=60.0f;
 	PidFrictionSpeed[1].I=0.0f;
 	PidFrictionSpeed[1].D=0.0f;
 	PidFrictionSpeed[1].IMax=1500.0f;
 	PidFrictionSpeed[1].SetPoint=0.0f;
-	PidFrictionSpeed[1].OutMax = 10000.0f;
+	PidFrictionSpeed[1].OutMax = 9900.0f;
 }
 
 

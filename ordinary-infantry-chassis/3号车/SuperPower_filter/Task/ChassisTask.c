@@ -251,7 +251,8 @@ void Chassis_Speed_Cal(void)
 		break;
 		
 		case Chassis_Act_Mode:
-						
+		case Chassis_Jump_Mode:
+			
 		if((ABS(chassis.carSpeedx)>500) && (ABS(chassis.carSpeedy) >500))
 				k_xy = 1.3f;
 			else
@@ -268,6 +269,7 @@ void Chassis_Speed_Cal(void)
 	 {
 	   carSpeedw = chassis.carSpeedw;
 	 }
+	 
 		break;
 		
 		case Chassis_SelfProtect_Mode:
@@ -325,11 +327,6 @@ void Chassis_Speed_Cal(void)
 				k_xy = 2;
 			carSpeedw = chassis.carSpeedw; 
 		}
-		break;
-		
-		case Chassis_NoFollow_Mode:
-			k_xy = 2.5f;
-			carSpeedw = 0;
 		break;
 		
 		default: 
@@ -884,7 +881,7 @@ void HeatControl(void)
 //		AvailableHeat17 = HeatMax17 - CurHeat17;
 		if(JudgeReceive.ShootCpltFlag == 1)	//检测到发弹。为热量更新后打出的子弹
 		{
-			AvailableHeat17 = LIMIT_MAX_MIN(AvailableHeat17 - BulletHeat17,HeatMax17,0);
+			AvailableHeat17 = LIMIT_MAX_MIN(AvailableHeat17 - BulletHeat17*JudgeReceive.bulletFreq/10,HeatMax17,0);
 			JudgeReceive.ShootCpltFlag = 0;	//已处理完本次发弹
 		}
 		AvailableBullet17 = AvailableHeat17 / BulletHeat17;
@@ -910,9 +907,9 @@ const float HeatControlThreshold = 0.8f;   	//开启热量控制的阈值
 void HeatUpdate(void)
 {
 //	HeatMax17 = JudgeReceive.HeatMax17 + (short)(1250/JudgeReceive.maxHP) - BulletHeat17;		//榨干热量.jpg
-	HeatMax17 = JudgeReceive.HeatMax17 - BulletHeat17;		//榨干热量
-	HeatCool17 = JudgeReceive.HeatCool17/10;
-	CurHeat17 = JudgeReceive.shooterHeat17;
+	HeatMax17 = JudgeReceive.HeatMax17 - BulletHeat17;		//榨干热量，只保留一颗弹丸的余量
+	HeatCool17 = JudgeReceive.HeatCool17/10;          // 热量每次检测的冷却值
+	CurHeat17 = JudgeReceive.shooterHeat17;          //接收到的裁判系统热量
 	
 	if(CurHeat17 != LastHeat17)
 	{

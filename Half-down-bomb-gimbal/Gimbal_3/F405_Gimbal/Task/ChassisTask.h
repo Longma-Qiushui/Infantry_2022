@@ -12,7 +12,7 @@ void Chassis_Powerdown_Cal(void);
 void Chassis_Act_Cal(Remote rc,Key key);
 void Chassis_SelfProtect_Cal(Remote rc,Key key);
 void Chassis_Solo_Cal(Remote rc,Key key);
-void Chassis_NoFollow_Cal(Remote rc,Key key);
+void Chassis_Jump_Cal(Remote rc,Key key);
 
 float ChassisPostionAngle_TranSform(short InitPos);
 

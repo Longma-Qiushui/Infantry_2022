@@ -122,7 +122,7 @@ void Chassis_Act_Cal(Remote rc,Key key)
 		
 	}
 
-	if(Status.GimbalMode == Gimbal_DropShot_Mode || Status.GimbalMode == Gimbal_Buff_Mode)//吊射模式
+	if(Status.GimbalMode == Gimbal_DropShot_Mode || Status.GimbalMode == Gimbal_BigBuf_Mode || Status.GimbalMode == Gimbal_SmlBuf_Mode)//吊射模式
 	{	
 	chassis.carSpeedw = 0;
   }
@@ -364,11 +364,12 @@ if(Status.ControlMode==Control_RC_Mode)
 *形    参: rc  key
 *返 回 值: 无
 **********************************************************************************************************/
-void Chassis_NoFollow_Cal(Remote rc,Key key) 
+float Jump_TheTa;
+void Chassis_Jump_Cal(Remote rc,Key key) 
 {
-	if(ChassisAct_Init_Flag!=Chassis_NoFollow_Mode)
+	if(ChassisAct_Init_Flag!=Chassis_Jump_Mode)
 	{
-    ChassisAct_Init_Flag=Chassis_NoFollow_Mode;
+    ChassisAct_Init_Flag=Chassis_Jump_Mode;
 	}
 	Theta=ChassisPostionAngle_TranSform(Infantry.Yaw_init)/360.0f*6.28318f;
 	
@@ -423,8 +424,20 @@ if(Status.ControlMode==Control_RC_Mode)
 		chassis.carSpeedy = ((key.s-key.w)*2000*SinTheTa-(key.a-key.d)*2000*CosTheTa);
 	
 	}
-	//无跟随
-		chassis.carSpeedw = 0;	
+	
+	//头朝前
+	pidChassisPosition.SetPoint = 4096;
+	if(Theta<0)
+	{
+	Jump_TheTa = (Theta + 6.28318f)/6.28318f*8192.0f;
+	}
+	else
+	{
+	Jump_TheTa = Theta;
+	}
+  pidChassisPosition_Speed.SetPoint= -PID_Calc(&pidChassisPosition , Jump_TheTa);
+  chassis.carSpeedw = PID_Calc(&pidChassisPosition_Speed,F105.ChassisSpeedw);
+
 }
 
 /**********************************************************************************************************
@@ -471,8 +484,8 @@ void Chassis_CurrentPid_Cal(void)
 		case Chassis_Solo_Mode:
 			Chassis_Solo_Cal(RC_Ctl.rc,RC_Ctl.key);
 			break;
-		case Chassis_NoFollow_Mode:
-			Chassis_NoFollow_Cal(RC_Ctl.rc,RC_Ctl.key);
+		case Chassis_Jump_Mode:
+			Chassis_Jump_Cal(RC_Ctl.rc,RC_Ctl.key);
 			break;
 		case Chassis_Powerdown_Mode:
 			Chassis_Powerdown_Cal();
@@ -553,7 +566,7 @@ void Pid_ChassisPosition_Init(void)
 	/********************************************* 4号车 ***********************************************************/	
 		case 4:
 	{
-		pidChassisPosition.P = 2.5f;				//2.0				位置环	4号车
+		pidChassisPosition.P = 2.0f;				//2.0				位置环	4号车
 	  pidChassisPosition.I = 0.00f;					
 	  pidChassisPosition.D = 0.0f;				
 	  pidChassisPosition.IMax = 300.0f;

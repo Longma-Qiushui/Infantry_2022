@@ -2,20 +2,21 @@
 #define __DATARECEIVETASK_H
 #include "main.h"
 
-//底盘模式宏定义
 #define Chassis_Powerdown_Mode 					0
 #define Chassis_Act_Mode  							1
 #define Chassis_SelfProtect_Mode 				2
 #define Chassis_Solo_Mode  							3
-#define Chassis_NoFollow_Mode  					4
+#define Chassis_Jump_Mode               4
 
-//云台模式宏定义
 #define Gimbal_Powerdown_Mode 					0
 #define Gimbal_Act_Mode 								1
 #define Gimbal_Armor_Mode  							2
-#define Gimbal_Buff_Mode 								3
+#define Gimbal_BigBuf_Mode 						  3
 #define Gimbal_DropShot_Mode 						4
+#define Gimbal_SI_Mode 									5
 #define Gimbal_Jump_Mode                6
+#define Gimbal_AntiSP_Mode              7
+#define Gimbal_SmlBuf_Mode              8
 
 typedef struct{
 	char SuperPowerLimit;	//0为超级电容关闭，不为0则开启使用超级电容
