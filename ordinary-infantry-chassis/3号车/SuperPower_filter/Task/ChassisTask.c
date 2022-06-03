@@ -254,12 +254,12 @@ void Chassis_Speed_Cal(void)
 		case Chassis_Jump_Mode:
 			
 		if((ABS(chassis.carSpeedx)>500) && (ABS(chassis.carSpeedy) >500))
-				k_xy = 1.3f;
+				k_xy = 1.5f;
 			else
 				k_xy = 3;
 			
 		if((ABS(chassis.carSpeedx) <500) && (ABS(chassis.carSpeedy)>500))
-				k_xy =1.5f;
+				k_xy =2.0f;
 				
    if(PowerState==BAT)
 	 {	
@@ -642,10 +642,10 @@ case 4:
 	/****************60W********************/
 	num++;                                             //4号车
 	Power_method[num].Actual_P_max = 60;                   
-	Power_method[num].Self_Protect_Limit = 3400;  //小陀螺控制转速
+	Power_method[num].Self_Protect_Limit = 3500;  //小陀螺控制转速
 	Power_method[num].k_BAT = 0.75f;   // 0.9f              //xy向速度系数
 	Power_method[num].Excess_P_max_J = 300;  //3000   750  //太小起步较慢匀速直行时会缓存能量太少会无法转弯，较大的值可以保证起步后可以保留缓存能量可以转弯，但连续转弯有限
-	Power_method[num].Excess_P_max_P = 2000;
+	Power_method[num].Excess_P_max_P = 2500;
 	Power_method[num].CurrentMax = 10000;
 	Power_method[num].Follow_W = 4000;
 	/****************80W********************/
@@ -654,16 +654,16 @@ case 4:
 	Power_method[num].Self_Protect_Limit = 4300;
 	Power_method[num].k_BAT = 0.95f;   //
 	Power_method[num].Excess_P_max_J = 330;  //1350
-	Power_method[num].Excess_P_max_P = 1000;
+	Power_method[num].Excess_P_max_P = 1600;
 	Power_method[num].CurrentMax = 10000;
 	Power_method[num].Follow_W =5000;
 	/****************100W********************/
 	num++;                                             //4号车
 	Power_method[num].Actual_P_max = 100;
-	Power_method[num].Self_Protect_Limit = 4800;
+	Power_method[num].Self_Protect_Limit = 4900;
 	Power_method[num].k_BAT = 1.05f;
 	Power_method[num].Excess_P_max_J = 370;
-	Power_method[num].Excess_P_max_P = 1200;
+	Power_method[num].Excess_P_max_P = 1400;
 	Power_method[num].CurrentMax = 12000;
 	Power_method[num].Follow_W = 5600;
 	/****************120W********************/

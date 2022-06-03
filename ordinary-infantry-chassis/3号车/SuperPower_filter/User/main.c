@@ -153,7 +153,7 @@ void Offline_Check_task(void *pvParameters)
 		
 		IWDG_Feed();//Î¹¹·
 
-		vTaskDelay(10); 
+		vTaskDelay(1); 
 		 
 #if INCLUDE_uxTaskGetStackHighWaterMark
         Offline_Check_high_water = uxTaskGetStackHighWaterMark(NULL);
