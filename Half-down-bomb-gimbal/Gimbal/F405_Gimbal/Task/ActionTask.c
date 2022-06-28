@@ -10,21 +10,17 @@
 short Mouse_Key_Flag;
 short waitFlag[10]={10,0,0,0,0,0,0,0,0,0};
 short SpeedMode = 1;//摩擦轮射速挡位
-short DanCang_Flag;//弹舱开关标志位
 short ctrl_rising_flag,pre_key_ctrl,v_rising_flag,pre_key_v,c_rising_flag,pre_key_c,pre_key_e,e_rising_flag,x_rising_flag,pre_key_x,Press_Key_x_Flag,v_rising_flag,pre_key_b;
 short q_rising_flag,b_rising_flag,f_rising_flag,g_rising_flag,pre_key_f,mouse_Press_r_rising_flag,pre_mouse_l,r_rising_flag,pre_key_r,z_rising_flag,pre_key_z,Press_Key_z_Flag;
 short pre_key_q,pre_key_g,pre_v_rising_flag;	//上一v按键按下状态
 short v_high_flag;
-char q_flag,v_flag;
+char q_flag,f_flag,c_flag;
+char k_slow;
 char smallBuff_flag;
 short Turning_flag;	//小陀螺标志
-short MicroSw_flag;	//激光标志
 char Graphic_Init_flag;	//图形初始化标志
-short Solo_flag, Buff_flag;
-/*用于做tx2关机标志和计时*/
-short PC_Sendflag = 0;
-short Tx2_Off_times = 0;
-
+char Budan,Buff_flag;
+short PC_Sendflag;
 //弹仓盖舵机 持续时间
 short SteeringEngineDelay = 0;
 /*---------------结构体--------------------*/
@@ -111,7 +107,7 @@ void SetInputMode(Remote rc)
 		  
 		break;
 	}
-	Tx2_Off_Test(rc);	//遥控器控制tx2关机判断
+//	Tx2_Off_Test(rc);	//遥控器控制tx2关机判断
 }
 
 /**********************************************************************************************************
@@ -123,30 +119,34 @@ void SetInputMode(Remote rc)
 void Powerdown_Process()
 {
 	if(Mouse_Key_Flag!=1)
-	  Mouse_Key_Flag=1;
+	{
+		Mouse_Key_Flag=1;
+		Budan = 1;
+	}
 	Status.ChassisMode = Chassis_Powerdown_Mode;
 	Status.GimbalMode  = Gimbal_Powerdown_Mode;
 	Status.ShootMode = Shoot_Powerdown_Mode;
+	
 }
 
-/**********************************************************************************************************
-*函 数 名: Tx2_Off_Test
-*功能说明: Tx2关机指令判断，将右拨杆拨至最下，即掉电模式后，两摇杆向内靠，发送关机指令
-*形    参: 无
-*返 回 值: 无
-**********************************************************************************************************/
-void Tx2_Off_Test(Remote rc)
-{
-	if(rc.s1 == 2 && rc.ch0 < 500 && rc.ch2 > 1500)
-		Tx2_Off_times++;		//计数器
-	else 
-		{
-			Tx2_Off_times = 0;
-			PC_Sendflag = 0;
-		}
-	if(Tx2_Off_times > 500)
-		PC_Sendflag = Tx2_Off;
-}
+///**********************************************************************************************************
+//*函 数 名: Tx2_Off_Test
+//*功能说明: Tx2关机指令判断，将右拨杆拨至最下，即掉电模式后，两摇杆向内靠，发送关机指令
+//*形    参: 无
+//*返 回 值: 无
+//**********************************************************************************************************/
+//void Tx2_Off_Test(Remote rc)
+//{
+//	if(rc.s1 == 2 && rc.ch0 < 500 && rc.ch2 > 1500)
+//		Tx2_Off_times++;		//计数器
+//	else 
+//		{
+//			Tx2_Off_times = 0;
+//			PC_Sendflag = 0;
+//		}
+//	if(Tx2_Off_times > 500)
+//		PC_Sendflag = Tx2_Off;
+//}
 
 /**********************************************************************************************************
 *函 数 名: Remote_Process
@@ -162,6 +162,7 @@ void Remote_Process(Remote rc)
 	if(Mouse_Key_Flag!=2)
 	{
 	  Mouse_Key_Flag=2;
+		Budan = 0;
 	}
 	
 	if(rc.s2==3) //正常模式
@@ -173,14 +174,21 @@ void Remote_Process(Remote rc)
 		SteeringEngine_Set(Infantry.MagClose);
 	}
 	
-//	if(rc.s2==1) //检录模式
+//		if(rc.s2==2) //弹道测试模式
+//	{
+//		Status.GimbalMode=Gimbal_Test_Mode;
+//		Status.ChassisMode=Chassis_Powerdown_Mode;
+//		Status.ShootMode=Shoot_Check_Mode;
+//    SteeringEngine_Set(Infantry.MagOpen);
+//	}
+
+//	if(rc.s2==2) //检录模式
 //	{
 //		Status.GimbalMode=Gimbal_Act_Mode; 
 //		Status.ChassisMode=Chassis_Act_Mode;
 //		Status.ShootMode=Shoot_Check_Mode;
-//		SteeringEngine_Set(Infantry.MagOpen);	
-//	}
-
+//		SteeringEngine_Set(Infantry.MagClose);
+//	}	
 //	if(rc.s2==1) //辅瞄模式
 //	{
 //		Status.GimbalMode=Gimbal_Armor_Mode; 
@@ -195,8 +203,8 @@ void Remote_Process(Remote rc)
 //		Status.ShootMode=Shoot_Powerdown_Mode;
 //    SteeringEngine_Set(Infantry.MagClose);
 //	}
-////	
-//	if(rc.s2==1) //小陀螺辅瞄模式
+//	
+//	if(rc.s2==2) //小陀螺辅瞄模式
 //	{
 //		Status.GimbalMode=Gimbal_Armor_Mode;
 //		Status.ChassisMode=Chassis_SelfProtect_Mode;
@@ -204,19 +212,19 @@ void Remote_Process(Remote rc)
 //    SteeringEngine_Set(Infantry.MagOpen);
 //	}
 
-	if(rc.s2 == 2)//大符模式
-	{
-		if(Buff_Init==0)
-		{
-		Buff_Yaw_Motor =Gimbal.Yaw.MotorTransAngle;
-		Buff_Init=1;
-		}
-		Status.GimbalMode = Gimbal_BigBuf_Mode;
-    SteeringEngine_Set(Infantry.MagOpen);	
-		Status.ChassisMode = Chassis_Act_Mode;
-		Status.ShootMode = Shoot_Tx2_Mode;
-	}
- 
+//	if(rc.s2 == 2)//大符模式
+//	{
+//		if(Buff_Init==0)
+//		{
+//		Buff_Yaw_Motor =Gimbal.Yaw.MotorTransAngle;
+//		Buff_Init=1;
+//		}
+//		Status.GimbalMode = Gimbal_BigBuf_Mode;
+//    SteeringEngine_Set(Infantry.MagOpen);	
+//		Status.ChassisMode = Chassis_Act_Mode;
+//		Status.ShootMode = Shoot_Tx2_Mode;
+//	}
+// 
 	
 		if(rc.s2 == 1)//小符模式
 	{
@@ -226,7 +234,7 @@ void Remote_Process(Remote rc)
 		Buff_Init=1;
 		}
 		Status.GimbalMode = Gimbal_SmlBuf_Mode;
-    SteeringEngine_Set(Infantry.MagOpen);	
+    SteeringEngine_Set(Infantry.MagClose);	
 		Status.ChassisMode = Chassis_Act_Mode;
 		Status.ShootMode = Shoot_Tx2_Mode;
 		smallBuff_flag = 1;
@@ -241,13 +249,13 @@ void Remote_Process(Remote rc)
 	
 	
 	
-//		if(rc.s2==1)  //系统辨识模式
-//	{
-//		Status.GimbalMode=Gimbal_Act_Mode;
-//		Status.ChassisMode=Chassis_Powerdown_Mode;
-//		Status.ShootMode=Shoot_Powerdown_Mode;
-//		SteeringEngine_Set(Infantry.MagOpen);
-//  }
+		if(rc.s2==2)  //系统辨识模式
+	{
+		Status.GimbalMode=Gimbal_SI_Mode;
+		Status.ChassisMode=Chassis_Act_Mode;
+		Status.ShootMode=Shoot_Powerdown_Mode;
+		SteeringEngine_Set(Infantry.MagClose);
+  }
 
 //	if(rc.s2==1)  //系统辨识模式
 //	{
@@ -262,18 +270,18 @@ void Remote_Process(Remote rc)
 *函 数 名: MouseKey_Act_Cal
 *功能说明: 键鼠模式(还剩一个e,q,z)
            w,s,a,d          前进左右后退
-           q								无跟随模式
-					 e             		向右单挑
-           r                装子弹/打开以及关闭弹仓/返回Pitch轴归中值/减慢移速
-           f                开关激光  
-					 g								拨盘反转
+           q								反小陀螺模式
+					 e             		单挑
+           r                开关弹舱   Pitch压低
+           f                飞坡模式
+					 g								拨盘反转一格
 					 z								大符
            x                小符           
-           c                复位（底盘正常，云台正常，发射机构正常，SpeedMode=0，激光关闭）
-           v                保护模式(小陀螺，并且可以移动)
+           c                大小符重新拟合
+           v                缓慢移动
 					 b								图形初始化
            shift            使用超级电容
-           ctrl             
+           ctrl             小陀螺
            mouse.press_r    右键进入辅瞄模式
            mouse.press_l    单击点射(单发)/按下连发
 *形    参: RC_Ctl
@@ -293,21 +301,21 @@ void MouseKey_Act_Cal(RC_Ctl_t RC_Ctl)
 {		
 //	static int shoot_ticked;
 		static int waitb=0;
-/******************************开关激光 f键*****************************************/
-		f_rising_flag=RC_Ctl.key.f-pre_key_f;
-    pre_key_f=RC_Ctl.key.f;
-			if(f_rising_flag==1)
-				MicroSw_flag++;
-			if(MicroSw_flag % 2 == 0)
-			{
-				MicroSw_Off;		
-				F405.Laser_Flag = 0;
-			}
-			else 
-			{
-				MicroSw_On;		//默认激光开启
-				F405.Laser_Flag = 1;
-			}	
+///******************************开关激光 f键*****************************************/
+//		f_rising_flag=RC_Ctl.key.f-pre_key_f;
+//    pre_key_f=RC_Ctl.key.f;
+//			if(f_rising_flag==1)
+//				MicroSw_flag++;
+//			if(MicroSw_flag % 2 == 0)
+//			{
+//				MicroSw_Off;		
+//				F405.Laser_Flag = 0;
+//			}
+//			else 
+//			{
+//				MicroSw_On;		//默认激光开启
+//				F405.Laser_Flag = 1;
+//			}	
 
 /******************************拨盘反转 g键*****************************************/
 		g_rising_flag=RC_Ctl.key.g-pre_key_g;
@@ -396,19 +404,14 @@ void MouseKey_Act_Cal(RC_Ctl_t RC_Ctl)
    pre_key_r=RC_Ctl.key.r;
 	 if(r_rising_flag==1)			//按键按下时
 	 {
-
-		 SteeringEngine_Configuration();
+//		 SteeringEngine_Configuration();
 		 if(magazineState == 0x00) 
 		 {
-			 SteeringEngine_Set(Infantry.MagOpen);
-			 Status.GimbalMode=Gimbal_Powerdown_Mode;
-			 Status.ChassisMode=Chassis_Powerdown_Mode;
+			 Budan = 1;
      }
 			 else
 			 {
-			 SteeringEngine_Set(Infantry.MagClose);
-			 Status.GimbalMode=Gimbal_Act_Mode;
-			 Status.ChassisMode=Chassis_Act_Mode;
+			 Budan = 0;
        }
 	 }
 
@@ -443,25 +446,46 @@ void MouseKey_Act_Cal(RC_Ctl_t RC_Ctl)
 				SPaim_flag = 0;
 				}
 			}		
+/******************************大符矫正模式 c键*****************************************/
+			c_rising_flag=RC_Ctl.key.c-pre_key_c;
+			pre_key_c = RC_Ctl.key.c;
+			if(c_rising_flag == 1)
+			{	
+					if(Status.GimbalMode == Gimbal_BigBuf_Mode)
+					{
+					c_flag = !c_flag;
+					}
+			}		
 
-/******************************飞坡模式 v键*****************************************/
-			v_rising_flag=RC_Ctl.key.v-pre_key_v;
-			pre_key_v = RC_Ctl.key.v;
-			if(v_rising_flag == 1)
+/******************************飞坡模式 f键*****************************************/
+			f_rising_flag=RC_Ctl.key.f-pre_key_f;
+			pre_key_f = RC_Ctl.key.f;
+			if(f_rising_flag == 1)
 			{				
-				if(!v_flag)
+				if(!f_flag)
 				{
 				Status.GimbalMode = Gimbal_Jump_Mode;
 				Status.ChassisMode = Chassis_Jump_Mode;
-				v_flag = 1;
+				f_flag = 1;
 				}
 				else
 				{
 				Status.GimbalMode = Gimbal_Act_Mode;
 				Status.ChassisMode = Chassis_Act_Mode;
-				v_flag = 0;
+				f_flag = 0;
 				}
 			}		
+
+/******************************缓慢移动模式 v键*****************************************/
+
+			if(RC_Ctl.key.v == 1)
+			{				
+        k_slow = 1;
+			}		
+			else 
+			{
+				k_slow = 0;
+			}
 
 ///******************************大符模式 z键*****************************************/
 			z_rising_flag=RC_Ctl.key.z-pre_key_z;
@@ -586,10 +610,7 @@ void MouseKey_Act_Cal(RC_Ctl_t RC_Ctl)
 		else if(Status.GimbalMode==Gimbal_Armor_Mode) 
 		{
 			Status.GimbalMode=Gimbal_Act_Mode;
-			if(MicroSw_flag % 2 == 0)
-				Laser_Off();
-			else
-				Laser_On();
+
 		}
 }
 
@@ -612,7 +633,19 @@ void Mouse_Key_Process(RC_Ctl_t RC_Ctl)
 		Status.GimbalMode=Gimbal_Act_Mode;
     Status.ChassisMode=Chassis_Act_Mode;
 	  Status.ShootMode=Shoot_Fire_Mode;
+		Budan = 0;
 	}
+	
+	//控制补弹开关弹舱盖
+	if(Budan)
+	{
+	 SteeringEngine_Set(Infantry.MagOpen);
+	}else
+	{
+	 SteeringEngine_Set(Infantry.MagClose);
+	}
+	
+	//  控制摩擦轮开关
 	if(RC_Ctl.rc.s2==2)
 	{
 	Status.ShootMode=Shoot_Powerdown_Mode;
@@ -637,13 +670,13 @@ void ModeChoose_task(void *pvParameters)
 {
 	
    while (1) {
-	  if(Robot_ID!=Chassis_ID)
-		{
-		Robot_ID=Chassis_ID;
-		Robot_Init();
-		}
-		 Status_Act(); 
-		IWDG_Feed();
+		 
+//		Status_Act(); 
+		//测试打弹
+		Status.ShootMode=Shoot_Check_Mode;
+		F105.IsShootAble=1;
+		 
+		 IWDG_Feed();
     vTaskDelay(3); 
 		 
 #if INCLUDE_uxTaskGetStackHighWaterMark

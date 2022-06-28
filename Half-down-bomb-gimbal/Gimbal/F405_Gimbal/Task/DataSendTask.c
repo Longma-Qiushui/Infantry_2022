@@ -64,6 +64,7 @@ void BodanCan1Send(short a)
 **********************************************************************************************************/
 extern short armor_state;
 extern char  SelfProtect_Cross_Flag;
+extern char k_slow;
 void F405Can1Send(F405_typedef *F405_Send)
 {
     CanTxMsg tx_message;
@@ -80,7 +81,8 @@ void F405Can1Send(F405_typedef *F405_Send)
 									((F405_Send->Follow_state&0x01)<<3)|
 	                ((F405_Send->Fric_Flag&0x01)<<4)|
 	                ((armor_state&0x01)<<5)|
-	                ((SelfProtect_Cross_Flag&0x01)<<6);
+	                ((SelfProtect_Cross_Flag&0x01)<<6)|
+									((k_slow&0x01)<<7);
     memcpy(&tx_message.Data[0],&F405_Send->SuperPowerLimit,1);
 		memcpy(&tx_message.Data[1],&F405_Send->Chassis_Flag,1);	
 		memcpy(&tx_message.Data[2],&F405_Send->Gimbal_100,2);
@@ -160,7 +162,7 @@ void FrictionBodanCan2Send(short X,short Y,short Z)
     tx_message.StdId = 0x200;
 		X=LIMIT_MAX_MIN(X,9000,-9000);
 	  Y=LIMIT_MAX_MIN(Y,9000,-9000);
-		Z=LIMIT_MAX_MIN(Z,9500,-9500);
+		Z=LIMIT_MAX_MIN(Z,9900,-9900);
 	 	 switch(Infantry.FricMotorID[0])
 		 { 
 		 case 0x201:		 
@@ -256,6 +258,7 @@ extern float GimbalYawPos,GimbalPitchPos;
 extern float Buff_Yaw_Motor;
 extern char SPaim_flag;
 extern char smallBuff_flag;
+extern char c_flag;
 void USART6_SendtoPC(void)
 {
 	char Mode_Flag;
@@ -264,7 +267,7 @@ void USART6_SendtoPC(void)
 	{
 		SendToPC_Buff[0] = '!';
     Mode_Flag=(Status.GimbalMode==Gimbal_BigBuf_Mode?1:0);
-		SendToPC_Buff[1] = (smallBuff_flag<<5|SPaim_flag<<4|Mode_Flag<<3|F105.BulletSpeedLevel<<1|F105.RobotRed)&0XFF; // 1为红色，0为蓝色
+		SendToPC_Buff[1] = (c_flag<<6|smallBuff_flag<<5|SPaim_flag<<4|Mode_Flag<<3|F105.BulletSpeedLevel<<1|F105.RobotRed)&0XFF; // 1为红色，0为蓝色
 	
 			
 		pitch = (short)(Gimbal.Pitch.MotorTransAngle*100);

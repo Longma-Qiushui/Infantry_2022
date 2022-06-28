@@ -108,6 +108,8 @@ void CPU_task(void *pvParameters)
 {
 	
    while (1) {
+
+#if INCLUDE_uxTaskGetStackHighWaterMark
     memset(CPU_RunInfo1,0,200); //信息缓冲区清零
  
     vTaskList((char *)&CPU_RunInfo1); //获取任务运行时间信息
@@ -121,12 +123,9 @@ void CPU_task(void *pvParameters)
 		Mark[5] = uxTaskGetStackHighWaterMark(ModeChooseTask_Handler);
 		Mark[6] = uxTaskGetStackHighWaterMark(ShootTask_Handler);
 		Mark[7] = uxTaskGetStackHighWaterMark(TX2Task_Handler);
-		 
+    CPU_high_water = uxTaskGetStackHighWaterMark(NULL);
     vTaskGetRunTimeStats((char *)&CPU_RunInfo2);
     vTaskDelay(1000); /* 延时 500 个 tick */
-
-#if INCLUDE_uxTaskGetStackHighWaterMark
-        CPU_high_water = uxTaskGetStackHighWaterMark(NULL);
 #endif
     }
 }
@@ -191,4 +190,24 @@ void Shoot_Recover()
   taskEXIT_CRITICAL();
  }
 
+}
+extern float aim_yaw, aim_pitch;
+extern PC_Receive_t PC_Receive;
+extern Gimbal_Typedef Gimbal;
+extern short armor_state;
+extern Status_t Status;
+void PC_Rst()
+{
+	if(Status.GimbalMode == Gimbal_BigBuf_Mode || Status.GimbalMode == Gimbal_SmlBuf_Mode)
+	{
+	PC_Receive.RCYaw = Gimbal.Yaw.MotorTransAngle;
+	aim_yaw = Gimbal.Yaw.MotorTransAngle;
+	}else
+	{
+	PC_Receive.RCYaw = Gimbal.Yaw.Gyro;
+	aim_yaw = Gimbal.Yaw.Gyro;	
+	}
+	PC_Receive.RCPitch = Gimbal.Pitch.MotorTransAngle;
+	aim_pitch = Gimbal.Pitch.MotorTransAngle;
+	armor_state = ARMOR_NO_AIM;
 }

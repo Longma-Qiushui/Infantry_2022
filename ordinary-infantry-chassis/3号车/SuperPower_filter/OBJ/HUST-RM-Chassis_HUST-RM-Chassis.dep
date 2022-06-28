@@ -1,5 +1,5 @@
 Dependencies for Project 'HUST-RM-Chassis', Target 'HUST-RM-Chassis': (DO NOT MODIFY !)
-F (..\User\main.c)(0x6299A495)(--c99 -c --cpu Cortex-M3 -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\Library\inc -I ..\Mylib -I ..\Algorithm -I ..\Task -I ..\FreeRTOS\include -I ..\FreeRTOS\port\MemMang -I ..\FreeRTOS\port\RVDS\ARM_CM3 -I ..\Project-I.\RTE\_HUST-RM-Chassis-ID:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="525" -DSTM32F10X_CL -DSTM32F10X_CL -DUSE_STDPERIPH_DRIVER-o ..\obj\main.o --omf_browse ..\obj\main.crf --depend ..\obj\main.d)
+F (..\User\main.c)(0x62A3E753)(--c99 -c --cpu Cortex-M3 -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\Library\inc -I ..\Mylib -I ..\Algorithm -I ..\Task -I ..\FreeRTOS\include -I ..\FreeRTOS\port\MemMang -I ..\FreeRTOS\port\RVDS\ARM_CM3 -I ..\Project-I.\RTE\_HUST-RM-Chassis-ID:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="525" -DSTM32F10X_CL -DSTM32F10X_CL -DUSE_STDPERIPH_DRIVER-o ..\obj\main.o --omf_browse ..\obj\main.crf --depend ..\obj\main.d)
 I (..\User\main.h)(0x62931B60)
 I (..\User\stm32f10x.h)(0x625BA52C)
 I (..\User\core_cm3.h)(0x625BA52C)
@@ -1103,7 +1103,7 @@ I (..\FreeRTOS\port\RVDS\ARM_CM3\portmacro.h)(0x625BA52C)
 I (..\FreeRTOS\include\mpu_wrappers.h)(0x625BA52C)
 I (..\FreeRTOS\include\task.h)(0x625BA52C)
 I (..\FreeRTOS\include\list.h)(0x625BA52C)
-F (..\Task\DataReceiveTask.c)(0x6296BCF8)(--c99 -c --cpu Cortex-M3 -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\Library\inc -I ..\Mylib -I ..\Algorithm -I ..\Task -I ..\FreeRTOS\include -I ..\FreeRTOS\port\MemMang -I ..\FreeRTOS\port\RVDS\ARM_CM3 -I ..\Project-I.\RTE\_HUST-RM-Chassis-ID:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="525" -DSTM32F10X_CL -DSTM32F10X_CL -DUSE_STDPERIPH_DRIVER-o ..\obj\datareceivetask.o --omf_browse ..\obj\datareceivetask.crf --depend ..\obj\datareceivetask.d)
+F (..\Task\DataReceiveTask.c)(0x62A22E60)(--c99 -c --cpu Cortex-M3 -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\Library\inc -I ..\Mylib -I ..\Algorithm -I ..\Task -I ..\FreeRTOS\include -I ..\FreeRTOS\port\MemMang -I ..\FreeRTOS\port\RVDS\ARM_CM3 -I ..\Project-I.\RTE\_HUST-RM-Chassis-ID:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="525" -DSTM32F10X_CL -DSTM32F10X_CL -DUSE_STDPERIPH_DRIVER-o ..\obj\datareceivetask.o --omf_browse ..\obj\datareceivetask.crf --depend ..\obj\datareceivetask.d)
 I (..\User\main.h)(0x62931B60)
 I (..\User\stm32f10x.h)(0x625BA52C)
 I (..\User\core_cm3.h)(0x625BA52C)
@@ -1156,7 +1156,7 @@ I (..\FreeRTOS\port\RVDS\ARM_CM3\portmacro.h)(0x625BA52C)
 I (..\FreeRTOS\include\mpu_wrappers.h)(0x625BA52C)
 I (..\FreeRTOS\include\task.h)(0x625BA52C)
 I (..\FreeRTOS\include\list.h)(0x625BA52C)
-F (..\Task\DataSendTask.c)(0x6296BCF8)(--c99 -c --cpu Cortex-M3 -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\Library\inc -I ..\Mylib -I ..\Algorithm -I ..\Task -I ..\FreeRTOS\include -I ..\FreeRTOS\port\MemMang -I ..\FreeRTOS\port\RVDS\ARM_CM3 -I ..\Project-I.\RTE\_HUST-RM-Chassis-ID:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="525" -DSTM32F10X_CL -DSTM32F10X_CL -DUSE_STDPERIPH_DRIVER-o ..\obj\datasendtask.o --omf_browse ..\obj\datasendtask.crf --depend ..\obj\datasendtask.d)
+F (..\Task\DataSendTask.c)(0x62A09147)(--c99 -c --cpu Cortex-M3 -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\Library\inc -I ..\Mylib -I ..\Algorithm -I ..\Task -I ..\FreeRTOS\include -I ..\FreeRTOS\port\MemMang -I ..\FreeRTOS\port\RVDS\ARM_CM3 -I ..\Project-I.\RTE\_HUST-RM-Chassis-ID:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="525" -DSTM32F10X_CL -DSTM32F10X_CL -DUSE_STDPERIPH_DRIVER-o ..\obj\datasendtask.o --omf_browse ..\obj\datasendtask.crf --depend ..\obj\datasendtask.d)
 I (..\User\main.h)(0x62931B60)
 I (..\User\stm32f10x.h)(0x625BA52C)
 I (..\User\core_cm3.h)(0x625BA52C)
@@ -1209,7 +1209,7 @@ I (..\FreeRTOS\port\RVDS\ARM_CM3\portmacro.h)(0x625BA52C)
 I (..\FreeRTOS\include\mpu_wrappers.h)(0x625BA52C)
 I (..\FreeRTOS\include\task.h)(0x625BA52C)
 I (..\FreeRTOS\include\list.h)(0x625BA52C)
-F (..\Task\ChassisTask.c)(0x62998807)(--c99 -c --cpu Cortex-M3 -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\Library\inc -I ..\Mylib -I ..\Algorithm -I ..\Task -I ..\FreeRTOS\include -I ..\FreeRTOS\port\MemMang -I ..\FreeRTOS\port\RVDS\ARM_CM3 -I ..\Project-I.\RTE\_HUST-RM-Chassis-ID:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="525" -DSTM32F10X_CL -DSTM32F10X_CL -DUSE_STDPERIPH_DRIVER-o ..\obj\chassistask.o --omf_browse ..\obj\chassistask.crf --depend ..\obj\chassistask.d)
+F (..\Task\ChassisTask.c)(0x62A3A649)(--c99 -c --cpu Cortex-M3 -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\Library\inc -I ..\Mylib -I ..\Algorithm -I ..\Task -I ..\FreeRTOS\include -I ..\FreeRTOS\port\MemMang -I ..\FreeRTOS\port\RVDS\ARM_CM3 -I ..\Project-I.\RTE\_HUST-RM-Chassis-ID:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="525" -DSTM32F10X_CL -DSTM32F10X_CL -DUSE_STDPERIPH_DRIVER-o ..\obj\chassistask.o --omf_browse ..\obj\chassistask.crf --depend ..\obj\chassistask.d)
 I (..\User\main.h)(0x62931B60)
 I (..\User\stm32f10x.h)(0x625BA52C)
 I (..\User\core_cm3.h)(0x625BA52C)
@@ -1368,7 +1368,7 @@ I (..\FreeRTOS\port\RVDS\ARM_CM3\portmacro.h)(0x625BA52C)
 I (..\FreeRTOS\include\mpu_wrappers.h)(0x625BA52C)
 I (..\FreeRTOS\include\task.h)(0x625BA52C)
 I (..\FreeRTOS\include\list.h)(0x625BA52C)
-F (..\Task\CharSendTask.c)(0x629739ED)(--c99 -c --cpu Cortex-M3 -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\Library\inc -I ..\Mylib -I ..\Algorithm -I ..\Task -I ..\FreeRTOS\include -I ..\FreeRTOS\port\MemMang -I ..\FreeRTOS\port\RVDS\ARM_CM3 -I ..\Project-I.\RTE\_HUST-RM-Chassis-ID:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="525" -DSTM32F10X_CL -DSTM32F10X_CL -DUSE_STDPERIPH_DRIVER-o ..\obj\charsendtask.o --omf_browse ..\obj\charsendtask.crf --depend ..\obj\charsendtask.d)
+F (..\Task\CharSendTask.c)(0x629CEE51)(--c99 -c --cpu Cortex-M3 -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\Library\inc -I ..\Mylib -I ..\Algorithm -I ..\Task -I ..\FreeRTOS\include -I ..\FreeRTOS\port\MemMang -I ..\FreeRTOS\port\RVDS\ARM_CM3 -I ..\Project-I.\RTE\_HUST-RM-Chassis-ID:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="525" -DSTM32F10X_CL -DSTM32F10X_CL -DUSE_STDPERIPH_DRIVER-o ..\obj\charsendtask.o --omf_browse ..\obj\charsendtask.crf --depend ..\obj\charsendtask.d)
 I (..\User\main.h)(0x62931B60)
 I (..\User\stm32f10x.h)(0x625BA52C)
 I (..\User\core_cm3.h)(0x625BA52C)
@@ -1421,7 +1421,7 @@ I (..\FreeRTOS\port\RVDS\ARM_CM3\portmacro.h)(0x625BA52C)
 I (..\FreeRTOS\include\mpu_wrappers.h)(0x625BA52C)
 I (..\FreeRTOS\include\task.h)(0x625BA52C)
 I (..\FreeRTOS\include\list.h)(0x625BA52C)
-F (..\Task\GraphicsSendTask.c)(0x6297315B)(--c99 -c --cpu Cortex-M3 -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\Library\inc -I ..\Mylib -I ..\Algorithm -I ..\Task -I ..\FreeRTOS\include -I ..\FreeRTOS\port\MemMang -I ..\FreeRTOS\port\RVDS\ARM_CM3 -I ..\Project-I.\RTE\_HUST-RM-Chassis-ID:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="525" -DSTM32F10X_CL -DSTM32F10X_CL -DUSE_STDPERIPH_DRIVER-o ..\obj\graphicssendtask.o --omf_browse ..\obj\graphicssendtask.crf --depend ..\obj\graphicssendtask.d)
+F (..\Task\GraphicsSendTask.c)(0x62A22E02)(--c99 -c --cpu Cortex-M3 -g -O0 --apcs=interwork --split_sections -I ..\User -I ..\Library\inc -I ..\Mylib -I ..\Algorithm -I ..\Task -I ..\FreeRTOS\include -I ..\FreeRTOS\port\MemMang -I ..\FreeRTOS\port\RVDS\ARM_CM3 -I ..\Project-I.\RTE\_HUST-RM-Chassis-ID:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\Include-ID:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="525" -DSTM32F10X_CL -DSTM32F10X_CL -DUSE_STDPERIPH_DRIVER-o ..\obj\graphicssendtask.o --omf_browse ..\obj\graphicssendtask.crf --depend ..\obj\graphicssendtask.d)
 I (..\User\main.h)(0x62931B60)
 I (..\User\stm32f10x.h)(0x625BA52C)
 I (..\User\core_cm3.h)(0x625BA52C)

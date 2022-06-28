@@ -7,8 +7,6 @@
 **********************************************************************************************************/
 #include "main.h"
 /*----------------------------------内部变量---------------------------*/
-int gimbal_pitch_max = 34;		//初始化PITCH限位
-int gimbal_pitch_min = -11;
 
 int inttoshort[4];
 short GimbalAct_Init_Flag=0;
@@ -34,7 +32,8 @@ extern short FrictionWheel_speed;
 extern F405_typedef F405;
 extern PC_Receive_t PC_Receive;
 extern char Robot_ID;
-
+extern char Budan;
+extern float Buff_Yaw_Motor;
 /**********************************************************************************************************
 *函 数 名: Gimbal_Powerdown_Cal
 *功能说明: 云台掉电模式
@@ -50,7 +49,7 @@ void Gimbal_Powerdown_Cal()
 	}
 	
 	/***********************************************************************************/
-	FuzzyPidPitchPos.SetPoint = gimbal_pitch_min;
+	FuzzyPidPitchPos.SetPoint = Infantry.pitch_min_motor;
 	FuzzyPidPitchPos.ActPoint = Gimbal.Pitch.MotorTransAngle;
 	
   /**************************************计算电流值**************************************/
@@ -145,7 +144,14 @@ void FuzzyMotorGimbal_Act_Cal(Remote rc,Mouse mouse,PC_Receive_t *Pc_Recv)
 		GimbalPitchPos += mouse.z*0.002f;
 	}
 
-	GimbalPitchPos=LIMIT_MAX_MIN(GimbalPitchPos,gimbal_pitch_max,gimbal_pitch_min);//限位(用电机角度)	//限住大小，因此可用MotorTransangle来pid
+	if(Budan)
+	{
+	GimbalPitchPos = Infantry.pitch_min_motor;
+	}
+	else
+	{
+	GimbalPitchPos=LIMIT_MAX_MIN(GimbalPitchPos,Infantry.pitch_max_motor,Infantry.pitch_min_motor);//限位(用电机角度)	//限住大小，因此可用MotorTransangle来pid
+	}
 	/***********************************************************************************/
 	FuzzyPidPitchPos.SetPoint = GimbalPitchPos;
 	FuzzyPidPitchPos.ActPoint = Gimbal.Pitch.MotorTransAngle;
@@ -196,7 +202,7 @@ void FuzzyGyroGimbal_Act_Cal(Remote rc,Mouse mouse,PC_Receive_t *Pc_Recv)
 		GimbalPitchPos += mouse.z*0.001f;
 	}
 
-	GimbalPitchPos=LIMIT_MAX_MIN(GimbalPitchPos,gimbal_pitch_max,gimbal_pitch_min);//限位(用电机角度)	//限住大小，因此可用MotorTransangle来pid
+	GimbalPitchPos=LIMIT_MAX_MIN(GimbalPitchPos,Infantry.pitch_max_gyro,Infantry.pitch_min_gyro);//限位(用电机角度)	//限住大小，因此可用MotorTransangle来pid
 	/***********************************************************************************/
 	FuzzyPidPitchPos.SetPoint = -GimbalPitchPos;
 	FuzzyPidPitchPos.ActPoint = Gimbal.Pitch.Gyro;
@@ -227,21 +233,23 @@ void FuzzyGyroGimbal_Act_Cal(Remote rc,Mouse mouse,PC_Receive_t *Pc_Recv)
 *返 回 值: 无
 **********************************************************************************************************/
 float speed_limit = 30.0f;
+char Aim_Follow;
 float Inte_z;
+extern float aim_yaw, aim_pitch;
 void Gimbal_Armor_Cal(Remote rc,Mouse mouse,PC_Receive_t *Pc_Recv)
 {
 	if(GimbalAct_Init_Flag!=Gimbal_Armor_Mode)
 	{
 		GimbalAct_Init_Flag=Gimbal_Armor_Mode;
 		GimbalYawPos = Gimbal.Yaw.Gyro;
-	  GimbalPitchPos=Gimbal.Pitch.MotorTransAngle;
-		Pc_Recv->RCPitch=Gimbal.Pitch.MotorTransAngle;
-		Pc_Recv->RCYaw = Gimbal.Yaw.Gyro;
+	  GimbalPitchPos = Gimbal.Pitch.MotorTransAngle;
+		aim_pitch = Gimbal.Pitch.MotorTransAngle;
+		aim_yaw = Gimbal.Yaw.Gyro;
 		Inte_z = 0;
 	}
 
 	/**解决过零问题***/
-	Recent_Pitch_Angle_Armor = Pc_Recv->RCPitch;
+	Recent_Pitch_Angle_Armor = aim_pitch;
 	while(ABS(Recent_Pitch_Angle_Armor) >= 90 )
 	{
 		if(Recent_Pitch_Angle_Armor<0)
@@ -251,7 +259,7 @@ void Gimbal_Armor_Cal(Remote rc,Mouse mouse,PC_Receive_t *Pc_Recv)
 	}
 	
 	
-	Recent_Yaw_Angle_Armor = Pc_Recv->RCYaw;
+	Recent_Yaw_Angle_Armor = aim_yaw;
 	while(ABS(Gimbal.Yaw.Gyro - Recent_Yaw_Angle_Armor) >= 180 )
 	{
 		if(Gimbal.Yaw.Gyro<0)
@@ -260,13 +268,20 @@ void Gimbal_Armor_Cal(Remote rc,Mouse mouse,PC_Receive_t *Pc_Recv)
 			 Recent_Yaw_Angle_Armor=Recent_Yaw_Angle_Armor+360;
 	}
 	Inte_z += mouse.z*0.002f;
-	GimbalPitchPos= Recent_Pitch_Angle_Armor + Inte_z;
-	GimbalYawPos = Recent_Yaw_Angle_Armor;
 	
-//	GimbalYawPos = 20.0f;
-
+	if(ABS(aim_yaw - Gimbal.Yaw.Gyro) < 70 && ABS(aim_pitch -( Gimbal.Pitch.MotorTransAngle))< 60)		//程序安全
+	{
+				GimbalPitchPos = Recent_Pitch_Angle_Armor + Inte_z;;	//更新值
+				GimbalYawPos = Recent_Yaw_Angle_Armor;
+	}
+	else
+	{
+				GimbalPitchPos = Gimbal.Pitch.MotorTransAngle;	//更新值
+				GimbalYawPos = Gimbal.Yaw.Gyro;
+	}
 	
-	GimbalPitchPos=LIMIT_MAX_MIN(GimbalPitchPos,gimbal_pitch_max,gimbal_pitch_min);//限位(用电机角度)	//限住大小，因此可用MotorTransangle来pid
+	
+	GimbalPitchPos=LIMIT_MAX_MIN(GimbalPitchPos,Infantry.pitch_max_motor,Infantry.pitch_min_motor);//限位(用电机角度)	//限住大小，因此可用MotorTransangle来pid
 	/***********************************************************************************/
 	FuzzyAidPidPitchPos.SetPoint = GimbalPitchPos;
 	FuzzyAidPidPitchPos.ActPoint = Gimbal.Pitch.MotorTransAngle;
@@ -297,13 +312,13 @@ void Gimbal_Buff_Cal(Remote rc,Mouse mouse,PC_Receive_t *Pc_Recv)
 		GimbalAct_Init_Flag=Gimbal_BigBuf_Mode;
 		GimbalYawPos = Gimbal.Yaw.MotorTransAngle;
 	  GimbalPitchPos=Gimbal.Pitch.MotorTransAngle;
-		Pc_Recv->RCPitch=Gimbal.Pitch.MotorTransAngle;
-		Pc_Recv->RCYaw = Gimbal.Yaw.MotorTransAngle;
+		aim_pitch = Gimbal.Pitch.MotorTransAngle;
+		aim_yaw = 0;
 	}
 
 	
 	/**解决过零问题***/
-	Recent_Pitch_Angle_Armor = Pc_Recv->RCPitch;
+	Recent_Pitch_Angle_Armor = aim_pitch;
 	while(ABS(Recent_Pitch_Angle_Armor) >= 90 )
 	{
 		if(Recent_Pitch_Angle_Armor<0)
@@ -313,7 +328,7 @@ void Gimbal_Buff_Cal(Remote rc,Mouse mouse,PC_Receive_t *Pc_Recv)
 	}
 	
 	
-	Recent_Yaw_Angle_Armor = Pc_Recv->RCYaw;
+	Recent_Yaw_Angle_Armor = aim_yaw+Buff_Yaw_Motor;
 	while(ABS(Gimbal.Yaw.MotorTransAngle - Recent_Yaw_Angle_Armor) >= 180 )
 	{
 		if(Gimbal.Yaw.MotorTransAngle<0)
@@ -322,10 +337,19 @@ void Gimbal_Buff_Cal(Remote rc,Mouse mouse,PC_Receive_t *Pc_Recv)
 			 Recent_Yaw_Angle_Armor=Recent_Yaw_Angle_Armor+360;
 	}
 	
-	GimbalPitchPos= Recent_Pitch_Angle_Armor;
-	GimbalYawPos = Recent_Yaw_Angle_Armor;
+	if(ABS(Recent_Yaw_Angle_Armor - Gimbal.Yaw.MotorTransAngle) < 70 && ABS(Recent_Pitch_Angle_Armor - Gimbal.Pitch.MotorTransAngle)< 60)		//程序安全
+	{
+				GimbalPitchPos = Recent_Pitch_Angle_Armor;	//更新值
+				GimbalYawPos = Recent_Yaw_Angle_Armor;
+	}
+	else
+	{
+				GimbalPitchPos = Gimbal.Pitch.MotorTransAngle;	//更新值
+				GimbalYawPos = Gimbal.Yaw.MotorTransAngle;
+	}
 	
-	GimbalPitchPos = LIMIT_MAX_MIN(GimbalPitchPos,gimbal_pitch_max,gimbal_pitch_min);//限位
+	
+	GimbalPitchPos = LIMIT_MAX_MIN(GimbalPitchPos,Infantry.pitch_max_motor,Infantry.pitch_min_motor);//限位
 	/***************************************************************************************/
 	FuzzyAidPidPitchPos.SetPoint = GimbalPitchPos;
 	FuzzyAidPidPitchPos.ActPoint = Gimbal.Pitch.MotorTransAngle;
@@ -370,7 +394,7 @@ void Gimbal_DropShot_Cal(Remote rc,Mouse mouse,PC_Receive_t *Pc_Recv)
     GimbalYawPos   -= mouse.x*0.005f;
 	}
 	
-	GimbalPitchPos=LIMIT_MAX_MIN(GimbalPitchPos,gimbal_pitch_max,gimbal_pitch_min);//限位(用电机角度)
+	GimbalPitchPos=LIMIT_MAX_MIN(GimbalPitchPos,Infantry.pitch_max_motor,Infantry.pitch_min_motor);//限位(用电机角度)
   /***********************************************************************************/
 	PidPitchPos.SetPoint = GimbalPitchPos;
 	PidYawPos.SetPoint = GimbalYawPos;
@@ -383,6 +407,32 @@ void Gimbal_DropShot_Cal(Remote rc,Mouse mouse,PC_Receive_t *Pc_Recv)
 	PidYawSpeed.SetPoint=LIMIT_MAX_MIN(PidYawSpeed.SetPoint,5.5f,-5.5f);    
 	inttoshort[1]=PID_Calc(&PidYawSpeed,GyroReceive.GZ);
 	YawCurrent=inttoshort[1];	
+}
+
+void Gimbal_Test_Cal(Remote rc,Mouse mouse)
+{
+	if(GimbalAct_Init_Flag!=Gimbal_Test_Mode)
+	{
+		GimbalAct_Init_Flag=Gimbal_Test_Mode;
+		GimbalYawPos = Gimbal.Yaw.MotorTransAngle;
+	  GimbalPitchPos=Gimbal.Pitch.MotorTransAngle;
+	}
+	
+	GimbalPitchPos = LIMIT_MAX_MIN(GimbalPitchPos,Infantry.pitch_max_motor,Infantry.pitch_min_motor);//限位
+	/***************************************************************************************/
+	FuzzyAidPidPitchPos.SetPoint = GimbalPitchPos;
+	FuzzyAidPidPitchPos.ActPoint = Gimbal.Pitch.MotorTransAngle;
+	
+  PidPitchAidSpeed.SetPoint=FuzzyPID_Calc(&FuzzyAidPidPitchPos);   	
+	inttoshort[0]=(PID_Calc(&PidPitchAidSpeed,-GyroReceive.GY));//旧陀螺仪
+	PitchCurrent=-(short)inttoshort[0];
+		
+	FuzzyAidPidYawPos.SetPoint = GimbalYawPos;
+	FuzzyAidPidYawPos.ActPoint = Gimbal.Yaw.MotorTransAngle;
+	
+	PidYawAidSpeed.SetPoint=FuzzyPID_Calc(&FuzzyAidPidYawPos); 
+	inttoshort[1] = PID_Calc(&PidYawAidSpeed,GyroReceive.GZ);
+	YawCurrent = inttoshort[1];
 }
 
 /**********************************************************************************************************
@@ -406,35 +456,35 @@ void Gimbal_SI_Cal(float Gimbal_pitch,float Gimbal_yaw)
 	{
 		GimbalPitchPos = 0;				
 		GimbalYawPos = Gimbal.Yaw.Gyro;
+//  		GimbalPitchPos = Gimbal.Pitch.MotorTransAngle-30;   //用于阶跃响应测试				
+//  		GimbalYawPos = Gimbal.Yaw.Gyro -60;
 		F = 1;		
 		GimbalAct_Init_Flag = Gimbal_SI_Mode;
 	}
 		
-	T_change();		
-//	if(Gimbal_yaw >0.1 &&Gimbal_pitch == 0)
-//	{
-//		GimbalYawPos = (Gimbal_direct*Gimbal_yaw);
-//	}
-//	else if(Gimbal_yaw < 0.1&&Gimbal_pitch != 0)
-//	{
-		GimbalPitchPos = LIMIT_MAX_MIN((Gimbal_direct*Gimbal_pitch),gimbal_pitch_max,gimbal_pitch_min);
-//	}
-	
-//	GimbalPitchPos=LIMIT_MAX_MIN(GimbalPitchPos,gimbal_pitch_max,gimbal_pitch_min);//限位(用电机角度)
-  /***********************************************************************************/
-	PidPitchPos.SetPoint = GimbalPitchPos;
-	PidYawPos.SetPoint = GimbalYawPos;
+	  T_change();		
+//		GimbalPitchPos = LIMIT_MAX_MIN((Gimbal_direct*Gimbal_pitch),Infantry.pitch_max_motor,Infantry.pitch_min_motor);
+
   /**************************************计算电流值**************************************/	
-//	PidPitchSpeed.SetPoint=PID_Calc(&PidPitchPos,Gimbal.Pitch.MotorTransAngle);  		//和手动操作正负不一样
-	PidPitchSpeed.SetPoint=PID_Calc(&PidPitchPos,GyroReceive.PITCH);  		//和手动操作正负不一样
-	inttoshort[0]=(PID_Calc(&PidPitchSpeed,GyroReceive.GY));//旧陀螺仪
-	PitchCurrent=(short)inttoshort[0];
+	/***************************************************************************************/
+//	FuzzyAidPidPitchPos.SetPoint = GimbalPitchPos;
+//	FuzzyAidPidPitchPos.ActPoint = Gimbal.Pitch.MotorTransAngle;
+//	
+//  PidPitchAidSpeed.SetPoint=FuzzyPID_Calc(&FuzzyAidPidPitchPos);   	
+//	inttoshort[0]=(PID_Calc(&PidPitchAidSpeed,-GyroReceive.GY));//旧陀螺仪
+//	PitchCurrent=-(short)inttoshort[0];
 	
-//	PidYawSpeed.SetPoint=PID_Calc(&PidYawPos,Gimbal.Yaw.MotorTransAngle);	
-	PidYawSpeed.SetPoint=PID_Calc(&PidYawPos,GyroReceive.YAW);	
-	PidYawSpeed.SetPoint=LIMIT_MAX_MIN(PidYawSpeed.SetPoint,5.5f,-5.5f);    
-	inttoshort[1]=PID_Calc(&PidYawSpeed,GyroReceive.GZ);
-	YawCurrent=inttoshort[1];	
+
+		
+//	FuzzyAidPidYawPos.SetPoint = GimbalYawPos;
+//	FuzzyAidPidYawPos.ActPoint = Gimbal.Yaw.Gyro;
+//	
+//	PidYawAidSpeed.SetPoint=FuzzyPID_Calc(&FuzzyAidPidYawPos); 
+//	inttoshort[1] = PID_Calc(&PidYawAidSpeed,GyroReceive.GZ);
+	
+/************************************** 用于开环系统辨识 ******************************************/	
+  	PitchCurrent= Gimbal_direct*Gimbal_pitch;
+	  YawCurrent = Gimbal_direct*Gimbal_yaw;
 }
 
 void get_F(void)
@@ -547,27 +597,40 @@ void Gimbal_CurrentPid_Cal(void)
 		case Gimbal_Powerdown_Mode:
 			Gimbal_Powerdown_Cal();
 			break;
+		
 		case Gimbal_Act_Mode:
 			FuzzyMotorGimbal_Act_Cal(RC_Ctl.rc,RC_Ctl.mouse,&PC_Receive);
 			break;  
+		
 		case Gimbal_Armor_Mode:
 		case Gimbal_AntiSP_Mode:
 			Gimbal_Armor_Cal(RC_Ctl.rc,RC_Ctl.mouse,&PC_Receive);
 			break;
+		
 		case Gimbal_BigBuf_Mode:
 		case Gimbal_SmlBuf_Mode:
 			Gimbal_Buff_Cal(RC_Ctl.rc,RC_Ctl.mouse,&PC_Receive);
 			break;
+		
 		case Gimbal_DropShot_Mode:
 			Gimbal_DropShot_Cal(RC_Ctl.rc,RC_Ctl.mouse,&PC_Receive);
 			break; 
+		
 		case Gimbal_SI_Mode:
-//			Gimbal_SI_Cal(20.0, 0);			//pitch
+			Gimbal_SI_Cal(8000.0, 0);			//pitch
 //			Gimbal_SI_Cal(0.0, 30.0);		//yaw
 			break;
+		
 		case Gimbal_Jump_Mode:
 			FuzzyGyroGimbal_Act_Cal(RC_Ctl.rc,RC_Ctl.mouse,&PC_Receive);
+		  break;
+		
+		case Gimbal_Test_Mode:
+			Gimbal_Test_Cal(RC_Ctl.rc,RC_Ctl.mouse);
+			break;
+		
 		default:
+				Gimbal_Powerdown_Cal();	
 			break;
 	}
 	F405.Gimbal_Flag = Status.GimbalMode;
@@ -590,7 +653,7 @@ void PidGimbalMotor_Init(void)
 		case 3:
 {
   //手动pitch速度环                 
-  PidPitchSpeed.P=6000.0f;  //5000.0f;  
+  PidPitchSpeed.P=10000.0f;  //5000.0f;  
 	PidPitchSpeed.I=12.0f;   //10.0f; 
 	PidPitchSpeed.D=0.0f;
 	PidPitchSpeed.IMax=550.0f;
@@ -604,16 +667,15 @@ void PidGimbalMotor_Init(void)
 	PidYawPos.IMax=10.0f;
 	PidYawPos.SetPoint=0.0f;
 	PidYawPos.OutMax=5.5f;
-	PidYawPos.DeadZone=0.2f;
-	PidYawSpeed.P=9000.0f;   //30000
-	PidYawSpeed.I=5.0f;
+	PidYawSpeed.P=15000.0f;   //30000
+	PidYawSpeed.I=1.0f;
 	PidYawSpeed.D=0.0f;
 	PidYawSpeed.IMax=2000.0f;
 	PidYawSpeed.SetPoint=0.0f;
 	PidYawSpeed.OutMax=30000.0f;
 	
 	//辅瞄pitch速度环
-  PidPitchAidSpeed.P=13000.0f;	  //18000
+  PidPitchAidSpeed.P=10000.0f;	  //18000
 	PidPitchAidSpeed.I=18.0f; 
 	PidPitchAidSpeed.D=0.0f;
 	PidPitchAidSpeed.IMax=250.0f;
@@ -621,8 +683,8 @@ void PidGimbalMotor_Init(void)
 	PidPitchAidSpeed.OutMax=30000.0f;
 	
 	//辅瞄yaw速度环
-	PidYawAidSpeed.P=24000.0f;			//24000
-	PidYawAidSpeed.I=10.0f; 
+	PidYawAidSpeed.P=16000.0f;			//24000
+	PidYawAidSpeed.I=0.0f; 
 	PidYawAidSpeed.D=0.0f;
 	PidYawAidSpeed.IMax=2000.0f;
 	PidYawAidSpeed.SetPoint=0.0f;
@@ -631,7 +693,7 @@ void PidGimbalMotor_Init(void)
 /********************************************* 4号车 ********************************************************/	
 		case 4:
 {
-  PidPitchSpeed.P=7000.0f;  //5000.0f;  
+  PidPitchSpeed.P=10000.0f;  //5000.0f;  
 	PidPitchSpeed.I=12.0f;   //10.0f; 
 	PidPitchSpeed.D=0.0f;
 	PidPitchSpeed.IMax=550.0f;
@@ -640,14 +702,14 @@ void PidGimbalMotor_Init(void)
   
 	//手动yaw双环
   PidYawPos.P=0.25f;     
-	PidYawPos.I=0.01f;
+	PidYawPos.I=0.00f;
 	PidYawPos.D=0.0f;       
 	PidYawPos.IMax=10.0f;
 	PidYawPos.SetPoint=0.0f;
 	PidYawPos.OutMax=5.5f;
 	PidYawPos.DeadZone=0.0f;
-	PidYawSpeed.P=10000.0f;   //30000
-	PidYawSpeed.I=10.0f;
+	PidYawSpeed.P=15000.0f;   //30000
+	PidYawSpeed.I=1.0f;
 	PidYawSpeed.D=0.0f;
 	PidYawSpeed.IMax=2000.0f;
 	PidYawSpeed.SetPoint=0.0f;
@@ -662,8 +724,8 @@ void PidGimbalMotor_Init(void)
 	PidPitchAidSpeed.OutMax=30000.0f;
 	
 	//辅瞄yaw速度环
-	PidYawAidSpeed.P=24000.0f;			//12000
-	PidYawAidSpeed.I=8.0f; 
+	PidYawAidSpeed.P=16000.0f;			//12000
+	PidYawAidSpeed.I=0.0f; 
 	PidYawAidSpeed.D=0.0f;
 	PidYawAidSpeed.IMax=2000.0f;
 	PidYawAidSpeed.SetPoint=0.0f;
@@ -682,13 +744,13 @@ void PidGimbalMotor_Init(void)
   
 	//手动yaw双环
   PidYawPos.P=0.30f;     
-	PidYawPos.I=0.03f;
-	PidYawPos.D=0.1f;       
+	PidYawPos.I=0.01f;
+	PidYawPos.D=0.0f;       
 	PidYawPos.IMax=10.0f;
 	PidYawPos.SetPoint=0.0f;
 	PidYawPos.OutMax=5.5f;
-	PidYawPos.DeadZone=0.2f;
-	PidYawSpeed.P=10000.0f;   //30000
+	PidYawPos.DeadZone=0.0f;
+	PidYawSpeed.P=23000.0f;   //30000
 	PidYawSpeed.I=0.0f;
 	PidYawSpeed.D=0.0f;
 	PidYawSpeed.IMax=2000.0f;
@@ -696,7 +758,7 @@ void PidGimbalMotor_Init(void)
 	PidYawSpeed.OutMax=30000.0f;
 	
 	//辅瞄pitch速度环
-  PidPitchAidSpeed.P=10000.0f;	  //18000
+  PidPitchAidSpeed.P=12000.0f;	  //18000
 	PidPitchAidSpeed.I=5.0f; 
 	PidPitchAidSpeed.D=0.0f;
 	PidPitchAidSpeed.IMax=250.0f;
@@ -730,7 +792,7 @@ void PidGimbalMotor_Init(void)
 	PidYawPos.IMax=10.0f;
 	PidYawPos.SetPoint=0.0f;
 	PidYawPos.OutMax=5.5f;
-	PidYawPos.DeadZone=0.2f;
+	PidYawPos.DeadZone=0.0f;
 	PidYawSpeed.P=10000.0f;   //30000
 	PidYawSpeed.I=0.0f;
 	PidYawSpeed.D=0.0f;
@@ -771,7 +833,7 @@ void FuzzyPidGimbalMotor_Init(void)
 		case 3:
 		{
 			//手动pitch角度环
-			FuzzyPidPitchPos.Kp=0.25f;  //-0.33f;
+			FuzzyPidPitchPos.Kp=0.22f;  //-0.33f;
 			FuzzyPidPitchPos.Ki=0.0003f;  //0.005f;
 			FuzzyPidPitchPos.Kd=0.0f;
 			FuzzyPidPitchPos.IMax=40.0f;
@@ -892,7 +954,6 @@ void Gimbal_task(void *pvParameters)
 		Gimbal_CurrentPid_Cal();
 	}	 
 	
-		GGGG=uxTaskGetStackHighWaterMark(NULL);
 		
 		IWDG_Feed();//喂狗
 		

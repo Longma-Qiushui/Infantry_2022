@@ -13,8 +13,9 @@ extern F405_typedef F405;
 int pitch_change_flag;
 int buff_change_flag;
 int cap_change_flag;
-int vol_change_array[CAP_GRAPHIC_NUM];
+int park_change_flag;
 int Buff_flag;
+char park_line,last_park_line;
 
 float last_cap_vol;
 /**********************************************************************************************************
@@ -47,166 +48,166 @@ void JudgementCustomizeGraphics(int Op_type)
 		referee_data_load_Graphic(Op_type);
 }
 
-/**********************************************************************************************************
-*函 数 名: referee_data_load_shootUI
-*功能说明: 图形数据包装载射击图形
-*形    参: 操作类型，机器人等级
-*返 回 值: 无
-**********************************************************************************************************/
-short bias_x[7] = {0,15,13,12,11,10,9};
-short bias_y[7] = {0,113,118,123,128,133,138};
-short bias_r = 100;
-short screen_bias = -20;
+///**********************************************************************************************************
+//*函 数 名: referee_data_load_shootUI
+//*功能说明: 图形数据包装载射击图形
+//*形    参: 操作类型，机器人等级
+//*返 回 值: 无
+//**********************************************************************************************************/
+//short bias_x[7] = {0,15,13,12,11,10,9};
+//short bias_y[7] = {0,113,118,123,128,133,138};
+//short bias_r = 100;
+//short screen_bias = -20;
 float XX = 0.58,YY = 0.15;
-void referee_data_load_shootUI(uint8_t operate_type,uint8_t robot_level)
-{
-	/*******************************画近似直线射击圆*********************************/
-		custom_grapic_draw.graphic_custom.grapic_data_struct[0].graphic_name[0] = 0;
-		custom_grapic_draw.graphic_custom.grapic_data_struct[0].graphic_name[1] = 0;
-		custom_grapic_draw.graphic_custom.grapic_data_struct[0].graphic_name[2] = 0;//图形名
-		custom_grapic_draw.graphic_custom.grapic_data_struct[0].operate_tpye=operate_type;//图形操作，0：空操作；1：增加；2：修改；3：删除；
-		custom_grapic_draw.graphic_custom.grapic_data_struct[0].graphic_tpye=2;//图形类型，0为直线，其他的查看用户手册
-		custom_grapic_draw.graphic_custom.grapic_data_struct[0].layer=0;//图层数
-		custom_grapic_draw.graphic_custom.grapic_data_struct[0].color=0;//颜色
-		custom_grapic_draw.graphic_custom.grapic_data_struct[0].start_angle=0;
-		custom_grapic_draw.graphic_custom.grapic_data_struct[0].end_angle=0;
-		custom_grapic_draw.graphic_custom.grapic_data_struct[0].width=1;
-		custom_grapic_draw.graphic_custom.grapic_data_struct[0].start_x=SCREEN_LENGTH/2 + bias_x[0];
-		custom_grapic_draw.graphic_custom.grapic_data_struct[0].start_y=SCREEN_WIDTH/2 + bias_y[0];
-		custom_grapic_draw.graphic_custom.grapic_data_struct[0].end_x=0;
-		custom_grapic_draw.graphic_custom.grapic_data_struct[0].end_y=0;
-		custom_grapic_draw.graphic_custom.grapic_data_struct[0].radius= 2 + bias_r;
+//void referee_data_load_shootUI(uint8_t operate_type,uint8_t robot_level)
+//{
+//	/*******************************画近似直线射击圆*********************************/
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[0].graphic_name[0] = 0;
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[0].graphic_name[1] = 0;
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[0].graphic_name[2] = 0;//图形名
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[0].operate_tpye=operate_type;//图形操作，0：空操作；1：增加；2：修改；3：删除；
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[0].graphic_tpye=2;//图形类型，0为直线，其他的查看用户手册
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[0].layer=0;//图层数
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[0].color=0;//颜色
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[0].start_angle=0;
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[0].end_angle=0;
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[0].width=1;
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[0].start_x=SCREEN_LENGTH/2 + bias_x[0];
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[0].start_y=SCREEN_WIDTH/2 + bias_y[0];
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[0].end_x=0;
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[0].end_y=0;
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[0].radius= 2 + bias_r;
 
-/*******************************图1*********************************/
-		custom_grapic_draw.graphic_custom.grapic_data_struct[1].graphic_name[0] = 0;
-		custom_grapic_draw.graphic_custom.grapic_data_struct[1].graphic_name[1] = 0;
-		custom_grapic_draw.graphic_custom.grapic_data_struct[1].graphic_name[2] = 1;//图形名
-		custom_grapic_draw.graphic_custom.grapic_data_struct[1].operate_tpye=operate_type;//图形操作，0：空操作；1：增加；2：修改；3：删除；
-		custom_grapic_draw.graphic_custom.grapic_data_struct[1].graphic_tpye=0;//图形类型，0为直线，其他的查看用户手册
-		custom_grapic_draw.graphic_custom.grapic_data_struct[1].layer=0;//图层数
-		custom_grapic_draw.graphic_custom.grapic_data_struct[1].color=1;//颜色
-		custom_grapic_draw.graphic_custom.grapic_data_struct[1].start_angle=0;
-		custom_grapic_draw.graphic_custom.grapic_data_struct[1].end_angle=0;
-		custom_grapic_draw.graphic_custom.grapic_data_struct[1].width=1;
-		custom_grapic_draw.graphic_custom.grapic_data_struct[1].start_x=SCREEN_LENGTH/2 - bias_x[1] + screen_bias;
-		custom_grapic_draw.graphic_custom.grapic_data_struct[1].start_y=SCREEN_WIDTH/2 - bias_y[1];
-		custom_grapic_draw.graphic_custom.grapic_data_struct[1].end_x  =SCREEN_LENGTH/2 + bias_x[1] + screen_bias;
-		custom_grapic_draw.graphic_custom.grapic_data_struct[1].end_y  =SCREEN_WIDTH/2 - bias_y[1];
-		custom_grapic_draw.graphic_custom.grapic_data_struct[1].radius=0;
+///*******************************图1*********************************/
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[1].graphic_name[0] = 0;
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[1].graphic_name[1] = 0;
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[1].graphic_name[2] = 1;//图形名
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[1].operate_tpye=operate_type;//图形操作，0：空操作；1：增加；2：修改；3：删除；
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[1].graphic_tpye=0;//图形类型，0为直线，其他的查看用户手册
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[1].layer=0;//图层数
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[1].color=1;//颜色
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[1].start_angle=0;
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[1].end_angle=0;
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[1].width=1;
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[1].start_x=SCREEN_LENGTH/2 - bias_x[1] + screen_bias;
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[1].start_y=SCREEN_WIDTH/2 - bias_y[1];
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[1].end_x  =SCREEN_LENGTH/2 + bias_x[1] + screen_bias;
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[1].end_y  =SCREEN_WIDTH/2 - bias_y[1];
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[1].radius=0;
 
-/*******************************图2*********************************/
-		custom_grapic_draw.graphic_custom.grapic_data_struct[2].graphic_name[0] = 0;
-		custom_grapic_draw.graphic_custom.grapic_data_struct[2].graphic_name[1] = 0;
-		custom_grapic_draw.graphic_custom.grapic_data_struct[2].graphic_name[2] = 2;//图形名
-		custom_grapic_draw.graphic_custom.grapic_data_struct[2].operate_tpye=operate_type;//图形操作，0：空操作；1：增加；2：修改；3：删除；
-		custom_grapic_draw.graphic_custom.grapic_data_struct[2].graphic_tpye=0;//图形类型，0为直线，其他的查看用户手册
-		custom_grapic_draw.graphic_custom.grapic_data_struct[2].layer=0;//图层数
-		custom_grapic_draw.graphic_custom.grapic_data_struct[2].color=2;//颜色
-		custom_grapic_draw.graphic_custom.grapic_data_struct[2].start_angle=0;
-		custom_grapic_draw.graphic_custom.grapic_data_struct[2].end_angle=0;
-		custom_grapic_draw.graphic_custom.grapic_data_struct[2].width=1;
-		custom_grapic_draw.graphic_custom.grapic_data_struct[2].start_x=SCREEN_LENGTH/2 - bias_x[2] + screen_bias;
-		custom_grapic_draw.graphic_custom.grapic_data_struct[2].start_y=SCREEN_WIDTH/2 - bias_y[2];
-		custom_grapic_draw.graphic_custom.grapic_data_struct[2].end_x  =SCREEN_LENGTH/2 + bias_x[2] + screen_bias;
-		custom_grapic_draw.graphic_custom.grapic_data_struct[2].end_y  =SCREEN_WIDTH/2 - bias_y[2];
-		custom_grapic_draw.graphic_custom.grapic_data_struct[2].radius=0;
+///*******************************图2*********************************/
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[2].graphic_name[0] = 0;
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[2].graphic_name[1] = 0;
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[2].graphic_name[2] = 2;//图形名
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[2].operate_tpye=operate_type;//图形操作，0：空操作；1：增加；2：修改；3：删除；
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[2].graphic_tpye=0;//图形类型，0为直线，其他的查看用户手册
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[2].layer=0;//图层数
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[2].color=2;//颜色
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[2].start_angle=0;
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[2].end_angle=0;
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[2].width=1;
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[2].start_x=SCREEN_LENGTH/2 - bias_x[2] + screen_bias;
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[2].start_y=SCREEN_WIDTH/2 - bias_y[2];
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[2].end_x  =SCREEN_LENGTH/2 + bias_x[2] + screen_bias;
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[2].end_y  =SCREEN_WIDTH/2 - bias_y[2];
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[2].radius=0;
 
-/*******************************图3*********************************/
-		custom_grapic_draw.graphic_custom.grapic_data_struct[3].graphic_name[0] = 0;
-		custom_grapic_draw.graphic_custom.grapic_data_struct[3].graphic_name[1] = 0;
-		custom_grapic_draw.graphic_custom.grapic_data_struct[3].graphic_name[2] = 3;//图形名
-		custom_grapic_draw.graphic_custom.grapic_data_struct[3].operate_tpye=operate_type;//图形操作，0：空操作；1：增加；2：修改；3：删除；
-		custom_grapic_draw.graphic_custom.grapic_data_struct[3].graphic_tpye=0;//图形类型，0为直线，其他的查看用户手册
-		custom_grapic_draw.graphic_custom.grapic_data_struct[3].layer=0;//图层数
-		custom_grapic_draw.graphic_custom.grapic_data_struct[3].color=3;//颜色
-		custom_grapic_draw.graphic_custom.grapic_data_struct[3].start_angle=0;
-		custom_grapic_draw.graphic_custom.grapic_data_struct[3].end_angle=0;
-		custom_grapic_draw.graphic_custom.grapic_data_struct[3].width=1;
-		custom_grapic_draw.graphic_custom.grapic_data_struct[3].start_x=SCREEN_LENGTH/2 - bias_x[3] + screen_bias;
-		custom_grapic_draw.graphic_custom.grapic_data_struct[3].start_y=SCREEN_WIDTH/2 - bias_y[3];
-		custom_grapic_draw.graphic_custom.grapic_data_struct[3].end_x  =SCREEN_LENGTH/2 + bias_x[3] + screen_bias;
-		custom_grapic_draw.graphic_custom.grapic_data_struct[3].end_y  =SCREEN_WIDTH/2 - bias_y[3];
-		custom_grapic_draw.graphic_custom.grapic_data_struct[3].radius=0;
+///*******************************图3*********************************/
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[3].graphic_name[0] = 0;
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[3].graphic_name[1] = 0;
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[3].graphic_name[2] = 3;//图形名
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[3].operate_tpye=operate_type;//图形操作，0：空操作；1：增加；2：修改；3：删除；
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[3].graphic_tpye=0;//图形类型，0为直线，其他的查看用户手册
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[3].layer=0;//图层数
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[3].color=3;//颜色
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[3].start_angle=0;
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[3].end_angle=0;
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[3].width=1;
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[3].start_x=SCREEN_LENGTH/2 - bias_x[3] + screen_bias;
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[3].start_y=SCREEN_WIDTH/2 - bias_y[3];
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[3].end_x  =SCREEN_LENGTH/2 + bias_x[3] + screen_bias;
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[3].end_y  =SCREEN_WIDTH/2 - bias_y[3];
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[3].radius=0;
 
-/*******************************图4*********************************/
-		custom_grapic_draw.graphic_custom.grapic_data_struct[4].graphic_name[0] = 0;
-		custom_grapic_draw.graphic_custom.grapic_data_struct[4].graphic_name[1] = 0;
-		custom_grapic_draw.graphic_custom.grapic_data_struct[4].graphic_name[2] = 4;//图形名
-		custom_grapic_draw.graphic_custom.grapic_data_struct[4].operate_tpye=operate_type;//图形操作，0：空操作；1：增加；2：修改；3：删除；
-		custom_grapic_draw.graphic_custom.grapic_data_struct[4].graphic_tpye=0;//图形类型，0为直线，其他的查看用户手册
-		custom_grapic_draw.graphic_custom.grapic_data_struct[4].layer=0;//图层数
-		custom_grapic_draw.graphic_custom.grapic_data_struct[4].color=4;//颜色
-		custom_grapic_draw.graphic_custom.grapic_data_struct[4].start_angle=0;
-		custom_grapic_draw.graphic_custom.grapic_data_struct[4].end_angle=0;
-		custom_grapic_draw.graphic_custom.grapic_data_struct[4].width=1;
-		custom_grapic_draw.graphic_custom.grapic_data_struct[4].start_x=SCREEN_LENGTH/2 - bias_x[4] + screen_bias;
-		custom_grapic_draw.graphic_custom.grapic_data_struct[4].start_y=SCREEN_WIDTH/2 - bias_y[4];
-		custom_grapic_draw.graphic_custom.grapic_data_struct[4].end_x  =SCREEN_LENGTH/2 + bias_x[4] + screen_bias;
-		custom_grapic_draw.graphic_custom.grapic_data_struct[4].end_y  =SCREEN_WIDTH/2 - bias_y[4];
-		custom_grapic_draw.graphic_custom.grapic_data_struct[4].radius=0;
+///*******************************图4*********************************/
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[4].graphic_name[0] = 0;
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[4].graphic_name[1] = 0;
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[4].graphic_name[2] = 4;//图形名
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[4].operate_tpye=operate_type;//图形操作，0：空操作；1：增加；2：修改；3：删除；
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[4].graphic_tpye=0;//图形类型，0为直线，其他的查看用户手册
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[4].layer=0;//图层数
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[4].color=4;//颜色
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[4].start_angle=0;
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[4].end_angle=0;
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[4].width=1;
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[4].start_x=SCREEN_LENGTH/2 - bias_x[4] + screen_bias;
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[4].start_y=SCREEN_WIDTH/2 - bias_y[4];
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[4].end_x  =SCREEN_LENGTH/2 + bias_x[4] + screen_bias;
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[4].end_y  =SCREEN_WIDTH/2 - bias_y[4];
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[4].radius=0;
 
-/*******************************图5*********************************/
-		custom_grapic_draw.graphic_custom.grapic_data_struct[5].graphic_name[0] = 0;
-		custom_grapic_draw.graphic_custom.grapic_data_struct[5].graphic_name[1] = 0;
-		custom_grapic_draw.graphic_custom.grapic_data_struct[5].graphic_name[2] = 5;//图形名
-		custom_grapic_draw.graphic_custom.grapic_data_struct[5].operate_tpye=operate_type;//图形操作，0：空操作；1：增加；2：修改；3：删除；
-		custom_grapic_draw.graphic_custom.grapic_data_struct[5].graphic_tpye=0;//图形类型，0为直线，其他的查看用户手册
-		custom_grapic_draw.graphic_custom.grapic_data_struct[5].layer=0;//图层数
-		custom_grapic_draw.graphic_custom.grapic_data_struct[5].color=5;//颜色
-		custom_grapic_draw.graphic_custom.grapic_data_struct[5].start_angle=0;
-		custom_grapic_draw.graphic_custom.grapic_data_struct[5].end_angle=0;
-		custom_grapic_draw.graphic_custom.grapic_data_struct[5].width=1;
-		custom_grapic_draw.graphic_custom.grapic_data_struct[5].start_x=SCREEN_LENGTH/2 - bias_x[5] + screen_bias;
-		custom_grapic_draw.graphic_custom.grapic_data_struct[5].start_y=SCREEN_WIDTH/2 - bias_y[5];
-		custom_grapic_draw.graphic_custom.grapic_data_struct[5].end_x  =SCREEN_LENGTH/2 + bias_x[5] + screen_bias;
-		custom_grapic_draw.graphic_custom.grapic_data_struct[5].end_y  =SCREEN_WIDTH/2 - bias_y[5];
-		custom_grapic_draw.graphic_custom.grapic_data_struct[5].radius=0;
+///*******************************图5*********************************/
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[5].graphic_name[0] = 0;
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[5].graphic_name[1] = 0;
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[5].graphic_name[2] = 5;//图形名
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[5].operate_tpye=operate_type;//图形操作，0：空操作；1：增加；2：修改；3：删除；
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[5].graphic_tpye=0;//图形类型，0为直线，其他的查看用户手册
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[5].layer=0;//图层数
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[5].color=5;//颜色
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[5].start_angle=0;
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[5].end_angle=0;
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[5].width=1;
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[5].start_x=SCREEN_LENGTH/2 - bias_x[5] + screen_bias;
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[5].start_y=SCREEN_WIDTH/2 - bias_y[5];
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[5].end_x  =SCREEN_LENGTH/2 + bias_x[5] + screen_bias;
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[5].end_y  =SCREEN_WIDTH/2 - bias_y[5];
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[5].radius=0;
 
-/*******************************图6*********************************/
-		custom_grapic_draw.graphic_custom.grapic_data_struct[6].graphic_name[0] = 0;
-		custom_grapic_draw.graphic_custom.grapic_data_struct[6].graphic_name[1] = 0;
-		custom_grapic_draw.graphic_custom.grapic_data_struct[6].graphic_name[2] = 6;//图形名
-		custom_grapic_draw.graphic_custom.grapic_data_struct[6].operate_tpye=operate_type;//图形操作，0：空操作；1：增加；2：修改；3：删除；
-		custom_grapic_draw.graphic_custom.grapic_data_struct[6].graphic_tpye=0;//图形类型，0为直线，其他的查看用户手册
-		custom_grapic_draw.graphic_custom.grapic_data_struct[6].layer=0;//图层数
-		custom_grapic_draw.graphic_custom.grapic_data_struct[6].color=6;//颜色
-		custom_grapic_draw.graphic_custom.grapic_data_struct[6].start_angle=0;
-		custom_grapic_draw.graphic_custom.grapic_data_struct[6].end_angle=0;
-		custom_grapic_draw.graphic_custom.grapic_data_struct[6].width=1;
-		custom_grapic_draw.graphic_custom.grapic_data_struct[6].start_x=SCREEN_LENGTH/2 - bias_x[6] + screen_bias;
-		custom_grapic_draw.graphic_custom.grapic_data_struct[6].start_y=SCREEN_WIDTH/2 - bias_y[6];
-		custom_grapic_draw.graphic_custom.grapic_data_struct[6].end_x  =SCREEN_LENGTH/2 + bias_x[6] + screen_bias;
-		custom_grapic_draw.graphic_custom.grapic_data_struct[6].end_y  =SCREEN_WIDTH/2 - bias_y[6];
-		custom_grapic_draw.graphic_custom.grapic_data_struct[6].radius=0;
-}
+///*******************************图6*********************************/
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[6].graphic_name[0] = 0;
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[6].graphic_name[1] = 0;
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[6].graphic_name[2] = 6;//图形名
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[6].operate_tpye=operate_type;//图形操作，0：空操作；1：增加；2：修改；3：删除；
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[6].graphic_tpye=0;//图形类型，0为直线，其他的查看用户手册
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[6].layer=0;//图层数
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[6].color=6;//颜色
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[6].start_angle=0;
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[6].end_angle=0;
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[6].width=1;
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[6].start_x=SCREEN_LENGTH/2 - bias_x[6] + screen_bias;
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[6].start_y=SCREEN_WIDTH/2 - bias_y[6];
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[6].end_x  =SCREEN_LENGTH/2 + bias_x[6] + screen_bias;
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[6].end_y  =SCREEN_WIDTH/2 - bias_y[6];
+//		custom_grapic_draw.graphic_custom.grapic_data_struct[6].radius=0;
+//}
 
-/**********************************************************************************************************
-*函 数 名: referee_data_load_NumberUI
-*功能说明: 图形数据包装载数字（浮点/字符/整形）
-*形    参: 无
-*返 回 值: 无
-**********************************************************************************************************/
-void referee_data_load_NumberUI(void)
-{
-	static unsigned int pitch = 0;
-	pitch = F405.Gimbal_100 * 10;
-	/*******************************Pitch浮点数*********************************/
-	custom_grapic_draw.graphic_custom.grapic_data_struct[1].graphic_name[0] = 0;
-	custom_grapic_draw.graphic_custom.grapic_data_struct[1].graphic_name[1] = 3;
-	custom_grapic_draw.graphic_custom.grapic_data_struct[1].graphic_name[2] = 1;
-	custom_grapic_draw.graphic_custom.grapic_data_struct[1].operate_tpye=Op_Add;
-	custom_grapic_draw.graphic_custom.grapic_data_struct[1].graphic_tpye=5;
-	custom_grapic_draw.graphic_custom.grapic_data_struct[1].layer=3;
-	custom_grapic_draw.graphic_custom.grapic_data_struct[1].color=Pink;
-	custom_grapic_draw.graphic_custom.grapic_data_struct[1].start_angle=20;
-	custom_grapic_draw.graphic_custom.grapic_data_struct[1].end_angle=3;
-	custom_grapic_draw.graphic_custom.grapic_data_struct[1].width=4;
-	custom_grapic_draw.graphic_custom.grapic_data_struct[1].start_x=0.7 * SCREEN_LENGTH;
-	custom_grapic_draw.graphic_custom.grapic_data_struct[1].start_y=0.7 * SCREEN_WIDTH;
-	custom_grapic_draw.graphic_custom.grapic_data_struct[1].radius = pitch & 0x03ff;
-	custom_grapic_draw.graphic_custom.grapic_data_struct[1].end_x  = (pitch >> 10) & 0x07ff;
-	custom_grapic_draw.graphic_custom.grapic_data_struct[1].end_y  = (pitch >> 21) & 0x07ff;
-}
+///**********************************************************************************************************
+//*函 数 名: referee_data_load_NumberUI
+//*功能说明: 图形数据包装载数字（浮点/字符/整形）
+//*形    参: 无
+//*返 回 值: 无
+//**********************************************************************************************************/
+//void referee_data_load_NumberUI(void)
+//{
+//	static unsigned int pitch = 0;
+//	pitch = F405.Gimbal_100 * 10;
+//	/*******************************Pitch浮点数*********************************/
+//	custom_grapic_draw.graphic_custom.grapic_data_struct[1].graphic_name[0] = 0;
+//	custom_grapic_draw.graphic_custom.grapic_data_struct[1].graphic_name[1] = 3;
+//	custom_grapic_draw.graphic_custom.grapic_data_struct[1].graphic_name[2] = 1;
+//	custom_grapic_draw.graphic_custom.grapic_data_struct[1].operate_tpye=Op_Add;
+//	custom_grapic_draw.graphic_custom.grapic_data_struct[1].graphic_tpye=5;
+//	custom_grapic_draw.graphic_custom.grapic_data_struct[1].layer=3;
+//	custom_grapic_draw.graphic_custom.grapic_data_struct[1].color=Pink;
+//	custom_grapic_draw.graphic_custom.grapic_data_struct[1].start_angle=20;
+//	custom_grapic_draw.graphic_custom.grapic_data_struct[1].end_angle=3;
+//	custom_grapic_draw.graphic_custom.grapic_data_struct[1].width=4;
+//	custom_grapic_draw.graphic_custom.grapic_data_struct[1].start_x=0.7 * SCREEN_LENGTH;
+//	custom_grapic_draw.graphic_custom.grapic_data_struct[1].start_y=0.7 * SCREEN_WIDTH;
+//	custom_grapic_draw.graphic_custom.grapic_data_struct[1].radius = pitch & 0x03ff;
+//	custom_grapic_draw.graphic_custom.grapic_data_struct[1].end_x  = (pitch >> 10) & 0x07ff;
+//	custom_grapic_draw.graphic_custom.grapic_data_struct[1].end_y  = (pitch >> 21) & 0x07ff;
+//}
 /**********************************************************************************************************
 *函 数 名: referee_data_load_Graphic
 *功能说明: 图形数据包装载图形
@@ -220,8 +221,8 @@ float g_pos_y[CAP_GRAPHIC_NUM] = {0.65,0.15,0.8,0.1,0.1,0.15,0.1,0.8,0.1};
 /*瞄准线偏移量*/
 int AIM_bias_x = 0;
 int AIM_bias_y = 0;
-int placece_x[14]={0  , 100, 60,  60, 60,  20,  15,  15,  15,  20,  15,  15,  15 ,20 };
-int placece_y[15]={-80,-320,-80,-100,-120,-140,-160,-180,-200,-220,-240,-260,-280,-300,-320 };
+int placece_x[14]={0  , 50, 30,  30, 30,  10,  7,  7,  7,  10,  7,  7,  7 ,10 };
+int placece_y[15]={-80,-320,-80,-100,-120,-140,-160,-180,-200,-220,-240,-260,-280,10, 10 };
 
 #define PACK_NUM 4
 void referee_data_load_Graphic(int Op_type)
@@ -278,27 +279,60 @@ PITCH_:	pitch = F405.Gimbal_100 * 10;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[Op_type==Op_Init?1:0].end_x  = (pitch >> 10) & 0x07ff;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[Op_type==Op_Init?1:0].end_y  = (pitch >> 21) & 0x07ff;
 				if(Op_type == Op_Change) goto CONT_2;
-				
+//				/*******************************左车线*********************************/
+//Park:		custom_grapic_draw.graphic_custom.grapic_data_struct[Op_type==Op_Init?2:0].graphic_name[0] = 0;
+//				custom_grapic_draw.graphic_custom.grapic_data_struct[Op_type==Op_Init?2:0].graphic_name[1] = 1;
+//				custom_grapic_draw.graphic_custom.grapic_data_struct[Op_type==Op_Init?2:0].graphic_name[2] = 0;
+//				custom_grapic_draw.graphic_custom.grapic_data_struct[Op_type==Op_Init?2:0].operate_tpye=Op_type;
+//				custom_grapic_draw.graphic_custom.grapic_data_struct[Op_type==Op_Init?2:0].graphic_tpye=0;
+//				custom_grapic_draw.graphic_custom.grapic_data_struct[Op_type==Op_Init?2:0].layer=1;
+//				custom_grapic_draw.graphic_custom.grapic_data_struct[Op_type==Op_Init?2:0].color=Orange;
+//				custom_grapic_draw.graphic_custom.grapic_data_struct[Op_type==Op_Init?2:0].start_angle=0;
+//				custom_grapic_draw.graphic_custom.grapic_data_struct[Op_type==Op_Init?2:0].end_angle=0;
+//				custom_grapic_draw.graphic_custom.grapic_data_struct[Op_type==Op_Init?2:0].width=1;
+//				custom_grapic_draw.graphic_custom.grapic_data_struct[Op_type==Op_Init?2:0].start_x=SCREEN_LENGTH * 0.46;
+//				custom_grapic_draw.graphic_custom.grapic_data_struct[Op_type==Op_Init?2:0].start_y=SCREEN_WIDTH/2 * 0.9;
+//				custom_grapic_draw.graphic_custom.grapic_data_struct[Op_type==Op_Init?2:0].end_x=SCREEN_LENGTH * 0.298;
+//				custom_grapic_draw.graphic_custom.grapic_data_struct[Op_type==Op_Init?2:0].end_y=0;
+//				custom_grapic_draw.graphic_custom.grapic_data_struct[Op_type==Op_Init?2:0].radius = 0;
+
+//				/*******************************右车线*********************************/
+//				custom_grapic_draw.graphic_custom.grapic_data_struct[Op_type==Op_Init?3:1].graphic_name[0] = 0;
+//				custom_grapic_draw.graphic_custom.grapic_data_struct[Op_type==Op_Init?3:1].graphic_name[1] = 1;
+//				custom_grapic_draw.graphic_custom.grapic_data_struct[Op_type==Op_Init?3:1].graphic_name[2] = 1;
+//				custom_grapic_draw.graphic_custom.grapic_data_struct[Op_type==Op_Init?3:1].operate_tpye=Op_type;
+//				custom_grapic_draw.graphic_custom.grapic_data_struct[Op_type==Op_Init?3:1].graphic_tpye=0;
+//				custom_grapic_draw.graphic_custom.grapic_data_struct[Op_type==Op_Init?3:1].layer=1;
+//				custom_grapic_draw.graphic_custom.grapic_data_struct[Op_type==Op_Init?3:1].color=Orange;
+//				custom_grapic_draw.graphic_custom.grapic_data_struct[Op_type==Op_Init?3:1].start_angle=0;
+//				custom_grapic_draw.graphic_custom.grapic_data_struct[Op_type==Op_Init?3:1].end_angle=0;
+//				custom_grapic_draw.graphic_custom.grapic_data_struct[Op_type==Op_Init?3:1].width=1;
+//				custom_grapic_draw.graphic_custom.grapic_data_struct[Op_type==Op_Init?3:1].start_x=SCREEN_LENGTH * 0.5;
+//				custom_grapic_draw.graphic_custom.grapic_data_struct[Op_type==Op_Init?3:1].start_y=SCREEN_WIDTH/2 * 0.9;
+//				custom_grapic_draw.graphic_custom.grapic_data_struct[Op_type==Op_Init?3:1].end_x  =SCREEN_LENGTH * 0.658;
+//				custom_grapic_draw.graphic_custom.grapic_data_struct[Op_type==Op_Init?3:1].end_y  =0;
+//				custom_grapic_draw.graphic_custom.grapic_data_struct[Op_type==Op_Init?3:1].radius=0;
+//				if(Op_type == Op_Change) goto CONT_3;
 				break;
 				
 		case 2:
 
-				/*********************************横线12*********************************/
-				custom_grapic_draw.graphic_custom.grapic_data_struct[5].graphic_name[0] = 0;
-				custom_grapic_draw.graphic_custom.grapic_data_struct[5].graphic_name[1] = 1;
-				custom_grapic_draw.graphic_custom.grapic_data_struct[5].graphic_name[2] = 9;
-				custom_grapic_draw.graphic_custom.grapic_data_struct[5].operate_tpye=Op_type;
-				custom_grapic_draw.graphic_custom.grapic_data_struct[5].graphic_tpye=0;
-				custom_grapic_draw.graphic_custom.grapic_data_struct[5].layer=0;
-				custom_grapic_draw.graphic_custom.grapic_data_struct[5].color=Green;
-				custom_grapic_draw.graphic_custom.grapic_data_struct[5].start_angle=0;
-				custom_grapic_draw.graphic_custom.grapic_data_struct[5].end_angle=0;
-				custom_grapic_draw.graphic_custom.grapic_data_struct[5].width=2;
-				custom_grapic_draw.graphic_custom.grapic_data_struct[5].start_x=SCREEN_LENGTH/2 - placece_x[13] + AIM_bias_x;
-				custom_grapic_draw.graphic_custom.grapic_data_struct[5].start_y=SCREEN_WIDTH/2 + placece_y[14] + AIM_bias_y;
-				custom_grapic_draw.graphic_custom.grapic_data_struct[5].end_x  =SCREEN_LENGTH/2 + placece_x[13] + AIM_bias_x;
-				custom_grapic_draw.graphic_custom.grapic_data_struct[5].end_y  =SCREEN_WIDTH/2 + placece_y[14] + AIM_bias_y;
-				custom_grapic_draw.graphic_custom.grapic_data_struct[5].radius=0;
+//				/*********************************瞄准十字横线*********************************/
+//				custom_grapic_draw.graphic_custom.grapic_data_struct[3].graphic_name[0] = 0;
+//				custom_grapic_draw.graphic_custom.grapic_data_struct[3].graphic_name[1] = 1;
+//				custom_grapic_draw.graphic_custom.grapic_data_struct[3].graphic_name[2] = 7;
+//				custom_grapic_draw.graphic_custom.grapic_data_struct[3].operate_tpye=Op_type;
+//				custom_grapic_draw.graphic_custom.grapic_data_struct[3].graphic_tpye=0;
+//				custom_grapic_draw.graphic_custom.grapic_data_struct[3].layer=0;
+//				custom_grapic_draw.graphic_custom.grapic_data_struct[3].color=Orange;
+//				custom_grapic_draw.graphic_custom.grapic_data_struct[3].start_angle=0;
+//				custom_grapic_draw.graphic_custom.grapic_data_struct[3].end_angle=0;
+//				custom_grapic_draw.graphic_custom.grapic_data_struct[3].width=1;
+//				custom_grapic_draw.graphic_custom.grapic_data_struct[3].start_x=SCREEN_LENGTH/2 - placece_x[13] + AIM_bias_x;
+//				custom_grapic_draw.graphic_custom.grapic_data_struct[3].start_y=SCREEN_WIDTH/2 + AIM_bias_y;
+//				custom_grapic_draw.graphic_custom.grapic_data_struct[3].end_x  =SCREEN_LENGTH/2 + placece_x[13] + AIM_bias_x;
+//				custom_grapic_draw.graphic_custom.grapic_data_struct[3].end_y  =SCREEN_WIDTH/2 + AIM_bias_y;
+//				custom_grapic_draw.graphic_custom.grapic_data_struct[3].radius=0;
 				/*从这以下是射击辅助线*/
 				/*********************************中线*********************************/
 				custom_grapic_draw.graphic_custom.grapic_data_struct[4].graphic_name[0] = 0;
@@ -310,7 +344,7 @@ PITCH_:	pitch = F405.Gimbal_100 * 10;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[4].color=Green;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[4].start_angle=0;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[4].end_angle=0;
-				custom_grapic_draw.graphic_custom.grapic_data_struct[4].width=2;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[4].width=1;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[4].start_x=SCREEN_LENGTH/2 - placece_x[0] + AIM_bias_x;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[4].start_y=SCREEN_WIDTH/2 + placece_y[0] + AIM_bias_y;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[4].end_x  =SCREEN_LENGTH/2 - placece_x[0] + AIM_bias_x;
@@ -327,7 +361,7 @@ PITCH_:	pitch = F405.Gimbal_100 * 10;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[5].color=Green;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[5].start_angle=0;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[5].end_angle=0;
-				custom_grapic_draw.graphic_custom.grapic_data_struct[5].width=2;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[5].width=1;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[5].start_x=SCREEN_LENGTH/2 - placece_x[1] + AIM_bias_x;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[5].start_y=SCREEN_WIDTH/2 + placece_y[2] + AIM_bias_y;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[5].end_x  =SCREEN_LENGTH/2 + placece_x[1] + AIM_bias_x;
@@ -344,7 +378,7 @@ PITCH_:	pitch = F405.Gimbal_100 * 10;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[6].color=Green;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[6].start_angle=0;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[6].end_angle=0;
-				custom_grapic_draw.graphic_custom.grapic_data_struct[6].width=2;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[6].width=1;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[6].start_x=SCREEN_LENGTH/2 - placece_x[2] + AIM_bias_x;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[6].start_y=SCREEN_WIDTH/2 + placece_y[3] + AIM_bias_y;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[6].end_x  =SCREEN_LENGTH/2 + placece_x[2] + AIM_bias_x;
@@ -362,7 +396,7 @@ PITCH_:	pitch = F405.Gimbal_100 * 10;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[0].color=Green;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[0].start_angle=0;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[0].end_angle=0;
-				custom_grapic_draw.graphic_custom.grapic_data_struct[0].width=2;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[0].width=1;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[0].start_x=SCREEN_LENGTH/2 - placece_x[3] + AIM_bias_x;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[0].start_y=SCREEN_WIDTH/2 + placece_y[4] + AIM_bias_y;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[0].end_x  =SCREEN_LENGTH/2 + placece_x[3] + AIM_bias_x;
@@ -379,7 +413,7 @@ PITCH_:	pitch = F405.Gimbal_100 * 10;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[1].color=Green;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[1].start_angle=0;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[1].end_angle=0;
-				custom_grapic_draw.graphic_custom.grapic_data_struct[1].width=2;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[1].width=1;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[1].start_x=SCREEN_LENGTH/2 - placece_x[4] + AIM_bias_x;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[1].start_y=SCREEN_WIDTH/2 + placece_y[5] + AIM_bias_y;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[1].end_x  =SCREEN_LENGTH/2 + placece_x[4] + AIM_bias_x;
@@ -396,7 +430,7 @@ PITCH_:	pitch = F405.Gimbal_100 * 10;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[2].color=Green;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[2].start_angle=0;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[2].end_angle=0;
-				custom_grapic_draw.graphic_custom.grapic_data_struct[2].width=2;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[2].width=1;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[2].start_x=SCREEN_LENGTH/2 - placece_x[5] + AIM_bias_x;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[2].start_y=SCREEN_WIDTH/2 + placece_y[6] + AIM_bias_y;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[2].end_x  =SCREEN_LENGTH/2 + placece_x[5] + AIM_bias_x;
@@ -416,7 +450,7 @@ PITCH_:	pitch = F405.Gimbal_100 * 10;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[3].color=Green;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[3].start_angle=0;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[3].end_angle=0;
-				custom_grapic_draw.graphic_custom.grapic_data_struct[3].width=2;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[3].width=1;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[3].start_x=SCREEN_LENGTH/2 - placece_x[6] + AIM_bias_x;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[3].start_y=SCREEN_WIDTH/2 + placece_y[7] + AIM_bias_y;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[3].end_x  =SCREEN_LENGTH/2 + placece_x[6] + AIM_bias_x;
@@ -433,7 +467,7 @@ PITCH_:	pitch = F405.Gimbal_100 * 10;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[4].color=Green;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[4].start_angle=0;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[4].end_angle=0;
-				custom_grapic_draw.graphic_custom.grapic_data_struct[4].width=2;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[4].width=1;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[4].start_x=SCREEN_LENGTH/2 - placece_x[7] + AIM_bias_x;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[4].start_y=SCREEN_WIDTH/2 + placece_y[8] + AIM_bias_y;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[4].end_x  =SCREEN_LENGTH/2 + placece_x[7] + AIM_bias_x;
@@ -450,7 +484,7 @@ PITCH_:	pitch = F405.Gimbal_100 * 10;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[5].color=Green;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[5].start_angle=0;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[5].end_angle=0;
-				custom_grapic_draw.graphic_custom.grapic_data_struct[5].width=2;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[5].width=1;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[5].start_x=SCREEN_LENGTH/2 - placece_x[8] + AIM_bias_x;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[5].start_y=SCREEN_WIDTH/2 + placece_y[9] + AIM_bias_y;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[5].end_x  =SCREEN_LENGTH/2 + placece_x[8] + AIM_bias_x;
@@ -467,7 +501,7 @@ PITCH_:	pitch = F405.Gimbal_100 * 10;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[6].color=Green;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[6].start_angle=0;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[6].end_angle=0;
-				custom_grapic_draw.graphic_custom.grapic_data_struct[6].width=2;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[6].width=1;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[6].start_x=SCREEN_LENGTH/2 - placece_x[9] + AIM_bias_x;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[6].start_y=SCREEN_WIDTH/2 + placece_y[10] + AIM_bias_y;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[6].end_x  =SCREEN_LENGTH/2 + placece_x[9] + AIM_bias_x;
@@ -484,7 +518,7 @@ PITCH_:	pitch = F405.Gimbal_100 * 10;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[0].color=Green;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[0].start_angle=0;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[0].end_angle=0;
-				custom_grapic_draw.graphic_custom.grapic_data_struct[0].width=2;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[0].width=1;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[0].start_x=SCREEN_LENGTH/2 - placece_x[10] + AIM_bias_x;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[0].start_y=SCREEN_WIDTH/2 + placece_y[11] + AIM_bias_y;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[0].end_x  =SCREEN_LENGTH/2 + placece_x[10] + AIM_bias_x;
@@ -501,29 +535,29 @@ PITCH_:	pitch = F405.Gimbal_100 * 10;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[1].color=Green;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[1].start_angle=0;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[1].end_angle=0;
-				custom_grapic_draw.graphic_custom.grapic_data_struct[1].width=2;
+				custom_grapic_draw.graphic_custom.grapic_data_struct[1].width=1;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[1].start_x=SCREEN_LENGTH/2 - placece_x[11] + AIM_bias_x;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[1].start_y=SCREEN_WIDTH/2 + placece_y[12] + AIM_bias_y;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[1].end_x  =SCREEN_LENGTH/2 + placece_x[11] + AIM_bias_x;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[1].end_y  =SCREEN_WIDTH/2 + placece_y[12] + AIM_bias_y;
 				custom_grapic_draw.graphic_custom.grapic_data_struct[1].radius=0;
 
-				/*********************************横线11*********************************/
-				custom_grapic_draw.graphic_custom.grapic_data_struct[2].graphic_name[0] = 0;
-				custom_grapic_draw.graphic_custom.grapic_data_struct[2].graphic_name[1] = 1;
-				custom_grapic_draw.graphic_custom.grapic_data_struct[2].graphic_name[2] = 20;
-				custom_grapic_draw.graphic_custom.grapic_data_struct[2].operate_tpye=Op_type;
-				custom_grapic_draw.graphic_custom.grapic_data_struct[2].graphic_tpye=0;
-				custom_grapic_draw.graphic_custom.grapic_data_struct[2].layer=0;
-				custom_grapic_draw.graphic_custom.grapic_data_struct[2].color=Green;
-				custom_grapic_draw.graphic_custom.grapic_data_struct[2].start_angle=0;
-				custom_grapic_draw.graphic_custom.grapic_data_struct[2].end_angle=0;
-				custom_grapic_draw.graphic_custom.grapic_data_struct[2].width=2;
-				custom_grapic_draw.graphic_custom.grapic_data_struct[2].start_x=SCREEN_LENGTH/2 - placece_x[12] + AIM_bias_x;
-				custom_grapic_draw.graphic_custom.grapic_data_struct[2].start_y=SCREEN_WIDTH/2 + placece_y[13] + AIM_bias_y;
-				custom_grapic_draw.graphic_custom.grapic_data_struct[2].end_x  =SCREEN_LENGTH/2 + placece_x[12] + AIM_bias_x;
-				custom_grapic_draw.graphic_custom.grapic_data_struct[2].end_y  =SCREEN_WIDTH/2 + placece_y[13] + AIM_bias_y;
-				custom_grapic_draw.graphic_custom.grapic_data_struct[2].radius=0;	
+//				/*********************************瞄准十字竖线*********************************/
+//				custom_grapic_draw.graphic_custom.grapic_data_struct[2].graphic_name[0] = 0;
+//				custom_grapic_draw.graphic_custom.grapic_data_struct[2].graphic_name[1] = 1;
+//				custom_grapic_draw.graphic_custom.grapic_data_struct[2].graphic_name[2] = 20;
+//				custom_grapic_draw.graphic_custom.grapic_data_struct[2].operate_tpye=Op_type;
+//				custom_grapic_draw.graphic_custom.grapic_data_struct[2].graphic_tpye=0;
+//				custom_grapic_draw.graphic_custom.grapic_data_struct[2].layer=0;
+//				custom_grapic_draw.graphic_custom.grapic_data_struct[2].color=Orange;
+//				custom_grapic_draw.graphic_custom.grapic_data_struct[2].start_angle=0;
+//				custom_grapic_draw.graphic_custom.grapic_data_struct[2].end_angle=0;
+//				custom_grapic_draw.graphic_custom.grapic_data_struct[2].width=2;
+//				custom_grapic_draw.graphic_custom.grapic_data_struct[2].start_x=SCREEN_LENGTH/2 + AIM_bias_x;
+//				custom_grapic_draw.graphic_custom.grapic_data_struct[2].start_y=SCREEN_WIDTH/2 + placece_y[13] + AIM_bias_y;
+//				custom_grapic_draw.graphic_custom.grapic_data_struct[2].end_x  =SCREEN_LENGTH/2 + AIM_bias_x;
+//				custom_grapic_draw.graphic_custom.grapic_data_struct[2].end_y  =SCREEN_WIDTH/2 - placece_y[13] + AIM_bias_y;
+//				custom_grapic_draw.graphic_custom.grapic_data_struct[2].radius=0;	
 				break;
 			
 			default:
@@ -542,6 +576,11 @@ CONT_1:cap_change_flag = Op_None;
 			 goto PITCH_;
 CONT_2:pitch_change_flag = Op_None;
 		}
+//		if(park_change_flag == Op_Change )
+//		{
+//			 goto Park;
+//CONT_3:park_change_flag = Op_None;
+//		}
 	}
 }
 /**********************************************************************************************************
@@ -573,6 +612,18 @@ int Graphic_Change_Check(void)
 	if(pitch_100 != last_pitch_100) pitch_change_flag = Op_Change;
 	last_pitch_100 = pitch_100;
 	
+//		/***********************停车线档位变化检测部分************************/
+//	if(pitch_100<-500) park_line = 0;
+//	else if(pitch_100 >-500 && pitch_100 < 0) park_line =1;
+//	else if(pitch_100 > 0   && pitch_100 < 500) park_line =2;
+//	else if(pitch_100 >500  && pitch_100 <1000) park_line =3;
+//	else if(pitch_100 >1000 && pitch_100 <1500) park_line =4;
+//	else if(pitch_100 >1500 && pitch_100 <2000) park_line =5;
+//	else if(pitch_100 >2000 && pitch_100 <3000) park_line =6;
+//	
+//	if(park_line != last_park_line) park_change_flag = Op_Change;
+//	last_park_line = park_line;
+	
 //	/***********************Buff状态变化检测部分************************/
 //	if(F405.Gimbal_Flag == Gimbal_Buff_Mode)
 //		Buff_flag = 1;
@@ -589,7 +640,7 @@ int Graphic_Change_Check(void)
 	last_cap_vol = AD_actual_value;
 	
 	/*检索有没有发生变化，如果有变化则返回修改图层*/
-	if(pitch_change_flag == Op_Change || buff_change_flag == Op_Change || cap_change_flag == Op_Change) return Op_Change;
+	if(pitch_change_flag == Op_Change || park_change_flag == Op_Change || cap_change_flag == Op_Change) return Op_Change;
 
 
 	/*都没有变化*/

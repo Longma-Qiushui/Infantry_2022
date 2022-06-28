@@ -58,11 +58,11 @@ typedef struct F105{
 	short HP;
 	short Last_HP;
 	float bulletSpeed;
-	uint8_t bulltFreq;
+	uint8_t bulletFreq;
 	uint16_t HeatCool17;		//17mm枪口每秒冷却值
 	uint16_t HeatMax17;			//17mm枪口热量上限
 	short shooterHeat17;
-	
+	uint8_t RobotLevel;
 }F105_Typedef;
 
 typedef struct

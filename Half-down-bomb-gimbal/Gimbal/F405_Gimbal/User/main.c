@@ -28,8 +28,6 @@ int main()
 {
 
 	BSP_Init();
-	delay_ms(3000);
-	SteeringEngine_Set(Infantry.MagOpen);
 	Robot_Init();
 	startTast();
   vTaskStartScheduler();
@@ -65,7 +63,9 @@ void BSP_Init(void)
 	delay_ms(100);
 	IWDG_Config(IWDG_Prescaler_128 ,625);
 	delay_ms(100);
-//	VOFA_USART_Configuration();
+	VOFA_USART_Configuration();
+	delay_ms(3000);
+	SteeringEngine_Set(Infantry.MagOpen);
 }
 /**********************************************************************************************************
 *函 数 名: System_Init
@@ -119,7 +119,11 @@ switch(Robot_ID)
 	Infantry.FricMotorID[0]=0x202;
 	Infantry.FricMotorID[1]=0x203;
 	Infantry.BodanMotorID=0x201;
-  Infantry.pn=-1;
+	Infantry.pitch_max_motor = 30;
+	Infantry.pitch_min_motor = -13;
+	Infantry.pitch_max_gyro = 31;
+	Infantry.pitch_min_gyro = -13;
+  Infantry.pn=1;
 	
 } break;
 
@@ -128,25 +132,39 @@ switch(Robot_ID)
 {	
 	Infantry.Yaw_init=6865;            // 4号车
 	Infantry.Pitch_init=4695;
-	Infantry.MagOpen=1500;
-	Infantry.MagClose=2550;
+	Infantry.MagOpen=1000;
+	Infantry.MagClose=2170;
 	Infantry.Solo_Yaw_init = 20;
 	Infantry.PitchMotorID = 0x205;
 	Infantry.YawMotorID = 0x206;
 	Infantry.FricMotorID[0]=0x202;
 	Infantry.FricMotorID[1]=0x201;
 	Infantry.BodanMotorID=0x203;
-	Infantry.pn=-1;
+	Infantry.pitch_max_motor = 32;
+	Infantry.pitch_min_motor = -15;
+	Infantry.pitch_max_gyro = 32;
+	Infantry.pitch_min_gyro = -17;
+	Infantry.pn=1;
 } break;
 
 /***************************************** 5 号车 **************************************************************/	
 	case 5:
 {	
-	Infantry.Yaw_init=6873;            //  5号车
-	Infantry.Pitch_init=2058;
-	Infantry.MagOpen=2400;
-	Infantry.MagClose=600;
+		Infantry.Yaw_init=6807;            // 5号车
+	Infantry.Pitch_init=2055;
+	Infantry.MagOpen=1000;
+	Infantry.MagClose=1900;
 	Infantry.Solo_Yaw_init = 20;
+	Infantry.PitchMotorID = 0x205;
+	Infantry.YawMotorID = 0x206;
+	Infantry.FricMotorID[0]=0x203;
+	Infantry.FricMotorID[1]=0x201;
+	Infantry.BodanMotorID=0x202;
+	Infantry.pitch_max_motor = 38;
+	Infantry.pitch_min_motor = -15;
+	Infantry.pitch_max_gyro = 37;
+	Infantry.pitch_min_gyro = -15;
+	Infantry.pn=-1;
 } break;
 /**************************************************************************************************************/
 	default:
@@ -194,51 +212,56 @@ uint32_t Offline_Check_high_water;
 extern Disconnect Robot_Disconnect;
 void Offline_Check_task(void *pvParameters)
 {
-   while (1) {
+  while (1) {
 
-		/*电机\IMU掉线检测*/
-	if(Robot_Disconnect.YawMotor_DisConnect>10||Robot_Disconnect.PitchMotor_DisConnect>10||Robot_Disconnect.Gyro_DisConnect)
-		{
-	    Robot_Stop();
-		}
-	else
-		{
-			Robot_Recover();
-		}
-	Robot_Disconnect.Gyro_DisConnect++;
-	Robot_Disconnect.PitchMotor_DisConnect++;
-	Robot_Disconnect.YawMotor_DisConnect++;
-	
-	 /*发射机构掉线 */
-	 if(Robot_Disconnect.Friction_DisConnect[0]>10||Robot_Disconnect.Friction_DisConnect[1]>10||Robot_Disconnect.Pluck_DisConnect>10)
-		{
-		 Shoot_Stop();
-		}
-		else
-		{
-		 Shoot_Recover();
-		}
-	Robot_Disconnect.Friction_DisConnect[0]++;
-	Robot_Disconnect.Friction_DisConnect[1]++;
-	Robot_Disconnect.Pluck_DisConnect++;
-		
-	/*遥控器掉线检测*/
-	if(Robot_Disconnect.RC_DisConnect>10)
-		{
-			RC_Rst();
-		}
-	Robot_Disconnect.RC_DisConnect++;
-		
-	/*底盘板或者裁判系统掉线检测*/
-	if(Robot_Disconnect.F105_DisConect>15||Judge_Lost==1)
-		{
-		F105_Rst();
-		}
-	Robot_Disconnect.F105_DisConect++;
-	
+//		/*电机\IMU掉线检测*/
+//	if(Robot_Disconnect.YawMotor_DisConnect>10||Robot_Disconnect.PitchMotor_DisConnect>10||Robot_Disconnect.Gyro_DisConnect>20)
+//		{
+//	    Robot_Stop();
+//		}
+//	else
+//		{
+//			Robot_Recover();
+//		}
+//	Robot_Disconnect.Gyro_DisConnect++;
+//	Robot_Disconnect.PitchMotor_DisConnect++;
+//	Robot_Disconnect.YawMotor_DisConnect++;
+//	
+//	 /*发射机构掉线 */
+//	 if(Robot_Disconnect.Friction_DisConnect[0]>10||Robot_Disconnect.Friction_DisConnect[1]>10||Robot_Disconnect.Pluck_DisConnect>10)
+//		{
+//		 Shoot_Stop();
+//		}
+//		else
+//		{
+//		 Shoot_Recover();
+//		}
+//	Robot_Disconnect.Friction_DisConnect[0]++;
+//	Robot_Disconnect.Friction_DisConnect[1]++;
+//	Robot_Disconnect.Pluck_DisConnect++;
+//		
+//	/*遥控器掉线检测*/
+//	if(Robot_Disconnect.RC_DisConnect>10)
+//		{
+//			RC_Rst();
+//		}
+//	Robot_Disconnect.RC_DisConnect++;
+//		
+//	/*底盘板或者裁判系统掉线检测*/
+//	if(Robot_Disconnect.F105_DisConect>15||Judge_Lost==1)
+//		{
+//		F105_Rst();
+//		}
+//	Robot_Disconnect.F105_DisConect++;
+//		
+//		/* PC暂断 */
+//	if(Robot_Disconnect.PC_DisConnect>10)
+//		{
+//		}
+//	Robot_Disconnect.PC_DisConnect++;
+//	
 	IWDG_Feed();	 
-  vTaskDelay(5); 
-		 
+  vTaskDelay(5);  // 5
 #if INCLUDE_uxTaskGetStackHighWaterMark
         Offline_Check_high_water = uxTaskGetStackHighWaterMark(NULL);
 #endif

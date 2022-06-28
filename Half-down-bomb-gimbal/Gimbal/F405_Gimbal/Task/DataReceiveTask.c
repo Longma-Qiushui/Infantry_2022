@@ -33,21 +33,18 @@ char Chassis_ID;
 *形    参: rx_message1
 *返 回 值: 无
 **********************************************************************************************************/
+int error_cnt=0;
 void Can1Receive0(CanRxMsg rx_message1)
 {
 	switch(rx_message1.StdId)
 	{ 
-		case 0x095:
+		case 0x094:
 		     memcpy(&F105.bulletSpeed,&rx_message1.Data[0], 4); 
 				 memcpy(&Judge_Lost,&rx_message1.Data[4],1);
-				 memcpy(&F105.bulltFreq,&rx_message1.Data[5],1);
+				 memcpy(&F105.RobotLevel,&rx_message1.Data[5],1);
+				 memcpy(&F105.HeatCool17,&rx_message1.Data[6],1);
 		     Robot_Disconnect.F105_DisConect=0;
 		 break;		
-		case 0x094:
-		     memcpy(&F105.HeatMax17,&rx_message1.Data[0], 4); 
-				 memcpy(&F105.HeatCool17,&rx_message1.Data[4],1);
-				 memcpy(&F105.shooterHeat17,&rx_message1.Data[5],1);
-		     Robot_Disconnect.F105_DisConect=0;
 
 	}
 }
@@ -133,8 +130,8 @@ void Can2Receive1(CanRxMsg rx_message1)
 		 {
 			 memcpy(&GyroReceive.PITCH, rx_message1.Data, 4);
 			 memcpy(&GyroReceive.GY, &rx_message1.Data[4], 4);
-			 GyroReceive.GY*=-Infantry.pn;
-			 GyroReceive.PITCH*=-Infantry.pn;
+			 GyroReceive.GY*= Infantry.pn;
+			 GyroReceive.PITCH*= Infantry.pn;
 		 }
 		 break;
 		 case 0x101:
@@ -164,15 +161,11 @@ short pc_x;
 short pc_y;
 short pc_z;
 short distance;
-short armor_state = 0;		//表示辅瞄是不是有找到目标
-float aim_yaw, aim_pitch,aim_x,aim_y,aim_z;
+short armor_state = ARMOR_NO_AIM;		//表示辅瞄是不是有找到目标
+float aim_yaw, aim_pitch;
 short tx2_last_receive_flag;	//表示有没有数据更新
-short tx2_receive_flag;	
-//short aaaaaaaaaa;
+char tx2_receive_flag;	
 float sin_i = 0;
-//float carPose_now_x,carPose_now_y,carPose_now_z;
-//float carPose_KF_x,carPose_KF_y,carPose_KF_z;
-//float carPose_pre_x,carPose_pre_y,carPose_pre_z;
 extern float Buff_Yaw_Motor;
 TickType_t now_time,last_time,delt_time;
 void PCReceive(unsigned char PCReceivebuffer[])
@@ -180,75 +173,21 @@ void PCReceive(unsigned char PCReceivebuffer[])
 	run_time_check++;
 	pc_pitch = (short)(PCReceivebuffer[2]<<8|PCReceivebuffer[3]);//这里不能转为float，不然负数传过来会变为正数
 	pc_yaw = (int)(PCReceivebuffer[4]<<24|PCReceivebuffer[5]<<16|PCReceivebuffer[6]<<8|PCReceivebuffer[7]<<0);
-//	carPose_now_x = (float)((short)((PCReceivebuffer[8]<<8|PCReceivebuffer[9])))/100.0f;
-//	carPose_now_y = (float)((short)((PCReceivebuffer[10]<<8|PCReceivebuffer[11])))/100.0f;
-//	carPose_now_z = (float)((short)((PCReceivebuffer[12]<<8|PCReceivebuffer[13])))/100.0f;
-//	carPose_KF_x = (float)((short)((PCReceivebuffer[14]<<8|PCReceivebuffer[15])))/100.0f;
-//	carPose_KF_y = (float)((short)((PCReceivebuffer[16]<<8|PCReceivebuffer[17])))/100.0f;
-//	carPose_KF_z = (float)((short)((PCReceivebuffer[18]<<8|PCReceivebuffer[19])))/100.0f;
-//	carPose_pre_x = (float)((short)((PCReceivebuffer[20]<<8|PCReceivebuffer[21])))/100.0f;
-//	carPose_pre_y = (float)((short)((PCReceivebuffer[22]<<8|PCReceivebuffer[23])))/100.0f;
-//	carPose_pre_z = (float)((short)((PCReceivebuffer[24]<<8|PCReceivebuffer[25])))/100.0f;
-//	
-	//distance = (short)PCReceivebuffer[8];
-	//pc_x = (short)(PCReceivebuffer[9]<<8|PCReceivebuffer[10]);
-	//pc_y = (short)(PCReceivebuffer[11]<<8|PCReceivebuffer[12]);
-	//pc_z = (short)(PCReceivebuffer[13]<<8|PCReceivebuffer[14]);
 	aim_yaw =  (float)pc_yaw/100.0f;
 	aim_pitch = (float)pc_pitch/100.0f;
-//	aim_pitch = 0;
-//	aim_yaw = pc_yaw;
-//	sin_i+=0.01;
-//	if(pc_x!=0&&pc_y!=0&&pc_z!=0)
-//	{
-//	aim_x =  (float)pc_x;
-//	aim_y =  (float)pc_y;
-//	aim_z =  (float)pc_z;
-//	}
 
 	tx2_receive_flag = PCReceivebuffer[1];	//作为更新标志位
 	
-	//if(tx2_receive_flag == 0x01 && tx2_receive_flag != tx2_last_receive_flag)		
 	if(tx2_receive_flag != tx2_last_receive_flag)
 	{
-		armor_state = ARMOR_AIMED;
-//		now_time = xTaskGetTickCount();
-//		delt_time = now_time-last_time;
-//		last_time = now_time;
-	//	aaaaaaaaaa++;		
+		armor_state = ARMOR_AIMED;	
 	}
 	else
 	{
 		armor_state = ARMOR_NO_AIM;	
 	}
-		tx2_last_receive_flag = tx2_receive_flag;
-
-		if(Status.GimbalMode == Gimbal_Armor_Mode || Status.GimbalMode == Gimbal_AntiSP_Mode)
-		{	
-			if(ABS(aim_yaw - Gimbal.Yaw.Gyro) < 90 && ABS(aim_pitch -( Gimbal.Pitch.MotorTransAngle))< 60)		//程序安全
-			{
-				PC_Receive.RCPitch = (float)aim_pitch;	//更新值
-				PC_Receive.RCYaw = (float)(aim_yaw);
-			}
-			else
-			{
-				PC_Receive.RCPitch = Gimbal.Pitch.MotorTransAngle;	//更新值
-				PC_Receive.RCYaw = Gimbal.Yaw.Gyro;
-			}
-		}
-		else if(Status.GimbalMode == Gimbal_BigBuf_Mode || Status.GimbalMode == Gimbal_SmlBuf_Mode)
-		{
-			if(ABS(aim_yaw+Buff_Yaw_Motor - Gimbal.Yaw.MotorTransAngle) < 90 && ABS(aim_pitch - Gimbal.Pitch.MotorTransAngle)< 60)		//程序安全
-			{
-				PC_Receive.RCPitch = (float)aim_pitch;	//更新值
-				PC_Receive.RCYaw = (float)(aim_yaw+Buff_Yaw_Motor);
-			}
-			else
-			{
-				PC_Receive.RCPitch = Gimbal.Pitch.MotorTransAngle;	//更新值
-				PC_Receive.RCYaw = Gimbal.Yaw.MotorTransAngle;
-			}
-		}
+	
+	tx2_last_receive_flag = tx2_receive_flag;
 
 	PC_Receive.RCdistance = (float)distance/10.0f;
 	

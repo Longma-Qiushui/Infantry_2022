@@ -10,7 +10,7 @@
 float MirocPosition;
 short FrictionWheel_speed=0,BulletSpeed,BodanMotorCurrent,ShootAct_Init_Flag;
 short BodanMotorCurrent;
-int SendToTx2BullectCnt;
+//int SendToTx2BullectCnt;
 int Shoot_Init_flag = 0;
 char ShootContinue=0;
 /*----------------------------------结构体------------------------------*/
@@ -30,8 +30,124 @@ extern short armor_state;
 extern RobotInit_Struct Infantry;
 extern short FrictionReceive[2];
 extern char Robot_ID;
-#define PullerSpeed  3000
-#define checkPullerSpeed  3000
+short PullerSpeed ;        //  1000 冷却1级射频4.5     2000 2级6.5  3000 12.5
+short checkPullerSpeed = -5500;          //-3500;   -5000:19     5400:20     //  800  4
+/**********************************************************************************************************
+*函 数 名: PluckSpeedChoose
+*功能说明: 拨盘拨速选择
+*形    参: flag
+*返 回 值: 无
+**********************************************************************************************************/
+void Pluck_Speed_Choose()
+{
+	switch(F105.RobotLevel)
+	{	
+       /***** 1级 ******/
+		case 1:
+		if(F105.BulletSpeedLevel != 2)
+		{
+				if(F105.HeatCool17 == 15 ||F105.HeatCool17 == 45||F105.HeatCool17 == 75) // 1级爆发优先
+			{
+				PullerSpeed = 2500;
+			}
+				else if(F105.HeatCool17 == 40 ) 			// 1级冷却优先
+			{
+				PullerSpeed = 2000;
+			}
+				else if(F105.HeatCool17 == 120)           // 1级冷却，3倍增益
+			{
+				PullerSpeed = 3500;
+			}
+				else if(F105.HeatCool17 == 200)       // 1级冷却，5倍增益     1000 ~ 4发
+			{
+				PullerSpeed = 3500;
+			}
+				else    //错帧
+			{
+				PullerSpeed = 2000;
+			}
+		}
+		else
+		{
+		PullerSpeed = 1000;
+		}
+		break;
+		
+		 /****** 2级 *****/
+		case 2:
+		if(F105.BulletSpeedLevel != 2)
+		{
+				if(F105.HeatCool17 == 25 || F105.HeatCool17 == 75 || F105.HeatCool17 == 125) // 2级爆发优先
+			{
+				PullerSpeed = 3000;
+			}
+				else if(F105.HeatCool17 == 60 ) 			// 2级冷却优先
+			{
+				PullerSpeed = 3000;
+			}
+				else if(F105.HeatCool17 == 180)           // 2级冷却，3倍增益
+			{
+				PullerSpeed = 3500;
+			}
+				else if(F105.HeatCool17 == 300)       // 2级冷却，5倍增益     1000 ~ 4发
+			{
+				PullerSpeed = 3500;
+			}
+				else    //错帧
+			{
+				PullerSpeed = 3000;
+			}
+		}
+		else
+		{
+		PullerSpeed = 1800;
+		}
+		break;
+		
+    /******  3级 ******/		
+		case 3:
+	if(F105.BulletSpeedLevel != 2)
+		{
+				if(F105.HeatCool17 == 35 || F105.HeatCool17 == 105 || F105.HeatCool17 == 175) // 2级爆发优先
+			{
+				PullerSpeed = 3500;
+			}
+				else if(F105.HeatCool17 == 80 ) 			// 3级冷却优先
+			{
+				PullerSpeed = 3500;
+			}
+				else if(F105.HeatCool17 == 240)           // 2级冷却，3倍增益
+			{
+				PullerSpeed = 4000;
+			}
+				else if(F105.HeatCool17 == 400)       // 2级冷却，5倍增益     1000 ~ 4发
+			{
+				PullerSpeed = 4000;
+			}
+				else    //错帧
+			{
+				PullerSpeed = 3000;
+			}
+		}
+		else
+		{
+		PullerSpeed = 2700;
+		}
+		break;
+		
+		
+		default:
+		if(F105.BulletSpeedLevel==2)
+		{
+		PullerSpeed = 1000;
+		}
+		else
+		{
+		PullerSpeed = 2000;
+		}
+			
+	}
+}
 /**********************************************************************************************************
 *函 数 名: FrictionSpeedChoose
 *功能说明: 摩擦轮转速选择
@@ -64,6 +180,39 @@ void FrictionSpeedChoose(void)
 		}
 	}
 }
+
+///**********************************************************************************************************
+//*函 数 名: HeatUpdate
+//*功能说明: 热量更新
+//*形    参: 无
+//*返 回 值: 无
+//**********************************************************************************************************/
+//char HeatUpdateFlag;
+//uint16_t HeatMax17, HeatCool17;
+//const short BulletHeat17 = 10;
+//short CurHeat17, AvailableHeat17; //当前热量， 上一次热量, 自行计算热量
+//uint16_t Shooted17Cnt;	//一周期内已打出子弹数
+//uint16_t AvailableBullet17;	//下一周期允许打弹数
+
+//void HeatUpdate(void)
+//{
+//	HeatMax17 = F105.HeatMax17 - BulletHeat17;		//榨干热量，只保留一颗弹丸的余量
+//	HeatCool17 = F105.HeatCool17/10;          // 热量每次检测的冷却值
+//	CurHeat17 = F105.shooterHeat17;          //接收到的裁判系统热量
+//	
+//	if(CurHeat17 != LastHeat17)
+//	{
+//		HeatUpdateFlag = 1;
+//	}
+//	
+//		if(HeatUpdateFlag == 1)
+//	{
+//    AvailableHeat17 = LIMIT_MAX_MIN(HeatMax17 - CurHeat17 + HeatCool17,HeatMax17,0);
+//		AvailableBullet17 = AvailableHeat17 / BulletHeat17;	
+//  }
+//	
+//	HeatUpdateFlag = 0;		//已处理完本次热量更新
+//}
 
 /**********************************************************************************************************
 *函 数 名: Shoot_Fire_Cal
@@ -167,19 +316,27 @@ void Shoot_Check_Cal()
 *形    参: 
 *返 回 值: 无
 **********************************************************************************************************/
+extern char Aim_Follow;
+TickType_t EnterAimTick,nowAimTick;
 void Shoot_Test_Cal()
 { 
   delay_time++;
 	if(ShootAct_Init_Flag!=0xcf)
+	{
 	ShootAct_Init_Flag=0xcf;
-	MirocPosition = 0;
+	EnterAimTick = xTaskGetTickCount();
+	}
+	nowAimTick = xTaskGetTickCount();
 	if(delay_time>0)
 	{ 
-	if(F105.IsShootAble==1 && armor_state == ARMOR_AIMED)
-		if(ABS(Bodan_Pos-PidBodanMotorPos.SetPoint)<3000)
+//		if(((nowAimTick-EnterAimTick)>200) && F105.IsShootAble==1 && armor_state == ARMOR_AIMED && Aim_Follow==1)
+		if(((nowAimTick-EnterAimTick)>200) && F105.IsShootAble==1 && armor_state == ARMOR_AIMED)		
 		{
-			PidBodanMotorPos.SetPoint = PidBodanMotorPos.SetPoint+Onegrid; 
-     armor_state=ARMOR_NO_AIM;			
+			if(ABS(Bodan_Pos-PidBodanMotorPos.SetPoint)<3000)
+			{
+				PidBodanMotorPos.SetPoint = PidBodanMotorPos.SetPoint+Onegrid; 
+				armor_state=ARMOR_NO_AIM;			
+			}
 		}
 	}	
 	 PidBodanMotorSpeed.SetPoint = PID_Calc(&PidBodanMotorPos,Bodan_Pos);		
@@ -320,7 +477,7 @@ void BodanMotor_CurrentPid_Cal(void)
 	{
 	  armor_state=ARMOR_NO_AIM;
 	}
-	Last_GimbalState = Status.ShootMode;
+	Last_GimbalState = Status.GimbalMode;
 	
 	
 	switch(Status.ShootMode)//射击模式选择
@@ -328,23 +485,27 @@ void BodanMotor_CurrentPid_Cal(void)
 		case Shoot_Check_Mode:
 			Shoot_Check_Cal();
 			break;
+
 		case Shoot_Fire_Mode:
 			Shoot_Fire_Cal();
 			break;
+
 		case Shoot_Tx2_Mode:
 			Shoot_Test_Cal();			//210424测试
 //			Shoot_Tx2_Cal();
 			break;
+
 		case Shoot_Powerdown_Mode:
 			Shoot_Powerdown_Cal();
 			break;
+
 		default:
 			break;
 	}
 	if(Shoot_Init_flag == 0)
 	{
   	Shoot_Powerdown_Cal();
-		delay_time=-1000;
+		delay_time=-2000;
 	}
 
 	BodanMotorCurrent = (short)PID_Calc(&PidBodanMotorSpeed,BodanReceive.RealSpeed);
@@ -392,16 +553,16 @@ void Pid_Friction_Init(void)
 /********************************************* 3号车 *******************************************************/	
 		case 3:
 		{
-			Infantry.Low_FrictionSpeed = 4850;
-			Infantry.Medium_FrictionSpeed = 5700;
+			Infantry.Low_FrictionSpeed = 4900;
+			Infantry.Medium_FrictionSpeed = 5800;
 			Infantry.High_FrictionSpeed =16000;
 		} break;
 /********************************************* 4号车 *******************************************************/	
 		case 4:
 		{
-			Infantry.Low_FrictionSpeed = 4850;
-			Infantry.Medium_FrictionSpeed = 5800;
-			Infantry.High_FrictionSpeed = 16000;
+			Infantry.Low_FrictionSpeed = 5000;    //4850:14.1  射频：4.5
+ 			Infantry.Medium_FrictionSpeed = 5850;  //17.4
+			Infantry.High_FrictionSpeed = 17000;
 		} break;
 /********************************************* 5号车 *******************************************************/	
 		case 5:
@@ -451,9 +612,6 @@ void Shoot_task(void *pvParameters)
 	const portTickType xFrequency = 1;
   while (1) {
 	  xLastWakeTime = xTaskGetTickCount();
-	 
-	//	 Shoot_Power = GPIO_ReadInputDataBit(GPIOB,GPIO_Pin_11);
-	//	  Shoot_Power=POWER_ON;
 		 if(Shoot_Power == POWER_ON)
 		 {
 
@@ -474,10 +632,9 @@ void Shoot_task(void *pvParameters)
 		 {
 				Shoot_Init_flag = 0;				//禁止拨盘转即可
 		 }
-			
+		 Pluck_Speed_Choose();
 		 BodanMotor_CurrentPid_Cal();
 		 FrictionBodanCan2Send(FrictionCurrent[0],FrictionCurrent[1],BodanMotorCurrent);
-//		 VOFA_Send();
 		 IWDG_Feed();
      vTaskDelayUntil(&xLastWakeTime,xFrequency); 
 	
