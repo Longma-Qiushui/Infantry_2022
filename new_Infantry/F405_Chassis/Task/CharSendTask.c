@@ -441,7 +441,6 @@ void CharSendtask(void *pvParameters)
 				if(char_change_state != Op_None)
 					referee_data_pack_handle(0xA5,0x0301,(uint8_t *)&custom_char_draw,sizeof(custom_char_draw));
 			}
-	    VOFA_Send();
 		  IWDG_Feed();//Î¹¹·
 			charTask_cnt++;
 			vTaskDelay(100); 

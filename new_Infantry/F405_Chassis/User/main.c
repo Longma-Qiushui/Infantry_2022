@@ -19,7 +19,7 @@ roboDisconnect Robot_Disconnect;
 char Judge_Lost;
 //unsigned char PowerState = 0;
 extern ChassisSpeed_t chassis;
-extern uint16_t  MyMaxPower;
+
 extern JudgeReceive_t JudgeReceive;
 extern enum CHARGESTATE_Typedef ChargeState;
 extern TaskHandle_t ChassisTask_Handler; //ÈÎÎñ¾ä±ú
@@ -88,7 +88,7 @@ void Robot_Init(void)
 **********************************************************************************************************/
 void Judge_Rst()
 {
- MyMaxPower=60;
+ JudgeReceive.MaxPower=60;
  JudgeReceive.remainEnergy=40;
 }
 /**********************************************************************************************************

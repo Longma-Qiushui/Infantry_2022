@@ -92,7 +92,7 @@ void ADC_Filter(void)
 *返 回 值: 无
 **********************************************************************************************************/
 int MaxChargePower = 45000; 		//最大充电功率，最小充电功率
-extern uint16_t MyMaxPower;
+
 const short MinCharegePower = 5000;
 int ActualPower = 0;
 float MaxBatChargeCurrent = 5.0f;
@@ -101,7 +101,7 @@ float My_i;
 float ChargeCal()	//由剩余功率计算充电电流
 {
 	float i;
-	MaxChargePower = 1000 * (MyMaxPower-5) ;
+	MaxChargePower = 1000 * (JudgeReceive.MaxPower-5) ;
 	if(PowerState == BAT)   //0 使用电池放电 此时电池给电容充电，电池给底盘供电
 	{
 			ChargeCtl.SetPoint = LIMIT_MAX_MIN(MaxChargePower - INA260_2.Power,MaxChargePower,0);

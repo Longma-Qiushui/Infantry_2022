@@ -5,6 +5,13 @@
  * @作者     赵业权
  * @日期     2021.4.26
 **********************************************************************************************************/
+/**********************************************************************************************************
+ * @文件     ChassisTask.c
+ * @说明     底盘控制+功率限制
+ * @版本  	 V4.0
+ * @作者     戴军
+ * @日期     2022.6
+**********************************************************************************************************/
 #include "main.h"
 
 #define CAP_MAX_W   7000
@@ -56,7 +63,6 @@ float T_ABS=1000.0f;//刹车时间
 float T_SETUP=800.0f;//启动时间
 extern char output_filter;
 extern enum CHARGESTATE_Typedef ChargeState;
-uint16_t  MyMaxPower=0;
 /**********************************************************************************************************
 *函 数 名: ABS_Cal
 *功能说明: 缓速启停
@@ -134,20 +140,12 @@ float test_watch;
 char filter_en=1;
  void Filter_Cal(void)
 {
-//	if(filter_en)
-//	{
+
   LowPass_SetChassis(&pidChassisWheelSpeed[0].SetPoint,k_xy*(+chassis.carSpeedy+(+chassis.carSpeedx))-carSpeedw);
 	LowPass_SetChassis(&pidChassisWheelSpeed[1].SetPoint,k_xy*(+chassis.carSpeedy+(-chassis.carSpeedx))-carSpeedw);
 	LowPass_SetChassis(&pidChassisWheelSpeed[2].SetPoint,k_xy*(-chassis.carSpeedy+(+chassis.carSpeedx))-carSpeedw);
 	LowPass_SetChassis(&pidChassisWheelSpeed[3].SetPoint,k_xy*(-chassis.carSpeedy+(-chassis.carSpeedx))-carSpeedw);
-//	}
-//	else
-//	{
-//	pidChassisWheelSpeed[0].SetPoint=k_xy*(+chassis.carSpeedy+(+chassis.carSpeedx))-carSpeedw;
-//	pidChassisWheelSpeed[1].SetPoint=k_xy*(+chassis.carSpeedy+(-chassis.carSpeedx))-carSpeedw;
-//	pidChassisWheelSpeed[2].SetPoint=k_xy*(-chassis.carSpeedy+(+chassis.carSpeedx))-carSpeedw;
-//	pidChassisWheelSpeed[3].SetPoint=k_xy*(-chassis.carSpeedy+(-chassis.carSpeedx))-carSpeedw;
-//	}
+
 }
 
 /**********************************************************************************************************
@@ -164,33 +162,11 @@ void Method_Check(void)
 	short choose_PN = 0;
 	
 	static short PN;
-	static short last_PN;
+	static short last_PN;	
 	
-  if(F405.Chassis_Flag==Chassis_SelfProtect_Mode)
-	{
-	output_filter=1;
-	}
-	else 
-	{
-	output_filter=0;
-	}
-	
-	
-//	MyNowTick=xTaskGetTickCount();
-//	if(MyNowTick<SampleTick+60)
-//	{
-////	MyMaxPower=JudgeReceive.MaxPower+20
-//		MyMaxPower=JudgeReceive.MaxPower;
-
-//	}
-//	else
-//	{
-//	MyMaxPower=JudgeReceive.MaxPower;
-//	}
-	MyMaxPower=JudgeReceive.MaxPower;
 	for(choose_PN = 1;choose_PN < METHOD_NUM; choose_PN++)		//0用于储存默认参数
 	{
-		if(Power_method[choose_PN].Actual_P_max == MyMaxPower)
+		if(Power_method[choose_PN].Actual_P_max == JudgeReceive.MaxPower)
 		{
 			PN = choose_PN;
 			break;
@@ -205,24 +181,14 @@ void Method_Check(void)
 		Self_Protect_Limit = Power_method[PN].Self_Protect_Limit;
 		k_BAT = Power_method[PN].k_BAT;
 		CurrentMax = Power_method[PN].CurrentMax;
-		Follow_W = Power_method[PN].Follow_W;
 		for(i=0; i<4; i++)
 		{
 			pidChassisWheelSpeed[i].OutMax = CurrentMax;
 		}
 	}
-	
-		if(output_filter==1)
-		{
-		Excess_P_max = Power_method[PN].Excess_P_max_P;
-		}
-		else 
-		{
-		Excess_P_max = Power_method[PN].Excess_P_max_J;
-		}
 		
 	last_PN = PN;
-	if(PowerState==CAP)
+	if(PowerState==CAP)      // 如果是电容模式，则不限制轮子输出电流
 	{
 	CurrentMax = 16380.0f;
 	}
@@ -254,22 +220,22 @@ void Chassis_Speed_Cal(void)
 		case Chassis_Act_Mode:
 		case Chassis_Jump_Mode:
 			
-		if((ABS(chassis.carSpeedx)>500) && (ABS(chassis.carSpeedy) >500))
-				k_xy = 1.5f;
-			else
+//		if((ABS(chassis.carSpeedx)>500) && (ABS(chassis.carSpeedy) >500))
+//				k_xy = 2.0f;
+//			else
 				k_xy = 3;
-			
-		if((ABS(chassis.carSpeedx) <500) && (ABS(chassis.carSpeedy)>500))
-				k_xy =2.0f;
-				
-   if(PowerState==BAT)
-	 {	
-		 carSpeedw =LIMIT_MAX_MIN(chassis.carSpeedw,Follow_W, -Follow_W);
-	 }
-	 else 
-	 {
+//			
+//		if((ABS(chassis.carSpeedx) <500) && (ABS(chassis.carSpeedy)>500))
+//				k_xy =2.5f;
+//				
+//   if(PowerState==BAT)
+//	 {	
+//		 carSpeedw =LIMIT_MAX_MIN(chassis.carSpeedw,Follow_W, -Follow_W);
+//	 }
+//	 else 
+//	 {
 	   carSpeedw = chassis.carSpeedw;
-	 }
+//	 }
 	 
 		break;
 		
@@ -364,31 +330,36 @@ void Chassis_Speed_Cal(void)
 *形    参: 无
 *返 回 值: 无
 **********************************************************************************************************/
-float test_W_Chassis_t = 0;	//估算功率修正
-//short test_Excess_P_max = 320;
-//short test_speed_out[4];
+#define MaxOutPower  300     //最大输出功率限制
+#define   K_P        3.2*1E5   //功率系数
+float test_W_Chassis_t1 = 0,test_W_Chassis_t2 = 0;	//测试估算功率修正
+
 short test_Jump[4];
-//short test_wheel_send[4];
-float	W_k[10] = {0.95f,0.95f,0.95f,0.9f,0.9f,0.85f,0.85f,0.8f,0.8f,0.7f};
+
+float	W_Grad[10] = {0.98f,0.98f,0.98f,0.95f,0.95f,0.9f,0.9f,0.9f,0.85f,0.85f};
+short DescendFlag;
+short i;
+float ExcPower;
 void PowerLimit(void)
 {
-	short i = 0;
-	short DescendFlag = 0;
 	
-	float W_Chassis_t = 0;//底盘功率(计算用)
+	float W_Chassis_t = 0;//底盘功率
 	
-	static short EnergyMargin = 15;		//留有的缓存能量余量
+	static float EnergyMargin = 10.0f;		//留有的缓存能量余量
+  static float PowerMargin  = 150.0f;   //瓦，功率超出量，便于快速起步
 	static float My_P_max;				//计算的当前最大功率
 	static float k_ExcessPower;
 		
 //设置最大功率
 	if(JudgeReceive.remainEnergy <= EnergyMargin)
 	{
-		My_P_max = MyMaxPower*0.8f;
+		My_P_max = JudgeReceive.MaxPower*0.8f;
 	}
-	else
+	else 
 	{
-		My_P_max = LIMIT_MAX_MIN(((Excess_P_max-MyMaxPower)*(JudgeReceive.remainEnergy-EnergyMargin)/(60-EnergyMargin)+MyMaxPower), Excess_P_max, MyMaxPower);
+		// 裁判系统0.1s检测结算一次
+		ExcPower = PowerMargin*(JudgeReceive.remainEnergy-EnergyMargin)/(60-EnergyMargin);
+		My_P_max = LIMIT_MAX_MIN(ExcPower+JudgeReceive.MaxPower, MaxOutPower, JudgeReceive.MaxPower);
 	}
 	
 //接收电流滤波
@@ -400,8 +371,6 @@ void PowerLimit(void)
 		Current_Set_Jump();
 		Current_Change[i] = PID_Calc(&Pid_Current[i],Flow[i]);
 		
-//		test_speed_out[i] = Pid_Current[i].SetPoint;
-//		test_current_out[i] = Current_Change[i];
 		
 		if(Set_Jump[i] == 0)
 		{
@@ -412,19 +381,24 @@ void PowerLimit(void)
 			Current_f[i] = Pid_Current[i].SetPoint;
 		}
 		WheelCurrentSend[i] = Current_f[i];	
-//计算当前功率
-		W_Chassis_t += ABS(Pid_Current[i].SetPoint)*k_chassis_t;//功率计算20*24/16384 = 0.029
+                                        //计算当前功率
+		W_Chassis_t += ABS(WheelCurrentSend[i]*ChassisMotorCanReceive[i].RealSpeed);//功率计算
+		
 	}
-	test_W_Chassis_t = W_Chassis_t;	
 	
-//当前功率超过最大功率 分次削减速度,最多削减7次
+	W_Chassis_t /= K_P;
+	test_W_Chassis_t1 = W_Chassis_t;	
+	
+	
+//当前功率超过最大功率 分次削减速度,最多削减10次
+	DescendFlag = 0;
 	while(W_Chassis_t > My_P_max && DescendFlag < 10)
 	{
 		W_Chassis_t = 0;
 		
 		for(i=0;i<4;i++)//通过削减速度减小电流值
 		{
-			pidChassisWheelSpeed[i].SetPoint *= W_k[DescendFlag];
+			pidChassisWheelSpeed[i].SetPoint *= W_Grad[DescendFlag];
 			
 			//速度环+电流环
 			Pid_Current[i].SetPoint = PID_Calc(&pidChassisWheelSpeed[i],ChassisMotorCanReceive[i].RealSpeed);
@@ -441,22 +415,61 @@ void PowerLimit(void)
 			}
 			WheelCurrentSend[i] = Current_f[i];
 			
-			W_Chassis_t += ABS(Pid_Current[i].SetPoint)*k_chassis_t;
+		W_Chassis_t += ABS(WheelCurrentSend[i]*ChassisMotorCanReceive[i].RealSpeed);//功率计算
+		
 		}	
+		
+		W_Chassis_t /= K_P;
 		DescendFlag++;
 	}
+
+	//当前功率不到最大功率0.9,分次提高速度,最多提高10次
+//	DescendFlag = 0;
+//	while(W_Chassis_t < My_P_max*0.9f && DescendFlag < 10)
+//	{
+//		W_Chassis_t = 0;
+//		
+//		for(i=0;i<4;i++)//通过削减速度减小电流值
+//		{
+//			pidChassisWheelSpeed[i].SetPoint /= W_Grad[DescendFlag];
+//			
+//			//速度环+电流环
+//			Pid_Current[i].SetPoint = PID_Calc(&pidChassisWheelSpeed[i],ChassisMotorCanReceive[i].RealSpeed);
+//			Current_Filter_Excu();
+//			Current_Set_Jump();
+//			Current_Change[i] = PID_Calc(&Pid_Current[i],Flow[i]);
+//			if(Set_Jump[i] == 0)
+//			{
+//				Current_f[i] += Current_Change[i];
+//			}
+//			else if(Set_Jump[i] == 1)
+//			{
+//				Current_f[i] = Pid_Current[i].SetPoint;
+//			}
+//			WheelCurrentSend[i] = Current_f[i];
+//			
+//		W_Chassis_t += ABS(WheelCurrentSend[i]*ChassisMotorCanReceive[i].RealSpeed);//功率计算
+//		
+//		}	
+//		
+//		W_Chassis_t /= K_P;
+//		DescendFlag++;
+//	}
+//	
+//	test_W_Chassis_t2 = W_Chassis_t;
+//	
 	
-//超出迭代次数，估算的功率仍超出：直接削减电流	
-	if(W_Chassis_t > My_P_max)//超出迭代次数，直接削减电流
-	{
-			k_ExcessPower = My_P_max/W_Chassis_t;//超功率系数
-			for(i=0;i<4;i++)
-			{
-				WheelCurrentSend[i] *= k_ExcessPower;
-				W_Chassis_t += ABS(WheelCurrentSend[i])*k_chassis_t;
-			}
-			test_W_Chassis_t = W_Chassis_t;
-	}
+////超出迭代次数，估算的功率仍超出：直接削减电流	
+//	if(W_Chassis_t > My_P_max)//超出迭代次数，直接削减电流
+//	{
+//			k_ExcessPower = My_P_max/W_Chassis_t;//超功率系数
+//			for(i=0;i<4;i++)
+//			{
+//				WheelCurrentSend[i] *= k_ExcessPower;
+//				W_Chassis_t += ABS(WheelCurrentSend[i])*k_chassis_t;
+//			}
+//			test_W_Chassis_t2 = W_Chassis_t;
+//	}
 }
 
 /**********************************************************************************************************
@@ -471,7 +484,15 @@ void Chassis_CurrentPid_Cal(void)
 	Method_Check();			//设置当前功率参数
 	Chassis_Speed_Cal();//根据xyw向速度计算目标速度值
 	
-	if(PowerState == CAP)
+	if(F405.Chassis_Flag == Chassis_Powerdown_Mode)
+	{
+				
+		for(i=0;i<4;i++)
+		{
+			WheelCurrentSend[i] = 0;
+		}
+	}
+	else if(PowerState == CAP)
 	{
 		
 		for(i=0;i<4;i++)
@@ -540,73 +561,57 @@ void Chassis_Power_Control_Init(void)
 		case 3:
 {	/****************默认参数********************/       //3号车
 	Power_method[num].Actual_P_max = 60;
-	Power_method[num].Self_Protect_Limit = 2500;
-	Power_method[num].k_BAT = 0.7f;
-	Power_method[num].Excess_P_max_J = 300;
-	Power_method[num].Excess_P_max_P = 1500;
-	Power_method[num].CurrentMax = 10000;
+	Power_method[num].Self_Protect_Limit = 4000;
+	Power_method[num].k_BAT = 1.2f;
+	Power_method[num].CurrentMax = 12000;
 	Power_method[num].Follow_W = 4000;
 	/****************40W********************/
 	num++;
 	Power_method[num].Actual_P_max = 40;                 //3号车
-	Power_method[num].Self_Protect_Limit = 2500;
-	Power_method[num].k_BAT = 0.6f;
-	Power_method[num].Excess_P_max_J = 200;
-	Power_method[num].Excess_P_max_P = 1500;
+	Power_method[num].Self_Protect_Limit = 3000;
+	Power_method[num].k_BAT = 0.8f;
 	Power_method[num].CurrentMax = 8000;
 	Power_method[num].Follow_W = 4000;
 	/****************45W********************/
 	num++;
 	Power_method[num].Actual_P_max = 45;                //3号车
-	Power_method[num].Self_Protect_Limit = 2500;
-	Power_method[num].k_BAT = 0.7f;
-	Power_method[num].Excess_P_max_J = 250;
-	Power_method[num].Excess_P_max_P = 1500;
+	Power_method[num].Self_Protect_Limit = 3000;
+	Power_method[num].k_BAT = 0.9f;
 	Power_method[num].CurrentMax = 8000;
 	Power_method[num].Follow_W = 4000;
 	/****************50W********************/
 	num++;
 	Power_method[num].Actual_P_max = 50;               //3号车
-	Power_method[num].Self_Protect_Limit = 2800;
-	Power_method[num].k_BAT = 0.7f;   //0.6f
-	Power_method[num].Excess_P_max_J = 250;  //600
-	Power_method[num].Excess_P_max_P = 1500;
+	Power_method[num].Self_Protect_Limit = 3500;
+	Power_method[num].k_BAT = 1.0f;   //0.6f
 	Power_method[num].CurrentMax = 8000;
 	Power_method[num].Follow_W = 5000;
 	/****************60W********************/
 	num++;                                             //3号车
 	Power_method[num].Actual_P_max = 60;                   
-	Power_method[num].Self_Protect_Limit = 3300;  //小陀螺控制转速
-	Power_method[num].k_BAT = 0.75f;   // 0.9f              //xy向速度系数
-	Power_method[num].Excess_P_max_J = 300;  //正常移动时 //太小起步较慢匀速直行时会缓存能量太少会无法转弯，较大的值可以保证起步后可以保留缓存能量可以转弯，但连续转弯有限
-	Power_method[num].Excess_P_max_P = 2000; //小陀螺移动时功率裕度
-	Power_method[num].CurrentMax = 10000;
+	Power_method[num].Self_Protect_Limit = 4000;  //小陀螺控制转速
+	Power_method[num].k_BAT = 1.2f;   // 0.75f              //xy向速度系数
+	Power_method[num].CurrentMax = 12000;
 	Power_method[num].Follow_W = 4000;
 	/****************80W********************/
 	num++;
 	Power_method[num].Actual_P_max = 80;               //3号车
-	Power_method[num].Self_Protect_Limit = 4200;
-	Power_method[num].k_BAT = 0.95f;   //
-	Power_method[num].Excess_P_max_J = 330;  //1350
-	Power_method[num].Excess_P_max_P = 1000;
-	Power_method[num].CurrentMax = 10000;
+	Power_method[num].Self_Protect_Limit = 5000;
+	Power_method[num].k_BAT = 1.5f;   //
+	Power_method[num].CurrentMax = 14000;
 	Power_method[num].Follow_W =5000;
 	/****************100W********************/
 	num++;                                             //3号车
 	Power_method[num].Actual_P_max = 100;
-	Power_method[num].Self_Protect_Limit = 4700;
-	Power_method[num].k_BAT = 1.05f;
-	Power_method[num].Excess_P_max_J = 370;
-	Power_method[num].Excess_P_max_P = 1100;
-	Power_method[num].CurrentMax = 12000;
+	Power_method[num].Self_Protect_Limit = 6000;
+	Power_method[num].k_BAT = 1.8f;
+	Power_method[num].CurrentMax = 16000;
 	Power_method[num].Follow_W = 5600;
 	/****************120W********************/
 	num++;                                            //3号车
 	Power_method[num].Actual_P_max = 120;
 	Power_method[num].Self_Protect_Limit = 6000;
 	Power_method[num].k_BAT = 2.3f;
-	Power_method[num].Excess_P_max_J = 450;
-	Power_method[num].Excess_P_max_P = 1000;
 	Power_method[num].CurrentMax = 10000;
 	Power_method[num].Follow_W = 10000;
 }break;
@@ -1030,8 +1035,8 @@ void Chassis_task(void *pvParameters)
 		BuildF105();
 		Can2Send0(&F105);
 		
-   //DataView
-   //	VOFA_Send();
+ 
+   	VOFA_Send();
 	
 		IWDG_Feed();//喂狗		
 		vTaskDelayUntil(&xLastWakeTime,xFrequency); 
