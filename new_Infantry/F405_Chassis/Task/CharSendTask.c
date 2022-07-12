@@ -3,7 +3,8 @@ extern unsigned char JudgeSend[SEND_MAX_SIZE];
 extern JudgeReceive_t JudgeReceive;
 extern F405_typedef F405;
 extern ChassisSpeed_t chassis;
-int Char_Change_Array[5];					//0表示没变化，非0表示有变化
+int Char_Change_Array[7];					//0表示没变化，非0表示有变化
+char LowHP_Flag,lastLowHP_Flag;									//低血量警报
 ext_student_interactive_char_header_data_t custom_char_draw;  //自定义字符绘制
 
 /**********************************************************************************************************
@@ -40,22 +41,23 @@ void JudgementCustomizeChar(int Op_type)
 *形    参: 操作类型
 *返 回 值: 无
 **********************************************************************************************************/
-float c_pos_x[10] = {0.57,0.34,0.4,0.54,0.3, 0.41,0.64,0.54 ,0.40,0.53};
-float c_pos_y[10] = {0.65,0.15,0.05,0.1 ,0.1, 0.15,0.1, 0.05,0.1 ,0.15};
+float c_pos_x[12] = {0.57,0.34,0.4,0.54,0.3, 0.41,0.64, 0.54,0.40,0.53,0.3,0.4};
+float c_pos_y[12] = {0.65,0.15,0.05,0.1 ,0.1, 0.15,0.1, 0.05,0.1 ,0.15,0.5,0.7};
 extern enum POWERSTATE_Typedef PowerState;
-char change_cnt[5];
+char change_cnt[7];
 void referee_data_load_String(int Op_type)
 {
 	static int tick=0;
 	static char Mag_State[2][6] = {"CLOSE","OPEN"};
-	static char Gimbal_State[9][8] = {"OFF","Normal","Armor","BigBuf","Drop","SI","Jump","AntiSP","SmalBuf"};
+	static char Gimbal_State[9][9] = {"OFF","Normal","Armor","BigBuf","Drop","SI","Jump","AutoShot","SmalBuf"};
 	static char Chassis_State[5][9] = {"OFF","Normal","SelfPro","SOLO","JUMP"};
 	static char Power_State[2][4] = {"Bat","Cap"};
+	static char Freq_State[2][7] = {"High","Normal"};
 	static char Friction[2][9]={"Firc off","Fric on"};
 	/*初始化操作，轮流生成图层*/
 	if(Op_type == Op_Init)
 	{
-		switch(tick%10)
+		switch(tick%11)
 		{
 			/*静态字符*/
 			case 0:
@@ -186,10 +188,10 @@ CHASSIS:custom_char_draw.char_custom.grapic_data_struct.graphic_name[0] = 0;
 			custom_char_draw.char_custom.grapic_data_struct.operate_tpye=Op_type;
 			custom_char_draw.char_custom.grapic_data_struct.graphic_tpye=7;
 			custom_char_draw.char_custom.grapic_data_struct.layer=9;
-			custom_char_draw.char_custom.grapic_data_struct.color=F405.Follow_state?White:Green;
+			custom_char_draw.char_custom.grapic_data_struct.color=Green;
 			custom_char_draw.char_custom.grapic_data_struct.start_angle=25;
 			custom_char_draw.char_custom.grapic_data_struct.end_angle=strlen(Chassis_State[F405.Chassis_Flag]);
-			custom_char_draw.char_custom.grapic_data_struct.width=F405.Follow_state?5:2;
+			custom_char_draw.char_custom.grapic_data_struct.width=2;
 			custom_char_draw.char_custom.grapic_data_struct.start_x=c_pos_x[7]*SCREEN_LENGTH;
 			custom_char_draw.char_custom.grapic_data_struct.start_y=c_pos_y[7]*SCREEN_WIDTH;
 			memset(custom_char_draw.char_custom.data,'\0',sizeof(custom_char_draw.char_custom.data));
@@ -231,8 +233,26 @@ Fric:
 			memset(custom_char_draw.char_custom.data,'\0',sizeof(custom_char_draw.char_custom.data));
 			strcpy(custom_char_draw.char_custom.data,"CAP:     V");
 			break;			
+			/*******************************电容电压字符*********************************/			
+			case 10:
+Freq: custom_char_draw.char_custom.grapic_data_struct.graphic_name[0] = 0;
+			custom_char_draw.char_custom.grapic_data_struct.graphic_name[1] = 41;
+			custom_char_draw.char_custom.grapic_data_struct.graphic_name[2] = 11;
+			custom_char_draw.char_custom.grapic_data_struct.operate_tpye=Op_type;
+			custom_char_draw.char_custom.grapic_data_struct.graphic_tpye=7;
+			custom_char_draw.char_custom.grapic_data_struct.layer=9;
+			custom_char_draw.char_custom.grapic_data_struct.color= F405.Freq_state?Orange:Green;
+			custom_char_draw.char_custom.grapic_data_struct.start_angle=25;
+			custom_char_draw.char_custom.grapic_data_struct.end_angle=strlen(Freq_State[F405.Freq_state]);
+			custom_char_draw.char_custom.grapic_data_struct.width= 2;
+			custom_char_draw.char_custom.grapic_data_struct.start_x=c_pos_x[11]*SCREEN_LENGTH;
+			custom_char_draw.char_custom.grapic_data_struct.start_y=c_pos_y[11]*SCREEN_WIDTH;
+			memset(custom_char_draw.char_custom.data,'\0',sizeof(custom_char_draw.char_custom.data));
+			strcpy(custom_char_draw.char_custom.data,Freq_State[F405.Freq_state]);
+			break;
+		
 			default:
-				break;
+			break;
 		}
 		tick++;
 		return ;
@@ -278,6 +298,7 @@ Fric:
 			}
 			goto CHASSIS;
 		}
+		
 		if(Char_Change_Array[3] == Op_Change)
 		{
 			if(change_cnt[3]>0)
@@ -290,6 +311,7 @@ Fric:
 			}
 			goto Fric;
 		}
+		
 		if(Char_Change_Array[4] == Op_Change)
 		{
 			if(change_cnt[4]>0)
@@ -301,6 +323,46 @@ Fric:
 			Char_Change_Array[4] = Op_None;
 			}
 			goto PS;	
+		}
+		
+		if(Char_Change_Array[5] == Op_Change)  
+		{
+			if(change_cnt[5]>0)
+			{
+			 change_cnt[5] -- ;
+			}
+			else
+			{
+			Char_Change_Array[5] = Op_None;
+			}
+			/*******************************绘制删除 RUN 字符*********************************/
+			custom_char_draw.char_custom.grapic_data_struct.graphic_name[0] = 0;
+			custom_char_draw.char_custom.grapic_data_struct.graphic_name[1] = 41;
+			custom_char_draw.char_custom.grapic_data_struct.graphic_name[2] = 10;
+			custom_char_draw.char_custom.grapic_data_struct.operate_tpye= (LowHP_Flag == 1 ?Op_Add : Op_Delete);
+			custom_char_draw.char_custom.grapic_data_struct.graphic_tpye=7;
+			custom_char_draw.char_custom.grapic_data_struct.layer=8;
+			custom_char_draw.char_custom.grapic_data_struct.color= Orange;
+			custom_char_draw.char_custom.grapic_data_struct.start_angle=50;    //字体大小  
+			custom_char_draw.char_custom.grapic_data_struct.end_angle=strlen("RUN !!");
+			custom_char_draw.char_custom.grapic_data_struct.width=6;           //宽度
+			custom_char_draw.char_custom.grapic_data_struct.start_x=c_pos_x[10]*SCREEN_LENGTH;
+			custom_char_draw.char_custom.grapic_data_struct.start_y=c_pos_y[10]*SCREEN_WIDTH;
+			memset(custom_char_draw.char_custom.data,'\0',sizeof(custom_char_draw.char_custom.data));
+			strcpy(custom_char_draw.char_custom.data,"RUN !!");
+		}
+		
+		if(Char_Change_Array[6] == Op_Change)
+		{
+			if(change_cnt[6]>0)
+			{
+			 change_cnt[6] -- ;
+			}
+			else
+			{
+			Char_Change_Array[6] = Op_None;
+			}
+			goto Freq;	
 		}
 	}
 }
@@ -315,9 +377,9 @@ Fric:
 int Char_Change_Check(void)
 {
 	int i;
-	static char last_Mag,last_Gimbal,last_Chassis,last_Laser,last_Follow,last_Fric,last_PowerState;	//记录上次状态
+	static char last_Mag,last_Gimbal,last_Chassis,last_Laser,last_Freq,last_Fric,last_PowerState;	//记录上次状态
 	static int delete_flag;
-	char Mag_flag,Gimbal_flag,Chassis_flag,Laser_flag,Follow_state,Fric_flag;
+	char Mag_flag,Gimbal_flag,Chassis_flag,Laser_flag,Freq_state,Fric_flag;
 
 	/*用于图形界面初始化*/
 	if(F405.Graphic_Init_Flag == 0)		
@@ -333,13 +395,14 @@ int Char_Change_Check(void)
 	Gimbal_flag = F405.Gimbal_Flag;
 	Chassis_flag = F405.Chassis_Flag;
 	Fric_flag = F405.Fric_Flag;
-	Follow_state = F405.Follow_state;
+	Freq_state = F405.Freq_state;
+	LowHP_Flag = JudgeReceive.maxHP * 0.35 > JudgeReceive.remainHP ? 1:0;
 	
 	/*有变化，标志各个位*/
 	if(last_Mag != Mag_flag) 
 	{
 		Char_Change_Array[0] = Op_Change;
-    change_cnt[0] = 2;
+    change_cnt[0] = 2;               // 修改2次避免丢帧
 	}
 	if(Gimbal_flag != last_Gimbal) 
 	{
@@ -361,21 +424,35 @@ int Char_Change_Check(void)
 		Char_Change_Array[4]=Op_Change;
 		change_cnt[4] = 2;
 	}
+	if(LowHP_Flag != lastLowHP_Flag)
+	{
+		Char_Change_Array[5]=Op_Change;
+		change_cnt[5] = 2;	  
+	}
+	if(Freq_state != last_Freq)
+	{
+		Char_Change_Array[6]=Op_Change;
+		change_cnt[6] = 2;	  
+	}
+	
 	
 	/*保存这次标志和上次比较*/
 	last_Mag = Mag_flag;
 	last_Gimbal = Gimbal_flag;
 	last_Chassis = Chassis_flag;
 	last_Fric = Fric_flag;
-	last_Follow = Follow_state;
+	last_Freq = Freq_state;
 	last_PowerState=PowerState;
+	lastLowHP_Flag = LowHP_Flag;
+	
 	
 	/*检索有没有发生变化，如果有变化则返回修改图层*/
-	for(i = 0;i<5;i++)
+	for(i = 0;i<7;i++)
 	{
 		if(Char_Change_Array[i] == Op_Change)
 			return Op_Change;
 	}
+	
 	return Op_None;	//否则返回空操作，此时不会发送东西
 }
 /**********************************************************************************************************
@@ -441,9 +518,10 @@ void CharSendtask(void *pvParameters)
 				if(char_change_state != Op_None)
 					referee_data_pack_handle(0xA5,0x0301,(uint8_t *)&custom_char_draw,sizeof(custom_char_draw));
 			}
+			
 		  IWDG_Feed();//喂狗
 			charTask_cnt++;
-			vTaskDelay(100); 
+			vTaskDelay(50); 
 		 
 #if INCLUDE_uxTaskGetStackHighWaterMark
 		

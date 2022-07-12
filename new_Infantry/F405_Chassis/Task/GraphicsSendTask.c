@@ -612,7 +612,6 @@ int Graphic_Change_Check(void)
 	{
 		return Op_Init;	//返回Init,会一直发送Add，添加所有图层
 	}
-
 	
 	/***********************Pitch角度变化检测部分************************/
 	pitch_100 = F405.Gimbal_100;
@@ -713,7 +712,7 @@ void GraphicSendtask(void *pvParameters)
 	
       IWDG_Feed();//喂狗
 			GraficTaskcnt++;
-			vTaskDelay(100); 	 
+			vTaskDelay(50); 	 
 #if INCLUDE_uxTaskGetStackHighWaterMark
 		
 #endif

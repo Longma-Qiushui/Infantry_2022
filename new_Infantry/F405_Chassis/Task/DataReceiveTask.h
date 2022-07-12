@@ -20,14 +20,14 @@
 #define Gimbal_SmlBuf_Mode              8
 
 typedef struct{
-	char SuperPowerLimit;	//0为超级电容关闭，不为0则开启使用超级电容
+	char SuperPowerLimit;	  //0为超级电容关闭，不为0则开启使用超级电容
 	char Chassis_Flag;			//模式见上
 	char Mag_Flag;					//0表示弹仓盖关闭，1为打开
 	char Laser_Flag;				//0表示激光关闭，1为打开
 	short Gimbal_100;				//pitch角度,乘了100之后发
 	char Gimbal_Flag;				//模式见上
 	char Graphic_Init_Flag;	//0为进入初始化模式，1为初始化结束
-	char Follow_state;			//底盘的跟随状态，0表示跟随正常，1表示跟随还未到位
+	char Freq_state;			  //射频状态，0表示正常射频，1表示高射频
 	/*打包数据*/
 	char Send_Pack1;	
 	char Fric_Flag;

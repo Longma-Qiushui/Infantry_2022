@@ -14,7 +14,7 @@ float PID_Calc(Pid_Typedef *P, float ActualValue)
 	
 		if(P->PreError > -P->ErrorMax && P->PreError < P->ErrorMax)
 		{
-			P->SumError += P->PreError;
+			P->SumError += (P->PreError + P->LastError)/2;   //梯形积分提高精度
 		}
 		
 		P->LastError = P->PreError;

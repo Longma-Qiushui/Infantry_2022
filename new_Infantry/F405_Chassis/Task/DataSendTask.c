@@ -26,7 +26,7 @@ extern char Judge_Lost;
 **********************************************************************************************************/
 //TickType_t nowtick,lasttick,interval;
 short last[4],lastsum,sum;
-short post_filter[4];
+short post_out[4];
 extern short CAP_CrossoverFlag;
 char output_filter;
 float K_Power;
@@ -55,8 +55,12 @@ void ChassisCan1Send(short a,short b,short c,short d)
 		    c = -1000;
 	      d	=  1000;	
 			}
-		K_Power = 0.01f/JudgeReceive.realChassispower*(ABS(ChassisMotorCanReceive[0].RealSpeed)+ABS(ChassisMotorCanReceive[1].RealSpeed)+ABS(ChassisMotorCanReceive[2].RealSpeed)+ABS(ChassisMotorCanReceive[3].RealSpeed));
+//		K_Power = 0.01f/JudgeReceive.realChassispower*(ABS(ChassisMotorCanReceive[0].RealSpeed)+ABS(ChassisMotorCanReceive[1].RealSpeed)+ABS(ChassisMotorCanReceive[2].RealSpeed)+ABS(ChassisMotorCanReceive[3].RealSpeed));
 		//1000   1700
+		post_out[0] = a;
+		post_out[1] = b;
+		post_out[2] = c;
+		post_out[3] = d;
     tx_message.Data[0] = (unsigned char)((a>>8)&0xff);
     tx_message.Data[1] = (unsigned char)( a &0xff);  
     tx_message.Data[2] = (unsigned char)((b>>8)&0xff);

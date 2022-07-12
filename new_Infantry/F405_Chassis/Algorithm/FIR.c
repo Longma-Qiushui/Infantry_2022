@@ -2,7 +2,7 @@
 
 float Input[4] = {0};
 float Output[4] = {0};
-#define K_Low_setchassis  0.05   //½ØÖ¹ÆµÂÊf=1000a/2pi=160a
+#define K_Low_setchassis  0.05   //0.05   ½ØÖ¹ÆµÂÊf=1000a/2pi=160a
 #define K_Low_setwheel    0.6
 
 extern float Flow[4];

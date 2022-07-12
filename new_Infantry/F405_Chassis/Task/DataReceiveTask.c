@@ -10,7 +10,7 @@ unsigned char SaveBuffer[90];
 JudgeReceive_t JudgeReceive;
 extern roboDisconnect Robot_Disconnect;
 //short BAT_StartFlag;
-//short BAT_StopFlag;
+char XStopFlag,YStopFlag;
 short CAP_CrossoverFlag;
 short CrossoverFlagMax = 10;
 F405_typedef F405;
@@ -81,22 +81,16 @@ void Can2Receive1(CanRxMsg *rx_message)
 			memcpy(&chassis.carSpeedx, &rx_message->Data[0], 2);
 			memcpy(&chassis.carSpeedy, &rx_message->Data[2], 2);
 			memcpy(&chassis.carSpeedw, &rx_message->Data[4], 2);
-			
-//			if(ABS(chassis.Last_carSpeedx - chassis.carSpeedx) > 1500 || ABS(chassis.Last_carSpeedy - chassis.carSpeedy) > 1500)		//发生变化
-//			{
-//				CAP_CrossoverFlag = 1;																										//电容停止充电
-////				if(ABS(chassis.carSpeedx) < 10 || ABS(chassis.carSpeedy) < 10)						//停下
-////					BAT_StopFlag = 1;
-////				else if(ABS(chassis.carSpeedx) > 1500 || ABS(chassis.carSpeedy) > 1500)		//起步
-////					BAT_StartFlag = 1;
-//			}
-//			
-//			chassis.Last_carSpeedx = chassis.carSpeedx;
-//			chassis.Last_carSpeedy = chassis.carSpeedy;
-//			chassis.Last_carSpeedw = chassis.carSpeedw;
-			
+		
+		if((chassis.Last_carSpeedx - chassis.carSpeedx > 1000) && ABS(chassis.carSpeedy)<100) //前后方向刹车或变向时
+		{
+		   XStopFlag = 1;
+		}
+		  chassis.Last_carSpeedx = chassis.carSpeedx;
+		  chassis.Last_carSpeedy = chassis.carSpeedy;
 			Robot_Disconnect.F405Disconnect=0; 
 		break;
+		
 		case 0x102:
 			memcpy(&F405.SuperPowerLimit, &rx_message->Data[0], 1);
 			memcpy(&F405.Chassis_Flag, &rx_message->Data[1], 1);
@@ -107,7 +101,7 @@ void Can2Receive1(CanRxMsg *rx_message)
 			F405.Mag_Flag = (F405.Send_Pack1>>0)&0x01;
 			F405.Laser_Flag = (F405.Send_Pack1>>1)&0x01;
 			F405.Graphic_Init_Flag = (F405.Send_Pack1>>2)&0x01;
-			F405.Follow_state = (F405.Send_Pack1>>3)&0x01;
+			F405.Freq_state = (F405.Send_Pack1>>3)&0x01;
 		  F405.Fric_Flag=(F405.Send_Pack1>>4)&0x01;
 		  SelfProtect_Cross_Flag=(F405.Send_Pack1>>6)&0x01;
 		  slow_flag = (F405.Send_Pack1>>7)&0x01;
@@ -151,6 +145,8 @@ void JudgeBuffReceive(unsigned char ReceiveBuffer[],uint16_t DataLen)
 					memcpy(&JudgeReceive.HeatMax17,&SaveBuffer[PackPoint+7+8],2);
 					memcpy(&JudgeReceive.BulletSpeedMax17,&SaveBuffer[PackPoint+7+10],2);
 					memcpy(&JudgeReceive.MaxPower,&SaveBuffer[PackPoint+7+24],2);
+					if(JudgeReceive.MaxPower == 0)
+						JudgeReceive.MaxPower = 60 ;
 				}
 					
 				//实时功率、热量数据

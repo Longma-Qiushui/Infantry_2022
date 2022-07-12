@@ -14,10 +14,9 @@
 **********************************************************************************************************/
 #include "main.h"
 
-char Robot_ID;
+char Robot_ID = 14;
 roboDisconnect Robot_Disconnect;
 char Judge_Lost;
-//unsigned char PowerState = 0;
 extern ChassisSpeed_t chassis;
 
 extern JudgeReceive_t JudgeReceive;
@@ -33,7 +32,6 @@ extern TaskHandle_t PowerControlTask_Handler; //ÈÎÎñ¾ä±ú
 int main()
 {
   BSP_Init();
-	Robot_ID= 3 ;
 	Robot_Init();
 	
 	startTast();

@@ -257,7 +257,7 @@ void ChargeControl(void)
 	{
 		if(PowerState == CAP)		//刚从电容切回
 		{
-			if(JudgeReceive.remainEnergy > 40)		//缓存能量够用才切回
+			if(JudgeReceive.remainEnergy > 20)		//缓存能量够用才切回
 				{
 					CAP_off;   
 					Bat_on;
