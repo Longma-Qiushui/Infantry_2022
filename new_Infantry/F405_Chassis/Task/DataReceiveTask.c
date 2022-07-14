@@ -16,7 +16,7 @@ short CrossoverFlagMax = 10;
 F405_typedef F405;
 RM820RReceive_Typedef ChassisMotorCanReceive[4];
 ChassisSpeed_t chassis;
-extern char Robot_ID;
+
 extern char SelfProtect_Cross_Flag;
 char slow_flag;
 /**********************************************************************************************************

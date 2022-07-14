@@ -50,7 +50,7 @@ extern ChassisSpeed_t chassis;
 extern RM820RReceive_Typedef ChassisMotorCanReceive[4];
 extern F405_typedef F405;
 extern enum POWERSTATE_Typedef PowerState;
-extern char Robot_ID;
+
 extern float output_fil;
 extern float Input[4];
 extern float Output[4];
@@ -143,25 +143,12 @@ char test_cnt[4];
 #define  SetUP_T  0.99f
  void Filter_Cal(void)
 {
-
+#if defined Mecanum
   LowPass_SetChassis(&pidChassisWheelSpeed[0].SetPoint,k_xy*(+chassis.carSpeedy+(+chassis.carSpeedx))-carSpeedw);
 	LowPass_SetChassis(&pidChassisWheelSpeed[1].SetPoint,k_xy*(+chassis.carSpeedy+(-chassis.carSpeedx))-carSpeedw);
 	LowPass_SetChassis(&pidChassisWheelSpeed[2].SetPoint,k_xy*(-chassis.carSpeedy+(+chassis.carSpeedx))-carSpeedw);
 	LowPass_SetChassis(&pidChassisWheelSpeed[3].SetPoint,k_xy*(-chassis.carSpeedy+(-chassis.carSpeedx))-carSpeedw);
 	
-//	for(int t=0;t<4;t++)  //用于标志轮子速度变化方向
-//	{
-//	  if(ABS(pidChassisWheelSpeed[t].SetPoint) +100 < ABS(pidChassisWheelSpeed[t].SetPointLast)) //避免静止误差
-//		{
-//		 WheelStopFlag[t] = 1;
-//		 test_cnt[t]++;
-//		}
-//		else
-//		{
-//		 WheelStopFlag[t] = 0;
-//		}
-//	}
-//	
 	//  标志车子已经起步了
 		if(ABS(k_xy*(+chassis.carSpeedy+(+chassis.carSpeedx))-carSpeedw)*SetUP_T<ABS(pidChassisWheelSpeed[0].SetPoint))
 		ChassisSetUp[0]=1;
@@ -178,6 +165,10 @@ char test_cnt[4];
 		if(ABS(k_xy*(-chassis.carSpeedy+(-chassis.carSpeedx))-carSpeedw)*SetUP_T<ABS(pidChassisWheelSpeed[3].SetPoint))
 		ChassisSetUp[3]=1;
 		else 	ChassisSetUp[3]=0;
+#else
+
+
+#endif
 
 }
 
@@ -598,12 +589,10 @@ void Current_Set_Jump(void)
 **********************************************************************************************************/
 void Chassis_Power_Control_Init(void)
 {
-	int num = 0;
-	switch(Robot_ID)
-{
+	int num = 0; 
+#if Robot_ID == 3
 /****************************************  3号车   ************************************************************/
-		case 3:
-{	/****************默认参数********************/       //3号车
+	/****************默认参数********************/       //3号车
 	Power_method[num].Actual_P_max = 60;
 	Power_method[num].Self_Protect_Limit = 4000;
 	Power_method[num].k_BAT = 1.2f;
@@ -650,10 +639,10 @@ void Chassis_Power_Control_Init(void)
 	Power_method[num].Self_Protect_Limit = 8000;
 	Power_method[num].k_BAT = 2.0f;
 //	Power_method[num].CurrentMax = 16000;
-}break;
+
+#elif Robot_ID == 4 
 ///****************************************  4号车   ************************************************************/
-case 4:
-{	/****************默认参数********************/       //4号车
+	/****************默认参数********************/       //4号车
 	Power_method[num].Actual_P_max = 60;
 	Power_method[num].Self_Protect_Limit = 2500;
 	Power_method[num].k_BAT = 0.7f;
@@ -724,10 +713,11 @@ case 4:
 	Power_method[num].Excess_P_max_P = 1000;
 	Power_method[num].CurrentMax = 10000;
 	Power_method[num].Follow_W = 10000;
-}break;
+
+#elif Robot_ID == 14
 ///****************************************  自适应4号车   ************************************************************/
-		case 14:
-{	/****************默认参数********************/       //14号车
+
+	/****************默认参数********************/       //14号车
 	Power_method[num].Actual_P_max = 60;
 	Power_method[num].Self_Protect_Limit = 4000;
 	Power_method[num].k_BAT = 1.2f;
@@ -774,19 +764,8 @@ case 4:
 	Power_method[num].Self_Protect_Limit = 8000;
 	Power_method[num].k_BAT = 2.0f;
 //	Power_method[num].CurrentMax = 16000;
-}break;
-default:
-{
-/****************默认参数********************/ 
-	Power_method[num].Actual_P_max = 60;
-	Power_method[num].Self_Protect_Limit = 2500;
-	Power_method[num].k_BAT = 0.7f;
-	Power_method[num].Excess_P_max_J = 500;
-	Power_method[num].Excess_P_max_P = 1000;
-	Power_method[num].CurrentMax = 10000;
-	Power_method[num].Follow_W = 4000;
-}
-}
+#endif
+
 }
 /**********************************************************************************************************
 *函 数 名: Pid_ChassisWheelInit

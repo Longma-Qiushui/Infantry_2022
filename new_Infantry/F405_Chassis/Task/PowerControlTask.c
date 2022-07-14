@@ -5,6 +5,13 @@
  * @作者     陈志鹏
  * @日期     2020.1
 **********************************************************************************************************/
+/**********************************************************************************************************
+ * @文件     PowerControlTask.c
+ * @说明     功率控制
+ * @版本  	 V2.0
+ * @作者     戴军
+ * @日期     2022.5
+**********************************************************************************************************/
 #include "main.h"
 #include "stm32f4xx_dac.h"
 float UCAP,UDCDC;
@@ -95,7 +102,7 @@ int MaxChargePower = 45000; 		//最大充电功率，最小充电功率
 
 const short MinCharegePower = 5000;
 int ActualPower = 0;
-float MaxBatChargeCurrent = 5.0f;
+float MaxBatChargeCurrent = 7.0f;
 float MaxCAPChargeCurrent = 7.0f;
 float My_i;
 float ChargeCal()	//由剩余功率计算充电电流
@@ -138,44 +145,7 @@ void HalfCAPCal()
 
 }
 
-//float AvailableChargePower;
-//float ChargePowerMargin = 5;
-//float ActualChargePower;
-//float ChargeCurrent;
-//float ChargeCurrentMax = 4.0f;
-//short MinCharegePower = 5;
 
-////返回还可以再增加的充电电流
-
-//float ChargeCal(void)
-//{
-//	float addition_current;
-//	AvailableChargePower = JudgeReceive.MaxPower - JudgeReceive.realChassispower - ChargePowerMargin;
-//	if(AvailableChargePower < -10) //超功率5W
-//	{
-//		I_Set = 0;
-//		addition_current = 0;
-//	}
-//	else
-//	{
-//		ChargeCurrentMax = AvailableChargePower / AD_actual_value;
-//		if(AD_actual_value < 22)
-//			ChargeCtl.SetPoint = AvailableChargePower;
-//		else
-//			ChargeCtl.SetPoint = MinCharegePower;
-//		if(PowerState == BAT)
-//		{
-//			ActualChargePower = (INA260_1.Power - INA260_2.Power) / 1000.0f;				//统一以W为单位
-//		}
-//		else if(PowerState == CAP)
-//		{
-//			ActualChargePower = INA260_1.Power / 1000.0f;
-//		}
-//		
-//		addition_current = LIMIT_MAX_MIN(PID_Calc(&ChargeCtl,ActualChargePower),ChargeCurrentMax,0);
-//	}
-//	return addition_current;
-//}
 
 /**********************************************************************************************************
 *函 数 名: Charge_Set
@@ -194,9 +164,10 @@ void Charge_Set(float i_Set)
 //	{
 //	i_Set=(i_Set-last_i_set)*0.2+last_i_set;
 //	}
-//	
-	Actual_Iset = i_Set;
-	DAC_Set = i_Set/10.0*2/3.3*4096;    
+//	根据充电IC特性，根据电流感应电阻为10m欧姆，可得到如下计算公式，此为最大充电电流
+//  超级电容电压冲到Vcc时，充电IC变回进入休眠模式，减少电容电压流失
+	Actual_Iset = i_Set;      
+	DAC_Set = i_Set*0.2f/3.3f*4096;    
 	DAC_Set = LIMIT_MAX_MIN(DAC_Set,4096,0);
 	DAC_SetChannel2Data(DAC_Align_12b_R,DAC_Set);
 	last_i_set=i_Set;

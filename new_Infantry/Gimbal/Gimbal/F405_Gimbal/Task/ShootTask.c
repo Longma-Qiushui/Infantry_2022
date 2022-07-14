@@ -29,7 +29,6 @@ extern BodanMotorReceive_Typedef BodanReceive;
 extern short armor_state;
 extern RobotInit_Struct Infantry;
 extern short FrictionReceive[2];
-extern char Robot_ID;
 short PullerSpeed ;        //  1000 ¿‰»¥1º∂…‰∆µ4.5     2000 2º∂6.5  3000 12.5
 short checkPullerSpeed = 1000;             //  800  4
 /**********************************************************************************************************
@@ -43,11 +42,11 @@ void Pluck_Speed_Choose()
 {
 	if(HighFreq_flag)
 	{
-		PullerSpeed = 4500;
+		PullerSpeed = 3200;
 	}
 	else
 	{
-	  PullerSpeed = 3500;
+	  PullerSpeed = 2500;
 	}
 //	switch(F105.RobotLevel)
 //	{	
@@ -552,14 +551,14 @@ void Pid_BodanMotor_Init(void)
 	PidBodanMotorSpeed.SetPoint=0.0f;
 	PidBodanMotorSpeed.OutMax = 10000.0f;
 	
-	if(Robot_ID == 3 || Robot_ID == 4||Robot_ID == 14)
-	{
+#if(Robot_ID == 3 || Robot_ID == 4||Robot_ID == 14)
+
     Onegrid=38940.0f;		  //¿œ≤¶≈Ã
-	}
-	else
-	{
+	
+#else
+	
 	  Onegrid=38940.0f;		  //–¬≤¶≈Ã
-	}
+#endif
 }
 
 /**********************************************************************************************************
@@ -570,37 +569,34 @@ void Pid_BodanMotor_Init(void)
 **********************************************************************************************************/
 void Pid_Friction_Init(void)
 {
-	switch(Robot_ID)
-{
+
+#if Robot_ID == 3
 /********************************************* 3∫≈≥µ *******************************************************/	
-		case 3:
-		{
 			Infantry.Low_FrictionSpeed = 4900;
 			Infantry.Medium_FrictionSpeed = 5800;
 			Infantry.High_FrictionSpeed =16000;
-		} break;
+	
+#elif  Robot_ID == 4
 /********************************************* 4∫≈≥µ *******************************************************/	
-		case 4:
-		{
+
 			Infantry.Low_FrictionSpeed = 5000;    //4850:14.1  …‰∆µ£∫4.5
  			Infantry.Medium_FrictionSpeed = 5850;  //17.4
 			Infantry.High_FrictionSpeed = 17000;
-		} break;
+
+#elif  Robot_ID == 14
 /********************************************* 5∫≈≥µ *******************************************************/	
-		case 14:
-		{
+
 			Infantry.Low_FrictionSpeed = 4850;
 			Infantry.Medium_FrictionSpeed = 5800;
 			Infantry.High_FrictionSpeed = 16000;
-		} break;		
+		
 /********************************************* »± °÷µ ******************************************************/		
-		default:
-		{
+#else
 			Infantry.Low_FrictionSpeed = 4850;
 			Infantry.Medium_FrictionSpeed = 5800;
 			Infantry.High_FrictionSpeed = 16000;
-		}
-}
+#endif
+
   PidFrictionSpeed[0].P=60.0f;
 	PidFrictionSpeed[0].I=0.0f;
 	PidFrictionSpeed[0].D=0.0f;

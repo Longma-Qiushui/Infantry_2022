@@ -173,13 +173,13 @@ void Remote_Process(Remote rc)
 		Status.ShootMode=Shoot_Powerdown_Mode;
 		SteeringEngine_Set(Infantry.MagClose);
 	}
-		if(rc.s2==2) //飞坡模式
-	{
-		Status.GimbalMode=Gimbal_Jump_Mode; 
-		Status.ChassisMode=Chassis_SelfProtect_Mode;
-		Status.ShootMode=Shoot_Powerdown_Mode;
-		SteeringEngine_Set(Infantry.MagClose);
-	}
+//		if(rc.s2==2) //飞坡模式
+//	{
+//		Status.GimbalMode=Gimbal_Jump_Mode; 
+//		Status.ChassisMode=Chassis_SelfProtect_Mode;
+//		Status.ShootMode=Shoot_Powerdown_Mode;
+//		SteeringEngine_Set(Infantry.MagClose);
+//	}
 	
 //	
 //		if(rc.s2==2) //弹道测试模式
@@ -205,13 +205,13 @@ void Remote_Process(Remote rc)
 //		Status.ShootMode=Shoot_Check_Mode;
 //		SteeringEngine_Set(Infantry.MagClose);
 //	}	
-//	if(rc.s2==2) //辅瞄模式
-//	{
-//		Status.GimbalMode=Gimbal_Armor_Mode; 
-//		Status.ChassisMode=Chassis_Act_Mode;
-//		Status.ShootMode=Shoot_Tx2_Mode;
-//		SteeringEngine_Set(Infantry.MagClose);
-//	}
+	if(rc.s2==2) //辅瞄模式
+	{
+		Status.GimbalMode=Gimbal_Armor_Mode; 
+		Status.ChassisMode=Chassis_Act_Mode;
+		Status.ShootMode=Shoot_Tx2_Mode;
+		SteeringEngine_Set(Infantry.MagClose);
+	}
 		if(rc.s2==1) //小陀螺模式
 	{
 		Status.GimbalMode=Gimbal_Act_Mode;
@@ -219,7 +219,7 @@ void Remote_Process(Remote rc)
 		Status.ShootMode=Shoot_Powerdown_Mode;
     SteeringEngine_Set(Infantry.MagClose);
 	}
-	
+//	
 //	if(rc.s2==2) //小陀螺辅瞄模式
 //	{
 //		Status.GimbalMode=Gimbal_Armor_Mode;
@@ -241,7 +241,7 @@ void Remote_Process(Remote rc)
 //		Status.ShootMode = Shoot_Tx2_Mode;
 //	}
 // 
-	
+//	
 //		if(rc.s2 == 1)//小符模式
 //	{
 //		if(Buff_Init==0)
@@ -270,7 +270,7 @@ void Remote_Process(Remote rc)
 //		SteeringEngine_Set(Infantry.MagClose);
 //  }
 
-//	if(rc.s2==2)  //系统辨识模式
+//	if(rc.s2==1)  //系统辨识模式
 //	{
 //		Status.GimbalMode=Gimbal_SI_Mode;
 //		Status.ChassisMode=Chassis_Powerdown_Mode;
@@ -311,7 +311,7 @@ char 	ARMOR_FLAG=0;
 char Last_shift;
 char shift_press_flag,shift_flag;
 char ReverseRotation=0;
-
+extern char switchPriority;
 void MouseKey_Act_Cal(RC_Ctl_t RC_Ctl)
 {		
 		static int waitb=0;
@@ -366,7 +366,20 @@ void MouseKey_Act_Cal(RC_Ctl_t RC_Ctl)
 			Status.ChassisMode = Chassis_Act_Mode;
 		}
 	}	
-/******************************单挑模式 e键*****************************************/	
+/******************************切换优先级 e键*****************************************/	
+			e_rising_flag=RC_Ctl.key.e-pre_key_e;
+			pre_key_e = RC_Ctl.key.e;
+		
+			
+/*按下一次切换优先级*/
+			if(e_rising_flag == 1)
+			{
+        switchPriority = !switchPriority;
+			}		
+
+			
+	
+	
 //			e_rising_flag=RC_Ctl.key.e-pre_key_e;
 //			pre_key_e = RC_Ctl.key.e;
 //		
@@ -488,20 +501,18 @@ void MouseKey_Act_Cal(RC_Ctl_t RC_Ctl)
 		{
 			Buff_flag ++ ;
 			if(Buff_flag % 2 == 0 && Status.GimbalMode == Gimbal_BigBuf_Mode)			//
-		 {
+		  {
 				Status.GimbalMode = Gimbal_Act_Mode;
-				Status.ShootMode = Shoot_Fire_Mode;
 			  Buff_Init=0;
 			}
 				else if(Buff_flag % 2 == 1  && Status.GimbalMode == Gimbal_Act_Mode)
-				{
+			{
 					if(Buff_Init==0)
 				{
 				Buff_Yaw_Motor =Gimbal.Yaw.MotorTransAngle;
 				Buff_Init=1;
 				}
 				Status.GimbalMode = Gimbal_BigBuf_Mode;
-				Status.ShootMode = Shoot_Tx2_Mode;				//大符自动打弹
 			}
 		}
 		/******************************Big  Buff  打大符 z键*****************************************/
@@ -540,13 +551,11 @@ void MouseKey_Act_Cal(RC_Ctl_t RC_Ctl)
 				Buff_Init=1;
 				}
 			  Status.GimbalMode=Gimbal_SmlBuf_Mode;
-		    Status.ShootMode=Shoot_Tx2_Mode;
 				smallBuff_flag = 1;
 			}
 			else
 			{
 				Buff_Init=0;
-				Status.ShootMode=Shoot_Fire_Mode;
 				Status.GimbalMode=Gimbal_Act_Mode;
 				smallBuff_flag = 0;
 			}
@@ -657,7 +666,6 @@ void Mouse_Key_Process(RC_Ctl_t RC_Ctl)
 *返 回 值: 无
 **********************************************************************************************************/
 uint32_t ModeChoose_high_water;
-extern char Robot_ID;
 extern char Chassis_ID;
 void ModeChoose_task(void *pvParameters)
 {

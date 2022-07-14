@@ -13,11 +13,6 @@
  * @日期     2022.6
 **********************************************************************************************************/
 #include "main.h"
-
-char Robot_ID = 4;         // 不同机器人用不同的序号
-// 13   14  为新自适应麦轮编号    
-//  3    4  为独立悬挂麦轮编号
-
 extern KalmanFilter_t pitch_Kalman, yaw_Kalman;
 extern KalmanFilter_Init_t K;
 unsigned volatile long run_time_check = 0;	//用于做各种简易计数器计数
@@ -74,7 +69,7 @@ void BSP_Init(void)
 	delay_ms(100);
 	VOFA_USART_Configuration();
 	delay_ms(3000);
-	My_GPIO_Init();
+//	My_GPIO_Init();
 	SteeringEngine_Set(Infantry.MagOpen);
 }
 /**********************************************************************************************************
@@ -103,11 +98,8 @@ void Robot_Init(void)
 void Infantry_Init(void)
 {	
 
-switch(Robot_ID)
-{	
+#if  Robot_ID == 3
 /***************************************** 3 号车 **************************************************************/	
-	case 3:
-{	
 	Infantry.Yaw_init=2750;                  //  3号车 
 	Infantry.Pitch_init=7440;
 	Infantry.MagOpen=830;  
@@ -124,11 +116,8 @@ switch(Robot_ID)
 	Infantry.pitch_min_gyro = -13;
   Infantry.pn=-1;
 	
-} break;
-
+#elif Robot_ID == 4	
 /***************************************** 4 号车 **************************************************************/	
-	case 4:
-{	
 	Infantry.Yaw_init=6865;            // 4号车
 	Infantry.Pitch_init=615;
 	Infantry.MagOpen=1000;
@@ -144,12 +133,10 @@ switch(Robot_ID)
 	Infantry.pitch_max_gyro = 28;
 	Infantry.pitch_min_gyro = -13;
 	Infantry.pn=-1;                  //给送入的陀螺仪pitch施加系数使其方向正确
-} break;
 
-/***************************************** 5 号车 **************************************************************/	
-	case 14:
-{	
-		Infantry.Yaw_init=4747;            // 5号车
+#elif Robot_ID == 14
+/***************************************** 14 号车 **************************************************************/	
+	Infantry.Yaw_init=4747;            // 14号车
 	Infantry.Pitch_init=2035;
 	Infantry.MagOpen=1000;
 	Infantry.MagClose=1900;
@@ -164,8 +151,9 @@ switch(Robot_ID)
 	Infantry.pitch_max_gyro = 36;
 	Infantry.pitch_min_gyro = -16;
 	Infantry.pn=1;
-} break;
-}
+
+#endif
+
 }
 
 /**********************************************************************************************************

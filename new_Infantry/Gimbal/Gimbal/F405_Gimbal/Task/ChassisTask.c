@@ -36,7 +36,6 @@ extern F105_Typedef F105;
 extern F405_typedef F405;
 extern short Turning_flag;
 extern float YawMotorReceive;
-extern char Robot_ID;
 
 /**********************************************************************************************************
 *º¯ Êý Ãû: Chassis_Powerdown_Cal

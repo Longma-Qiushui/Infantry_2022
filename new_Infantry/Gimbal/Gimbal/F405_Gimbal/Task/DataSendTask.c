@@ -231,16 +231,14 @@ void FrictionBodanCan2Send(short X,short Y,short Z)
 	
  		CAN_Transmit(CAN2,&tx_message);
 }
+
 /**********************************************************************************************************
 *函 数 名: USART6_SendtoPC
 *功能说明: 弹丸数和云台姿态交替发送,发送姿态频率是子弹数的4倍
 					 PC_Sendflag 0x00待机  0x10辅瞄   0x20大符   0x30小符  0xffTx2关机
-					 数据硬同步  down_sampling_rate控制周期 最低为5/ms
 *形    参: 无
 *返 回 值: 无
 **********************************************************************************************************/
-short down_sampling_rate = 6;		//1000为1帧			//4
-
 
 typedef union{
 	TickType_t xTickCount;
@@ -249,27 +247,18 @@ typedef union{
 time_use sendTOPC_time;
 unsigned char Flag_use=0;
 
-typedef union{
-	uint32_t id;
-	unsigned char data[4];
-}UNION_imu_id;
-UNION_imu_id imu_id={0};
 
 extern int SendToTx2BullectCnt;
 short pitch; 
 int yaw;
-
+short down_sampling_rate = 4;		//1000为1帧			//4
 int PC_TX_num=0;			//和Pc之间通信的计数器，用于降低通讯帧率
 int Debug_yaw = 0;
-
 int pitch_send ;
-
-int camera_state=0;//触发信号启动
-
 extern float GimbalYawPos,GimbalPitchPos;
 extern float Buff_Yaw_Motor;
 extern char smallBuff_flag;
-extern Disconnect Robot_Disconnect;
+char switchPriority;
 void USART6_SendtoPC(void)
 {
 	char Mode_Flag;
@@ -278,7 +267,7 @@ void USART6_SendtoPC(void)
 	{
 		SendToPC_Buff[0] = '!';
     Mode_Flag=(Status.GimbalMode==Gimbal_BigBuf_Mode?1:0);
-		SendToPC_Buff[1] = (0<<6|smallBuff_flag<<5|0<<4|Mode_Flag<<3|F105.BulletSpeedLevel<<1|F105.RobotRed)&0XFF; // 1为红色，0为蓝色
+		SendToPC_Buff[1] = (0<<6|smallBuff_flag<<5|switchPriority<<4|Mode_Flag<<3|F105.BulletSpeedLevel<<1|F105.RobotRed)&0XFF; // 1为红色，0为蓝色
 	
 			
 		pitch = (short)(Gimbal.Pitch.MotorTransAngle*100);
@@ -303,38 +292,137 @@ void USART6_SendtoPC(void)
 		SendToPC_Buff[7] = (unsigned char)((yaw >> 0) & 0x000000FF);
 		
 		sendTOPC_time.xTickCount = xTaskGetTickCountFromISR();
-		SendToPC_Buff[8] = imu_id.data[3];
-		SendToPC_Buff[9] = imu_id.data[2];
-		SendToPC_Buff[10] = imu_id.data[1];
-		SendToPC_Buff[11] = imu_id.data[0];
+		SendToPC_Buff[8] = sendTOPC_time.data[3];
+		SendToPC_Buff[9] = sendTOPC_time.data[2];
+		SendToPC_Buff[10] = sendTOPC_time.data[1];
+		SendToPC_Buff[11] = sendTOPC_time.data[0];
 		
 		short sendbulletspeed=F105.bulletSpeed*100;
 		SendToPC_Buff[12]= (unsigned char)((sendbulletspeed>> 8) & 0x00FF);
 		SendToPC_Buff[13]= (unsigned char)((sendbulletspeed) & 0x00FF);
-		
-		SendToPC_Buff[15] = sendTOPC_time.data[3];
-		SendToPC_Buff[16] = sendTOPC_time.data[2];
-		SendToPC_Buff[17] = sendTOPC_time.data[1];
-		SendToPC_Buff[18] = sendTOPC_time.data[0];
-		SendToPC_Buff[19] = '#';
-		Append_CRC8_Check_Sum(SendToPC_Buff,PC_SENDBUF_SIZE);
+		SendToPC_Buff[15] = '#';
+		Append_CRC8_Check_Sum(SendToPC_Buff,16);
 
-//		while(DMA_GetCmdStatus(DMA1_Stream6)==ENABLE);
-//		DMA_SetCurrDataCounter(DMA1_Stream6,PC_SENDBUF_SIZE);
+
 		DMA_Cmd(DMA1_Stream6, ENABLE);
-		camera_state = 1;//发送一次触发信号
-		imu_id.id++;
-		PBout(0)=1;
+		
 	}
 	PC_TX_num++;
-	//Cmera_rising_edge(&camera_state,down_sampling_rate/2);//产生相机触发脉冲
-	if(PC_TX_num % down_sampling_rate == 1){
-		PBout(0)=0;
-	}
-//	if((PC_TX_num % (down_sampling_rate / 2) == 0)&&(PC_TX_num % down_sampling_rate != 0))
-//		GPIO_ResetBits(GPIOA,GPIO_Pin_1);
+	if((PC_TX_num % (down_sampling_rate / 2) == 0)&&(PC_TX_num % down_sampling_rate != 0))
+		GPIO_ResetBits(GPIOA,GPIO_Pin_1);
 	
 }
+
+
+
+
+///**********************************************************************************************************
+//*函 数 名: USART6_SendtoPC
+//*功能说明: 弹丸数和云台姿态交替发送,发送姿态频率是子弹数的4倍
+//					 PC_Sendflag 0x00待机  0x10辅瞄   0x20大符   0x30小符  0xffTx2关机
+//					 数据硬同步  down_sampling_rate控制周期 最低为5/ms
+//*形    参: 无
+//*返 回 值: 无
+//**********************************************************************************************************/
+//short down_sampling_rate = 6;		//1000为1帧			//4
+
+
+//typedef union{
+//	TickType_t xTickCount;
+//	unsigned char data[4];
+//}time_use;
+//time_use sendTOPC_time;
+//unsigned char Flag_use=0;
+
+//typedef union{
+//	uint32_t id;
+//	unsigned char data[4];
+//}UNION_imu_id;
+//UNION_imu_id imu_id={0};
+
+//extern int SendToTx2BullectCnt;
+//short pitch; 
+//int yaw;
+
+//int PC_TX_num=0;			//和Pc之间通信的计数器，用于降低通讯帧率
+//int Debug_yaw = 0;
+
+//int pitch_send ;
+
+//int camera_state=0;//触发信号启动
+
+//extern float GimbalYawPos,GimbalPitchPos;
+//extern float Buff_Yaw_Motor;
+//extern char smallBuff_flag;
+//extern Disconnect Robot_Disconnect;
+//void USART6_SendtoPC(void)
+//{
+//	char Mode_Flag;
+
+//	if(PC_TX_num % down_sampling_rate == 0)
+//	{
+//		SendToPC_Buff[0] = '!';
+//    Mode_Flag=(Status.GimbalMode==Gimbal_BigBuf_Mode?1:0);
+//		SendToPC_Buff[1] = (0<<6|smallBuff_flag<<5|0<<4|Mode_Flag<<3|F105.BulletSpeedLevel<<1|F105.RobotRed)&0XFF; // 1为红色，0为蓝色
+//	
+//			
+//		pitch = (short)(Gimbal.Pitch.MotorTransAngle*100);
+//		yaw = (int)(Gimbal.Yaw.Gyro*100);
+//		if(Status.GimbalMode == Gimbal_Armor_Mode || Status.GimbalMode == Gimbal_Act_Mode)
+//		{
+//			pitch = (short)(Gimbal.Pitch.MotorTransAngle*100);
+//			yaw = (int)(Gimbal.Yaw.Gyro*100);
+//		}
+//		else if(Status.GimbalMode == Gimbal_BigBuf_Mode || Status.GimbalMode == Gimbal_SmlBuf_Mode)
+//		{
+//			pitch = (short)(Gimbal.Pitch.MotorTransAngle*100);
+//			yaw = (int)((Gimbal.Yaw.MotorTransAngle-Buff_Yaw_Motor)*100);
+//		}
+//		pitch_send = pitch;
+//		SendToPC_Buff[2] = (unsigned char)((pitch >> 8) & 0x00FF);
+//		SendToPC_Buff[3] = (unsigned char)((pitch) & 0x00FF);
+
+//		SendToPC_Buff[4] = (unsigned char)((yaw >> 24) & 0x000000FF);
+//		SendToPC_Buff[5] = (unsigned char)((yaw >> 16) & 0x000000FF);
+//		SendToPC_Buff[6] = (unsigned char)((yaw >> 8) & 0x000000FF);
+//		SendToPC_Buff[7] = (unsigned char)((yaw >> 0) & 0x000000FF);
+//		
+//		sendTOPC_time.xTickCount = xTaskGetTickCountFromISR();
+//		SendToPC_Buff[8] = imu_id.data[3];
+//		SendToPC_Buff[9] = imu_id.data[2];
+//		SendToPC_Buff[10] = imu_id.data[1];
+//		SendToPC_Buff[11] = imu_id.data[0];
+//		
+//		short sendbulletspeed=F105.bulletSpeed*100;
+//		SendToPC_Buff[12]= (unsigned char)((sendbulletspeed>> 8) & 0x00FF);
+//		SendToPC_Buff[13]= (unsigned char)((sendbulletspeed) & 0x00FF);
+//		
+//		SendToPC_Buff[15] = sendTOPC_time.data[3];
+//		SendToPC_Buff[16] = sendTOPC_time.data[2];
+//		SendToPC_Buff[17] = sendTOPC_time.data[1];
+//		SendToPC_Buff[18] = sendTOPC_time.data[0];
+//		SendToPC_Buff[19] = '#';
+//		Append_CRC8_Check_Sum(SendToPC_Buff,PC_SENDBUF_SIZE);
+
+////		while(DMA_GetCmdStatus(DMA1_Stream6)==ENABLE);
+////		DMA_SetCurrDataCounter(DMA1_Stream6,PC_SENDBUF_SIZE);
+//		DMA_Cmd(DMA1_Stream6, ENABLE);
+//		camera_state = 1;//发送一次触发信号
+//		imu_id.id++;
+//		PBout(0)=1;
+//	}
+//	PC_TX_num++;
+//	//Cmera_rising_edge(&camera_state,down_sampling_rate/2);//产生相机触发脉冲
+//	if(PC_TX_num % down_sampling_rate == 1){
+//		PBout(0)=0;
+//	}
+////	if((PC_TX_num % (down_sampling_rate / 2) == 0)&&(PC_TX_num % down_sampling_rate != 0))
+////		GPIO_ResetBits(GPIOA,GPIO_Pin_1);
+//	
+//}
+
+
+
 
 ////串口传输延迟测试
 //void USART6_SendtoPC(void)

@@ -5,6 +5,13 @@
  * @作者     黄志雄
  * @日期     2019.10
 **********************************************************************************************************/
+/**********************************************************************************************************
+ * @文件     DataSendTask.c
+ * @说明     数据发送
+ * @版本  	 V2.0
+ * @作者     戴军
+ * @日期     2022.4
+**********************************************************************************************************/
 #include "main.h"
 /*----------------------------------内部变量---------------------------*/
 
@@ -16,7 +23,6 @@ extern INA260 INA260_2;//输出
 extern float AD_actual_value;//电容实际电压
 extern F405_typedef F405;
 extern JudgeReceive_t JudgeReceive;
-extern char Robot_ID;
 extern char Judge_Lost;
 /**********************************************************************************************************
 *函 数 名: ChassisCan1Send
@@ -90,7 +96,6 @@ void Can2Send0(F105_Typedef *F105_Send)
 		memcpy(&tx_message.Data[4],&F105_Send->IsShootAble,1);
 		memcpy(&tx_message.Data[5],&F105_Send->RobotRed,1);
 		memcpy(&tx_message.Data[6],&F105_Send->BulletSpeedLevel,1);	
-	  memcpy(&tx_message.Data[7],&Robot_ID,1);
 
 	  CAN_Transmit(CAN2,&tx_message);
 }
@@ -137,31 +142,3 @@ void Can2Send2(void)
 	
 	  CAN_Transmit(CAN2,&tx_message);
 }
-/**********************************************************************************************************
-*函 数 名: USART2SEND
-*功能说明: DataScope发送函数
-*形    参: 无
-*返 回 值: 无
-//**********************************************************************************************************/
-//extern float test_W_Chassis_t;
-//void USART2SEND(void)
-//{
-//		DataScope_Get_Channel_Data(test_W_Chassis_t, 1 );  
-//		DataScope_Get_Channel_Data(JudgeReceive.realChassispower, 2 );  
-//		DataScope_Get_Channel_Data(JudgeReceive.remainEnergy, 3 );  
-//		DataScope_Get_Channel_Data(JudgeReceive.MaxPower, 4 );  
-//		DataScope_Get_Channel_Data(0.0, 5 );  
-//		DataScope_Get_Channel_Data(0.0, 6 );  
-//		DataScope_Get_Channel_Data(0.0, 7 );  
-//		DataScope_Get_Channel_Data(0.0, 8 );  
-//		DataScope_Get_Channel_Data(0.0, 9 );  
-//		DataScope_Get_Channel_Data(0.0, 10 );  
-
-//		u8 Send_Count;
-//		Send_Count = DataScope_Data_Generate(10);
-//		for( int i = 0 ; i < Send_Count; i++)
-//		{
-//			while((USART2->SR&0X40)==0);  	
-//			USART2->DR = DataScope_OutPut_Buffer[i];    
-//		}
-//}

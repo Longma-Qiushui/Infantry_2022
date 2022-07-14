@@ -4,6 +4,12 @@
 #define ABS(x) ((x)>0? (x):(-(x))) 
 #define LIMIT_MAX_MIN(x, max, min)	(((x) <= (min)) ? (min):(((x) >= (max)) ? (max) : (x)))  //????
 
+#define Mecanum     1     //1使用麦克纳姆轮   0 使用全向轮
+
+#define Robot_ID     4     
+
+
+
 //Standard Lib
 #include <stm32f4xx.h>	 
 #include <stm32f4xx_conf.h>

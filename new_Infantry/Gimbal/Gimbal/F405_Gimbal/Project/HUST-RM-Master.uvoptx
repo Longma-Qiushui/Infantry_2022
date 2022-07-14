@@ -103,7 +103,7 @@
         <bEvRecOn>1</bEvRecOn>
         <bSchkAxf>0</bSchkAxf>
         <bTchkAxf>0</bTchkAxf>
-        <nTsel>3</nTsel>
+        <nTsel>4</nTsel>
         <sDll></sDll>
         <sDllPa></sDllPa>
         <sDlgDll></sDlgDll>
@@ -114,7 +114,7 @@
         <tDlgDll></tDlgDll>
         <tDlgPa></tDlgPa>
         <tIfile></tIfile>
-        <pMon>BIN\CMSIS_AGDI.dll</pMon>
+        <pMon>Segger\JL2CM3.dll</pMon>
       </DebugOpt>
       <TargetDriverDllRegistry>
         <SetRegEntry>
@@ -245,6 +245,26 @@
           <WinNumber>1</WinNumber>
           <ItemText>RC_Ctl.key.shift</ItemText>
         </Ww>
+        <Ww>
+          <count>17</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>GimbalPitchPos</ItemText>
+        </Ww>
+        <Ww>
+          <count>18</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>FuzzyAidPidPitchPos</ItemText>
+        </Ww>
+        <Ww>
+          <count>19</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>PidPitchAidSpeed</ItemText>
+        </Ww>
+        <Ww>
+          <count>20</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>FuzzyAidPidYawPos</ItemText>
+        </Ww>
       </WatchWindow1>
       <WatchWindow2>
         <Ww>
@@ -276,6 +296,46 @@
           <count>5</count>
           <WinNumber>2</WinNumber>
           <ItemText>Robot_Disconnect.Gyro_DisConnect</ItemText>
+        </Ww>
+        <Ww>
+          <count>6</count>
+          <WinNumber>2</WinNumber>
+          <ItemText>YawMotorSpeed</ItemText>
+        </Ww>
+        <Ww>
+          <count>7</count>
+          <WinNumber>2</WinNumber>
+          <ItemText>GyroReceive.GZ</ItemText>
+        </Ww>
+        <Ww>
+          <count>8</count>
+          <WinNumber>2</WinNumber>
+          <ItemText>GyroReceive.GY</ItemText>
+        </Ww>
+        <Ww>
+          <count>9</count>
+          <WinNumber>2</WinNumber>
+          <ItemText>GyroReceive.PITCH</ItemText>
+        </Ww>
+        <Ww>
+          <count>10</count>
+          <WinNumber>2</WinNumber>
+          <ItemText>GyroReceive.GX</ItemText>
+        </Ww>
+        <Ww>
+          <count>11</count>
+          <WinNumber>2</WinNumber>
+          <ItemText>Robot_Disconnect.F105_DisConect</ItemText>
+        </Ww>
+        <Ww>
+          <count>12</count>
+          <WinNumber>2</WinNumber>
+          <ItemText>GimbalPitchPos</ItemText>
+        </Ww>
+        <Ww>
+          <count>13</count>
+          <WinNumber>2</WinNumber>
+          <ItemText>Gimbal.Pitch.MotorTransAngle</ItemText>
         </Ww>
       </WatchWindow2>
       <Tracepoint>

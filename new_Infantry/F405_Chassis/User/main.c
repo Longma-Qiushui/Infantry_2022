@@ -13,8 +13,6 @@
  * @ÈÕÆÚ     2022.5
 **********************************************************************************************************/
 #include "main.h"
-
-char Robot_ID = 14;
 roboDisconnect Robot_Disconnect;
 char Judge_Lost;
 extern ChassisSpeed_t chassis;

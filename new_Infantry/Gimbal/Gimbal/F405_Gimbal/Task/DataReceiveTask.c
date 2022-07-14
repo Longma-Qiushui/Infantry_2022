@@ -24,7 +24,6 @@ extern Gimbal_Typedef Gimbal;
 extern volatile long run_time_check;
 extern Status_t Status;
 extern short KalMan_doneflag;
-extern char Robot_ID;
 extern char Judge_Lost;
 char Chassis_ID;
 
@@ -87,6 +86,7 @@ void Can1Receive1(CanRxMsg rx_message1)
 *·µ »Ø Öµ: ÎÞ
 **********************************************************************************************************/
 extern RobotInit_Struct Infantry;
+short YawMotorSpeed,PitchMotorSpeed;
 void Can2Receive0(CanRxMsg rx_message0)
 {
 	if(rx_message0.StdId == Infantry.PitchMotorID)
@@ -102,6 +102,7 @@ void Can2Receive0(CanRxMsg rx_message0)
 	else if(rx_message0.StdId == Infantry.YawMotorID)
 	{
 				 YawMotorReceive=rx_message0.Data[0]<<8 | rx_message0.Data[1];
+		     YawMotorSpeed  =rx_message0.Data[2]<<8 | rx_message0.Data[3];
 				 Robot_Disconnect.YawMotor_DisConnect=0;
 	
 	}
