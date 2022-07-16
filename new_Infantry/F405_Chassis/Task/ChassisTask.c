@@ -606,14 +606,21 @@ void Chassis_Power_Control_Init(void)
 	/****************45W********************/
 	num++;
 	Power_method[num].Actual_P_max = 45;                //3号车
-	Power_method[num].Self_Protect_Limit = 3000;
+	Power_method[num].Self_Protect_Limit = 3500;
 	Power_method[num].k_BAT = 0.9f;
 
 	/****************50W********************/
 	num++;
 	Power_method[num].Actual_P_max = 50;               //3号车
-	Power_method[num].Self_Protect_Limit = 3500;
+	Power_method[num].Self_Protect_Limit = 3700;
 	Power_method[num].k_BAT = 1.0f;   //0.6f
+	
+	/****************55W********************/
+	num++;
+	Power_method[num].Actual_P_max = 55;               //3号车
+	Power_method[num].Self_Protect_Limit = 3700;
+	Power_method[num].k_BAT = 1.0f;   //0.6f
+
 
 	/****************60W********************/
 	num++;                                             //3号车
@@ -640,80 +647,6 @@ void Chassis_Power_Control_Init(void)
 	Power_method[num].k_BAT = 2.0f;
 //	Power_method[num].CurrentMax = 16000;
 
-#elif Robot_ID == 4 
-///****************************************  4号车   ************************************************************/
-	/****************默认参数********************/       //4号车
-	Power_method[num].Actual_P_max = 60;
-	Power_method[num].Self_Protect_Limit = 2500;
-	Power_method[num].k_BAT = 0.7f;
-	Power_method[num].Excess_P_max_J = 300;
-	Power_method[num].Excess_P_max_P = 1500;
-	Power_method[num].CurrentMax = 10000;
-	Power_method[num].Follow_W = 4000;
-	/****************40W********************/
-	num++;
-	Power_method[num].Actual_P_max = 40;                 //4号车
-	Power_method[num].Self_Protect_Limit = 2500;
-	Power_method[num].k_BAT = 0.6f;
-	Power_method[num].Excess_P_max_J = 200;
-	Power_method[num].Excess_P_max_P = 1500;
-	Power_method[num].CurrentMax = 8000;
-	Power_method[num].Follow_W = 4000;
-	/****************45W********************/
-	num++;
-	Power_method[num].Actual_P_max = 45;                //4号车
-	Power_method[num].Self_Protect_Limit = 2500;
-	Power_method[num].k_BAT = 0.7f;
-	Power_method[num].Excess_P_max_J = 250;
-	Power_method[num].Excess_P_max_P = 1500;
-	Power_method[num].CurrentMax = 8000;
-	Power_method[num].Follow_W = 4000;
-	/****************50W********************/
-	num++;
-	Power_method[num].Actual_P_max = 50;               //4号车
-	Power_method[num].Self_Protect_Limit = 2800;
-	Power_method[num].k_BAT = 0.7f;   //0.6f
-	Power_method[num].Excess_P_max_J = 250;  //600
-	Power_method[num].Excess_P_max_P = 1500;
-	Power_method[num].CurrentMax = 8000;
-	Power_method[num].Follow_W = 5000;
-	/****************60W********************/
-	num++;                                             //4号车
-	Power_method[num].Actual_P_max = 60;                   
-	Power_method[num].Self_Protect_Limit = 3500;  //小陀螺控制转速
-	Power_method[num].k_BAT = 0.75f;   // 0.9f              //xy向速度系数
-	Power_method[num].Excess_P_max_J = 300;  //3000   750  //太小起步较慢匀速直行时会缓存能量太少会无法转弯，较大的值可以保证起步后可以保留缓存能量可以转弯，但连续转弯有限
-	Power_method[num].Excess_P_max_P = 2500;
-	Power_method[num].CurrentMax = 10000;
-	Power_method[num].Follow_W = 4000;
-	/****************80W********************/
-	num++;
-	Power_method[num].Actual_P_max = 80;               //4号车
-	Power_method[num].Self_Protect_Limit = 4300;
-	Power_method[num].k_BAT = 0.95f;   //
-	Power_method[num].Excess_P_max_J = 330;  //1350
-	Power_method[num].Excess_P_max_P = 1600;
-	Power_method[num].CurrentMax = 10000;
-	Power_method[num].Follow_W =5000;
-	/****************100W********************/
-	num++;                                             //4号车
-	Power_method[num].Actual_P_max = 100;
-	Power_method[num].Self_Protect_Limit = 4900;
-	Power_method[num].k_BAT = 1.05f;
-	Power_method[num].Excess_P_max_J = 370;
-	Power_method[num].Excess_P_max_P = 1400;
-	Power_method[num].CurrentMax = 12000;
-	Power_method[num].Follow_W = 5600;
-	/****************120W********************/
-	num++;                                            //4号车
-	Power_method[num].Actual_P_max = 120;
-	Power_method[num].Self_Protect_Limit = 6000;
-	Power_method[num].k_BAT = 2.3f;
-	Power_method[num].Excess_P_max_J = 450;
-	Power_method[num].Excess_P_max_P = 1000;
-	Power_method[num].CurrentMax = 10000;
-	Power_method[num].Follow_W = 10000;
-
 #elif Robot_ID == 14
 ///****************************************  自适应4号车   ************************************************************/
 
@@ -731,14 +664,21 @@ void Chassis_Power_Control_Init(void)
 	/****************45W********************/
 	num++;
 	Power_method[num].Actual_P_max = 45;                //14号车
-	Power_method[num].Self_Protect_Limit = 3000;
+	Power_method[num].Self_Protect_Limit = 4000;
 	Power_method[num].k_BAT = 0.9f;
 
 	/****************50W********************/
 	num++;
 	Power_method[num].Actual_P_max = 50;               //14号车
-	Power_method[num].Self_Protect_Limit = 3500;
+	Power_method[num].Self_Protect_Limit = 4500;
 	Power_method[num].k_BAT = 1.0f;   //0.6f
+	
+	/****************55W********************/
+	num++;
+	Power_method[num].Actual_P_max = 55;               //14号车
+	Power_method[num].Self_Protect_Limit = 5000;
+	Power_method[num].k_BAT = 1.0f;   //0.6f
+
 
 	/****************60W********************/
 	num++;                                             //14号车

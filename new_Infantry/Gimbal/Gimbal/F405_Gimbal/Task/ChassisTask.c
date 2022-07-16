@@ -8,8 +8,8 @@
 /**********************************************************************************************************
  * @文件     ChassisTask.c
  * @说明     底盘控制
- * @版本  	 V1.5
- * @作者     黄志雄
+ * @版本  	 V2.0
+ * @作者     戴军
  * @日期     2022.4
 **********************************************************************************************************/
 #include "main.h"
@@ -552,11 +552,8 @@ void Chassis_CurrentPid_Cal(void)
 **********************************************************************************************************/
 void Pid_ChassisPosition_Init(void)                
 {
-	switch(Robot_ID)
-{
+#if Robot_ID == 3
 /********************************************* 3号车 ***********************************************************/	
-		case 3:
-	{
 		pidChassisPosition.P = 5.0f;				//  位置环					3号车
 	  pidChassisPosition.I = 0.00f;					
 	  pidChassisPosition.D = 0.0f;				
@@ -573,10 +570,9 @@ void Pid_ChassisPosition_Init(void)
 //	  SOLO_pidChassisPosition.D = 0.0f;				
 //	  SOLO_pidChassisPosition.IMax = 200.0f;
 //	  SOLO_pidChassisPosition.OutMax = 2000.0f;
- }break;
+
+#elif Robot_ID == 4	
 	/********************************************* 4号车 ***********************************************************/	
-		case 4:
-	{
 		pidChassisPosition.P = 5.0f;				//2.0  位置环					3号车
 	  pidChassisPosition.I = 0.00f;					
 	  pidChassisPosition.D = 0.0f;				
@@ -587,10 +583,8 @@ void Pid_ChassisPosition_Init(void)
 		FF_w.K1 = 13000.0f;
 		FF_w.K2 = 0.0f;
 		
- }break;
+#elif Robot_ID == 14
 	/********************************************* 5号车 ***********************************************************/	
-		case 14:
-	{
 		pidChassisPosition.P = 5.0f;				//  位置环					3号车
 	  pidChassisPosition.I = 0.00f;					
 	  pidChassisPosition.D = 0.0f;				
@@ -600,8 +594,8 @@ void Pid_ChassisPosition_Init(void)
 	
 		FF_w.K1 = 20000.0f;
 		FF_w.K2 = 0.0f;
- }break;
-}
+ 
+#endif 
 }
 
 /**********************************************************************************************************

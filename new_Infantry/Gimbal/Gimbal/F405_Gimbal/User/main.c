@@ -119,7 +119,7 @@ void Infantry_Init(void)
 #elif Robot_ID == 4	
 /***************************************** 4 ºÅ³µ **************************************************************/	
 	Infantry.Yaw_init=6865;            // 4ºÅ³µ
-	Infantry.Pitch_init=615;
+	Infantry.Pitch_init=4702;
 	Infantry.MagOpen=1000;
 	Infantry.MagClose=2170;
 	Infantry.Solo_Yaw_init = 20;

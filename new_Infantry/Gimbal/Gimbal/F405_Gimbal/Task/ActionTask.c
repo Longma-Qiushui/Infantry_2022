@@ -5,6 +5,13 @@
  * @作者     黄志雄
  * @日期     2020.1
 **********************************************************************************************************/
+/**********************************************************************************************************
+ * @文件     ActionTask.c
+ * @说明     模式切换任务
+ * @版本  	 V2.0
+ * @作者     戴军
+ * @日期     2022.4
+**********************************************************************************************************/
 #include "main.h"
 /*--------------内部变量-------------------*/
 short Mouse_Key_Flag;
@@ -182,9 +189,9 @@ void Remote_Process(Remote rc)
 //	}
 	
 //	
-//		if(rc.s2==2) //弹道测试模式
+//		if(rc.s2==1) //弹道测试模式
 //	{
-//		Status.GimbalMode=Gimbal_Test_Mode;
+//		Status.GimbalMode=Gimbal_Act_Mode;
 //		Status.ChassisMode=Chassis_Powerdown_Mode;
 //		Status.ShootMode=Shoot_Check_Mode;
 //    SteeringEngine_Set(Infantry.MagOpen);
@@ -201,25 +208,25 @@ void Remote_Process(Remote rc)
 //	if(rc.s2==2) //检录模式
 //	{
 //		Status.GimbalMode=Gimbal_Act_Mode; 
-//		Status.ChassisMode=Chassis_Act_Mode;
+//		Status.ChassisMode=Chassis_Powerdown_Mode;
 //		Status.ShootMode=Shoot_Check_Mode;
 //		SteeringEngine_Set(Infantry.MagClose);
 //	}	
-	if(rc.s2==2) //辅瞄模式
+	if(rc.s2==1) //辅瞄模式
 	{
 		Status.GimbalMode=Gimbal_Armor_Mode; 
 		Status.ChassisMode=Chassis_Act_Mode;
 		Status.ShootMode=Shoot_Tx2_Mode;
 		SteeringEngine_Set(Infantry.MagClose);
 	}
-		if(rc.s2==1) //小陀螺模式
-	{
-		Status.GimbalMode=Gimbal_Act_Mode;
-		Status.ChassisMode=Chassis_SelfProtect_Mode;
-		Status.ShootMode=Shoot_Powerdown_Mode;
-    SteeringEngine_Set(Infantry.MagClose);
-	}
-//	
+//		if(rc.s2==1) //小陀螺模式
+//	{
+//		Status.GimbalMode=Gimbal_Act_Mode;
+//		Status.ChassisMode=Chassis_SelfProtect_Mode;
+//		Status.ShootMode=Shoot_Powerdown_Mode;
+//    SteeringEngine_Set(Infantry.MagClose);
+//	}
+////	
 //	if(rc.s2==2) //小陀螺辅瞄模式
 //	{
 //		Status.GimbalMode=Gimbal_Armor_Mode;
@@ -228,19 +235,19 @@ void Remote_Process(Remote rc)
 //    SteeringEngine_Set(Infantry.MagOpen);
 //	}
 
-//	if(rc.s2 == 2)//大符模式
-//	{
-//		if(Buff_Init==0)
-//		{
-//		Buff_Yaw_Motor =Gimbal.Yaw.MotorTransAngle;
-//		Buff_Init=1;
-//		}
-//		Status.GimbalMode = Gimbal_BigBuf_Mode;
-//    SteeringEngine_Set(Infantry.MagOpen);	
-//		Status.ChassisMode = Chassis_Act_Mode;
-//		Status.ShootMode = Shoot_Tx2_Mode;
-//	}
-// 
+	if(rc.s2 == 2)//大符模式
+	{
+		if(Buff_Init==0)
+		{
+		Buff_Yaw_Motor =Gimbal.Yaw.MotorTransAngle;
+		Buff_Init=1;
+		}
+		Status.GimbalMode = Gimbal_BigBuf_Mode;
+    SteeringEngine_Set(Infantry.MagOpen);	
+		Status.ChassisMode = Chassis_Act_Mode;
+		Status.ShootMode = Shoot_Tx2_Mode;
+	}
+ 
 //	
 //		if(rc.s2 == 1)//小符模式
 //	{

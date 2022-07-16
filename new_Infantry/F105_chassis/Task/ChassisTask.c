@@ -667,13 +667,19 @@ case 4:
 	/****************45W********************/
 	num++;
 	Power_method[num].Actual_P_max = 45;                //4ºÅ³µ
-	Power_method[num].Self_Protect_Limit = 3000;
+	Power_method[num].Self_Protect_Limit = 3500;
 	Power_method[num].k_BAT = 0.9f;
 
 	/****************50W********************/
 	num++;
 	Power_method[num].Actual_P_max = 50;               //4ºÅ³µ
-	Power_method[num].Self_Protect_Limit = 3500;
+	Power_method[num].Self_Protect_Limit = 3700;
+	Power_method[num].k_BAT = 1.0f;   //0.6f
+
+	/****************55W********************/
+	num++;
+	Power_method[num].Actual_P_max = 55;               //14ºÅ³µ
+	Power_method[num].Self_Protect_Limit = 3700;
 	Power_method[num].k_BAT = 1.0f;   //0.6f
 
 	/****************60W********************/
