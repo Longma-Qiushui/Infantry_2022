@@ -511,14 +511,15 @@ void Tx2_Off_CheckAndSet(u8* Buff)
 *·µ »Ø Öµ: ÎÞ
 **********************************************************************************************************/
 uint32_t TX2_high_water;
+TickType_t LastWakeTime_PC;
 void TX2_task(void *pvParameters)
 {
    while (1) {
-    
+   LastWakeTime_PC = xTaskGetTickCount();
    USART6_SendtoPC();
 	  IWDG_Feed();
-   vTaskDelay(1); 
-		 
+  // vTaskDelay(1); 
+		vTaskDelayUntil(&LastWakeTime_PC,1);
 #if INCLUDE_uxTaskGetStackHighWaterMark
         TX2_high_water = uxTaskGetStackHighWaterMark(NULL);
 #endif
