@@ -116,6 +116,10 @@ extern F105_Typedef F105;
 
 extern Pid_Typedef PidFrictionSpeed[2];
 extern short FrictionReceive[2];
+short FrictionReceive_LP[2];
+
+#define Fric_LP_K  0.05f
+
 short FrictionCurrent[2];
 int SHOOT_Speed;
 void FrictionWheel_Set(short speed)
@@ -146,6 +150,7 @@ void FrictionWheel_Set(short speed)
 	
 	PidFrictionSpeed[0].SetPoint=accelerator;     //  accelerator+bias_speed;
 	PidFrictionSpeed[1].SetPoint=-accelerator;
+	
 	
 	PidFrictionSpeed[0].ActualValue = FrictionReceive[0];
 	FrictionCurrent[0]=PID_Calc(&PidFrictionSpeed[0]);

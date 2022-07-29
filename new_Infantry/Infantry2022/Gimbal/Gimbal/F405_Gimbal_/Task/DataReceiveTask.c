@@ -168,8 +168,8 @@ void Can2Receive1(CanRxMsg rx_message1)
 			 if(yaw_gyro_temp < 180.0f && yaw_gyro_temp > -180.0f)
 			 {
 			 GyroReceive.YAW = yaw_gyro_temp;
-			 }
 			 Robot_Disconnect.Gyro_DisConnect=0;
+			 }
 		 }
 		 break;
 //		 case 0x133:

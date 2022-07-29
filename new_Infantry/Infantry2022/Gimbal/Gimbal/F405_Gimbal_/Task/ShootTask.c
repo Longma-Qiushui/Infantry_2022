@@ -535,13 +535,13 @@ void Pid_Friction_Init(void)
 
 			Infantry.Low_FrictionSpeed = 4800;    //4850:14.1  …‰∆µ£∫4.5
  			Infantry.Medium_FrictionSpeed = 5650;  //17.4
-			Infantry.High_FrictionSpeed = 9500;
+			Infantry.High_FrictionSpeed =8000;
 
 #elif  Robot_ID == 14
 /********************************************* 14∫≈≥µ *******************************************************/	
 			Infantry.Low_FrictionSpeed = 5000;
 			Infantry.Medium_FrictionSpeed = 5800;
-			Infantry.High_FrictionSpeed = 10000;
+			Infantry.High_FrictionSpeed = 8000;
 	
 #elif  Robot_ID == 5
 /********************************************* 5∫≈≥µ *******************************************************/	
@@ -557,26 +557,26 @@ void Pid_Friction_Init(void)
 			Infantry.High_FrictionSpeed = 16000;
 #endif
 
-  PidFrictionSpeed[0].P=60.0f;
-	PidFrictionSpeed[0].I=3.0f;
+  PidFrictionSpeed[0].P=80.0f;
+	PidFrictionSpeed[0].I=2.0f;
 	PidFrictionSpeed[0].D=0.0f;
 	PidFrictionSpeed[0].IMax=1500.0f;
 	PidFrictionSpeed[0].SetPoint=0.0f;
 	PidFrictionSpeed[0].OutMax = 9900.0f;
-	PidFrictionSpeed[0].RC_DF = 0.02F;
-	PidFrictionSpeed[0].I_L = 75;
-	PidFrictionSpeed[0].I_U =150;
+	PidFrictionSpeed[0].RC_DF = 0.05F;
+	PidFrictionSpeed[0].I_L = 50;
+	PidFrictionSpeed[0].I_U =100;
 	
 	
-  PidFrictionSpeed[1].P=60.0f;
-	PidFrictionSpeed[1].I=3.0f;
+  PidFrictionSpeed[1].P=80.0f;
+	PidFrictionSpeed[1].I=2.0f;
 	PidFrictionSpeed[1].D=0.0f;
 	PidFrictionSpeed[1].IMax=1500.0f;
 	PidFrictionSpeed[1].SetPoint=0.0f;
 	PidFrictionSpeed[1].OutMax = 9900.0f;
-	PidFrictionSpeed[1].RC_DF = 0.02F;
-	PidFrictionSpeed[1].I_L = 75;
-	PidFrictionSpeed[1].I_U =150;
+	PidFrictionSpeed[1].RC_DF = 0.05F;
+	PidFrictionSpeed[1].I_L = 50;
+	PidFrictionSpeed[1].I_U =100;
 	
 }
 

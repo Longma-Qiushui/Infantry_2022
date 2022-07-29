@@ -216,11 +216,11 @@ void Offline_Check_task(void *pvParameters)
 		/*µç»ú\IMUµôÏß¼ì²â*/
 	if(Robot_Disconnect.YawMotor_DisConnect>10||Robot_Disconnect.PitchMotor_DisConnect>10||Robot_Disconnect.Gyro_DisConnect>20)
 		{
-//	    Robot_Stop();
+	    Robot_Stop();
 		}
 	else
 		{
-//			Robot_Recover();
+			Robot_Recover();
 		}
 	Robot_Disconnect.Gyro_DisConnect++;
 	Robot_Disconnect.PitchMotor_DisConnect++;
