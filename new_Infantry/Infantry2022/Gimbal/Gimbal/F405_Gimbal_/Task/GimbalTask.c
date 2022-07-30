@@ -132,6 +132,7 @@ void Gimbal_Powerdown_Cal()
 *返 回 值: 无
 **********************************************************************************************************/
 float k_yaw;
+char ch2_return_flag;
 void FuzzyMotorGimbal_Act_Cal(Remote rc,Mouse mouse)
 {
 	if( GimbalAct_Init_Flag!=Gimbal_Act_Mode)
@@ -140,15 +141,26 @@ void FuzzyMotorGimbal_Act_Cal(Remote rc,Mouse mouse)
 		GimbalPitchPos = Gimbal.Pitch.MotorTransAngle;				//从大符模式切回，保持pitch电机角，yaw陀螺仪角，不乱动
 		GimbalYawPos = Gimbal.Yaw.Gyro;
 		GimbalAct_Init_Flag=Gimbal_Act_Mode;
+	  ch2_return_flag  =0;
 	}
 
 	
 	if(Status.ControlMode==Control_RC_Mode)//Rc_Control
 	{
-	  GimbalYawPos   += (1024-rc.ch2)*0.0010f;
-	  GimbalPitchPos -= (1024-rc.ch3)*0.0003f;//旧陀螺仪
-		
+		if(rc.ch2 != 1024)
+	  {
+			GimbalYawPos   =  GimbalYawPos+(1024-rc.ch2)*0.0010f;
+		  ch2_return_flag = 1;
+		}
+		else if(ch2_return_flag)
+		{
+		GimbalYawPos = Gimbal.Yaw.Gyro;
+		ch2_return_flag = 0;
+		}
+
+		GimbalPitchPos = GimbalPitchPos-(1024-rc.ch3)*0.0005f; 	
 		FF_w.Now_DeltIn  = (1024-rc.ch2)*0.0008f;
+		
 	}
 	if(Status.ControlMode==Control_MouseKey_Mode)//Mouse_Key
 	{
@@ -211,8 +223,8 @@ void FuzzyGyroGimbal_Act_Cal(Remote rc,Mouse mouse)
 	
 	if(Status.ControlMode==Control_RC_Mode)//Rc_Control
 	{
-	  GimbalYawPos   += (1024-rc.ch2)*0.0005f;
-	  GimbalPitchPos += (1024-rc.ch3)*0.0003f;//旧陀螺仪
+	  GimbalYawPos   = (rc.ch2 == 1024) ? Gimbal.Yaw.Gyro: ( GimbalYawPos+(1024-rc.ch2)*0.0010f);
+	  GimbalPitchPos = (rc.ch3 == 1024) ? Gimbal.Pitch.Gyro: ( GimbalPitchPos-(1024-rc.ch3)*0.0005f);//旧陀螺仪
 		FF_w.Now_DeltIn = (1024-rc.ch2)*0.0005f;
 	}
 	if(Status.ControlMode==Control_MouseKey_Mode)//Mouse_Key
@@ -222,7 +234,8 @@ void FuzzyGyroGimbal_Act_Cal(Remote rc,Mouse mouse)
 		GimbalPitchPos -= mouse.z*0.001f;
 		FF_w.Now_DeltIn = -mouse.x*0.005f;
 	}
-
+	
+	
 	GimbalPitchPos=LIMIT_MAX_MIN(GimbalPitchPos,Infantry.pitch_max_gyro,Infantry.pitch_min_gyro);//限位(用电机角度)	//限住大小，因此可用MotorTransangle来pid
 	/***********************************************************************************/
 	PidPitchPos.SetPoint = GimbalPitchPos;
@@ -1135,18 +1148,18 @@ void PidGimbalMotor_Init(void)
 #elif Robot_ID == 5
 /********************************************* 5号车 ********************************************************/	
   //手动pitch双环
-  PidPitchPos.P=0.25f;       //手动pitch角度环
-	PidPitchPos.I=0.015f;
-	PidPitchPos.D=0.1f;       
+  PidPitchPos.P=0.20f;       //手动pitch角度环
+	PidPitchPos.I=0.0f;
+	PidPitchPos.D=0.05f;       
 	PidPitchPos.IMax=10.0f;
 	PidPitchPos.SetPoint=0.0f;
 	PidPitchPos.OutMax=5.5f;	
 	PidPitchPos.I_L = 0.2f;
 	PidPitchPos.I_U = 0.4f;
-	PidPitchPos.RC_DF = 0.5f;
+	PidPitchPos.RC_DF = 0.8f;
 	
-  PidPitchSpeed.P=10000.0f;  //手动pitch速度环
-	PidPitchSpeed.I=10.0f;  
+  PidPitchSpeed.P=14000.0f;  //手动pitch速度环
+	PidPitchSpeed.I=15.0f;  
 	PidPitchSpeed.D=0.0f;
 	PidPitchSpeed.IMax=550.0f;
 	PidPitchSpeed.SetPoint=0.0f;

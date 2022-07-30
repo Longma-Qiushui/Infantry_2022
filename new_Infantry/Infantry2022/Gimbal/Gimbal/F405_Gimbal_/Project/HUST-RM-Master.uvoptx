@@ -120,7 +120,7 @@
         <SetRegEntry>
           <Number>0</Number>
           <Key>DLGUARM</Key>
-          <Name>d</Name>
+          <Name></Name>
         </SetRegEntry>
         <SetRegEntry>
           <Number>0</Number>
@@ -238,7 +238,7 @@
         <Ww>
           <count>15</count>
           <WinNumber>1</WinNumber>
-          <ItemText>PitchCurrent</ItemText>
+          <ItemText>PitchCurrent,0x0A</ItemText>
         </Ww>
         <Ww>
           <count>16</count>
@@ -359,6 +359,16 @@
           <count>39</count>
           <WinNumber>1</WinNumber>
           <ItemText>FrictionReceive,0x0A</ItemText>
+        </Ww>
+        <Ww>
+          <count>40</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>PitchCurrent,0x0A</ItemText>
+        </Ww>
+        <Ww>
+          <count>41</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>RC_Ctl.rc.ch3,0x0A</ItemText>
         </Ww>
       </WatchWindow1>
       <WatchWindow2>

@@ -268,10 +268,10 @@ void RemoteReceive(volatile unsigned char rx_buffer[])
 	RC_Ctl.key.b = (rx_buffer[15]>>7)&0x01;
 	temp1 = rx_buffer[16];
 	temp2 = rx_buffer[17];
-	if((RC_Ctl.rc.ch0-1024<15)&&(RC_Ctl.rc.ch0-1024>-15)) RC_Ctl.rc.ch0=1024;
-	if((RC_Ctl.rc.ch1-1024<15)&&(RC_Ctl.rc.ch1-1024>-15)) RC_Ctl.rc.ch1=1024;
-	if((RC_Ctl.rc.ch2-1024<10)&&(RC_Ctl.rc.ch2-1024>-10)) RC_Ctl.rc.ch2=1024;
-	if((RC_Ctl.rc.ch3-1024<10)&&(RC_Ctl.rc.ch3-1024>-10)) RC_Ctl.rc.ch3=1024;	
+	if((RC_Ctl.rc.ch0-1024<20)&&(RC_Ctl.rc.ch0-1024>-20)) RC_Ctl.rc.ch0=1024;
+	if((RC_Ctl.rc.ch1-1024<20)&&(RC_Ctl.rc.ch1-1024>-20)) RC_Ctl.rc.ch1=1024;
+	if((RC_Ctl.rc.ch2-1024<20)&&(RC_Ctl.rc.ch2-1024>-20)) RC_Ctl.rc.ch2=1024;
+	if((RC_Ctl.rc.ch3-1024<20)&&(RC_Ctl.rc.ch3-1024>-20)) RC_Ctl.rc.ch3=1024;	
 
 	Robot_Disconnect.RC_DisConnect=0;
 }
