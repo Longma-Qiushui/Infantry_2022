@@ -510,8 +510,8 @@ void Pid_BodanMotor_Init(void)
 	
 #else
 	
-	  Onegrid=-38940.0f;		  //新拨盘
-		checkPullerSpeed = -1000;
+	  Onegrid=36400.0f;		  //新拨盘
+		checkPullerSpeed = 1000;
 #endif
 }
 
@@ -546,9 +546,9 @@ void Pid_Friction_Init(void)
 #elif  Robot_ID == 5
 /********************************************* 5号车 *******************************************************/	
 
-			Infantry.Low_FrictionSpeed = 5000;
+			Infantry.Low_FrictionSpeed = 4900;
 			Infantry.Medium_FrictionSpeed = 5750;
-			Infantry.High_FrictionSpeed = 16000;
+			Infantry.High_FrictionSpeed = 11000;
 		
 /********************************************* 缺省值 ******************************************************/		
 #else

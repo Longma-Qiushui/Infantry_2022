@@ -156,22 +156,22 @@ void Infantry_Init(void)
 	
 #elif Robot_ID == 5
 /***************************************** 5 号车 **************************************************************/	
-	Infantry.Yaw_init=1022;      //1022斜着走   //2050直着走   // 5号车
-	Infantry.Pitch_init=2013;
+	Infantry.Yaw_init=3757;      //1022斜着走   //2050直着走   // 5号车
+	Infantry.Pitch_init=6154;
 	Infantry.MagOpen=1100;
 	Infantry.MagClose=2150;
 	Infantry.Solo_Yaw_init = 20;
-	Infantry.PitchMotorID = 0x205;
-	Infantry.YawMotorID = 0x207;
+	Infantry.PitchMotorID = 0x206;
+	Infantry.YawMotorID = 0x205;
 	Infantry.FricMotorID[0]=0x202;
-	Infantry.FricMotorID[1]=0x203;
-	Infantry.BodanMotorID=0x201;
-	Infantry.pitch_max_motor = 33;
-	Infantry.pitch_min_motor = -10;
-	Infantry.pitch_max_gyro = 33;
-	Infantry.pitch_min_gyro = -10;
-	Infantry.gyro_pn=-1;      //  陀螺仪安装正负
-  Infantry.motor_pn=-1;     //  电机安装正负
+	Infantry.FricMotorID[1]=0x201;
+	Infantry.BodanMotorID=0x203;
+	Infantry.pitch_max_motor = 39;
+	Infantry.pitch_min_motor = -18;
+	Infantry.pitch_max_gyro = 39;
+	Infantry.pitch_min_gyro = -18;
+	Infantry.gyro_pn=1;      //  陀螺仪安装正负
+  Infantry.motor_pn=1;     //  电机安装正负
 
 #endif
 

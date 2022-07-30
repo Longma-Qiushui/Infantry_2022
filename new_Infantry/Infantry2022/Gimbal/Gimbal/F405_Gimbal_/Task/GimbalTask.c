@@ -67,7 +67,7 @@ void Gimbal_Powerdown_Cal()
   PidPitchSpeed.ActualValue = GyroReceive.GY;	
 	inttoshort[0]=(PID_Calc(&PidPitchSpeed));//旧陀螺仪
 	PitchCurrent=(short)(-inttoshort[0])*Infantry.motor_pn;
-//PitchCurrent=0;
+  PitchCurrent=0;
 	YawCurrent=0;
 
 }
@@ -891,7 +891,7 @@ void PidGimbalMotor_Init(void)
 	
 
 //辅瞄yaw
-	PidYawAidPos.P =0.20f;	  //yaw PID位置环（辅瞄）
+	PidYawAidPos.P =0.25f;	  //yaw PID位置环（辅瞄）
 	PidYawAidPos.I=0.000f; 
 	PidYawAidPos.D=0.0f;
 	PidYawAidPos.IMax=40.0f;
@@ -1135,7 +1135,7 @@ void PidGimbalMotor_Init(void)
 #elif Robot_ID == 5
 /********************************************* 5号车 ********************************************************/	
   //手动pitch双环
-  PidPitchPos.P=0.27f;       //手动pitch角度环
+  PidPitchPos.P=0.25f;       //手动pitch角度环
 	PidPitchPos.I=0.015f;
 	PidPitchPos.D=0.1f;       
 	PidPitchPos.IMax=10.0f;
@@ -1157,7 +1157,7 @@ void PidGimbalMotor_Init(void)
   
 	
 	//手动yaw双环                                 // 5号车
-  PidYawPos.P=0.3f;        //手动yaw角度环
+  PidYawPos.P=0.25f;        //手动yaw角度环
 	PidYawPos.I=0.00f;
 	PidYawPos.D=0.0f;       
 	PidYawPos.IMax=10.0f;
@@ -1167,7 +1167,7 @@ void PidGimbalMotor_Init(void)
 	PidYawPos.I_U = 0.4f;
 	PidYawPos.RC_DF = 0.5f;
 	
-	PidYawSpeed.P=18000.0f;   //手动yaw速度环
+	PidYawSpeed.P=15000.0f;   //手动yaw速度环
 	PidYawSpeed.I=1.0f;
 	PidYawSpeed.D=0.0f;
 	PidYawSpeed.IMax=2000.0f;
@@ -1179,7 +1179,7 @@ void PidGimbalMotor_Init(void)
 	
 
 //辅瞄yaw
-	PidYawAidPos.P =0.25f;	  //yaw PID位置环（辅瞄）
+	PidYawAidPos.P =0.3f;	  //yaw PID位置环（辅瞄）
 	PidYawAidPos.I=0.000f; 
 	PidYawAidPos.D=0.20f;
 	PidYawAidPos.IMax=40.0f;
@@ -1215,7 +1215,7 @@ void PidGimbalMotor_Init(void)
 	PidYawAidSpeed.I_U = 0.7f;
 	PidYawAidSpeed.RC_DF = 0.5f;		
 		//辅瞄pitch
-	PidPitchAidPos.P =0.2f;	  //普通PID位置环(辅瞄)
+	PidPitchAidPos.P =0.25f;	  //普通PID位置环(辅瞄)
 	PidPitchAidPos.I=0.00001f; 
 	PidPitchAidPos.D=0.0f;
 	PidPitchAidPos.IMax=40.0f;
