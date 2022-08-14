@@ -200,7 +200,7 @@ void Shoot_Fire_Cal()
 							PidBodanMotorPos.SetPoint=PidBodanMotorPos.SetPoint-Onegrid;
 							Reverse_Flag=1;
 						}
-						if(ABS(Bodan_Pos-PidBodanMotorPos.SetPoint)<1000)
+						if(ABS(Bodan_Pos-PidBodanMotorPos.SetPoint) < PluckThreholdPos)
 						{
 							ReverseRotation=0;
 							Reverse_Flag=0;
@@ -211,7 +211,7 @@ void Shoot_Fire_Cal()
 				else
 				{
 
-						if(ABS(Bodan_Pos-PidBodanMotorPos.SetPoint)<1000)
+						if(ABS(Bodan_Pos-PidBodanMotorPos.SetPoint) < PluckThreholdPos)
 						{
 							PidBodanMotorPos.SetPoint=PidBodanMotorPos.SetPoint+MirocPosition; 
 						}
@@ -284,7 +284,7 @@ void Shoot_Test_Cal()
 //		if(((nowAimTick-EnterAimTick)>200) && F105.IsShootAble==1 && armor_state == ARMOR_AIMED && Aim_Follow==1)
 		if(((nowAimTick-EnterAimTick)>200) && F105.IsShootAble==1 && armor_state == ARMOR_AIMED)		
 		{
-			if(ABS(Bodan_Pos-PidBodanMotorPos.SetPoint)<3000)
+			if(ABS(Bodan_Pos-PidBodanMotorPos.SetPoint) < PluckThreholdPos)
 			{
 				PidBodanMotorPos.SetPoint = PidBodanMotorPos.SetPoint+Onegrid; 
 				armor_state=ARMOR_NO_AIM;			
@@ -482,7 +482,7 @@ void Pid_BodanMotor_Init(void)
 {
 	
 	PidBodanMotorPos.P=0.4f;  //0.4f
-	PidBodanMotorPos.I=0.0f;
+	PidBodanMotorPos.I=0.02f;
 	PidBodanMotorPos.D=0.0f;
 	PidBodanMotorPos.IMax=1500.0f;
 	PidBodanMotorPos.SetPoint=0.0f;
@@ -505,12 +505,12 @@ void Pid_BodanMotor_Init(void)
 	
 #if(Robot_ID == 3 || Robot_ID == 4 || Robot_ID == 14)
 
-    Onegrid=36400.0f;		  //ÀÏ²¦ÅÌ
-	  checkPullerSpeed = 1000;
+    Onegrid=36864.0f;		  //ÀÏ²¦ÅÌ
+	  checkPullerSpeed = 3000;
 	
 #else
 	
-	  Onegrid=36400.0f;		  //ÐÂ²¦ÅÌ
+	  Onegrid=36864.0f;		  //ÐÂ²¦ÅÌ
 		checkPullerSpeed = 1000;
 #endif
 }
@@ -535,7 +535,7 @@ void Pid_Friction_Init(void)
 
 			Infantry.Low_FrictionSpeed = 4800;    //4850:14.1  ÉäÆµ£º4.5
  			Infantry.Medium_FrictionSpeed = 5650;  //17.4
-			Infantry.High_FrictionSpeed =8000;
+			Infantry.High_FrictionSpeed =10300;
 
 #elif  Robot_ID == 14
 /********************************************* 14ºÅ³µ *******************************************************/	
@@ -558,7 +558,7 @@ void Pid_Friction_Init(void)
 #endif
 
   PidFrictionSpeed[0].P=80.0f;
-	PidFrictionSpeed[0].I=2.0f;
+	PidFrictionSpeed[0].I=0.0f;
 	PidFrictionSpeed[0].D=0.0f;
 	PidFrictionSpeed[0].IMax=1500.0f;
 	PidFrictionSpeed[0].SetPoint=0.0f;
@@ -569,7 +569,7 @@ void Pid_Friction_Init(void)
 	
 	
   PidFrictionSpeed[1].P=80.0f;
-	PidFrictionSpeed[1].I=2.0f;
+	PidFrictionSpeed[1].I=0.0f;
 	PidFrictionSpeed[1].D=0.0f;
 	PidFrictionSpeed[1].IMax=1500.0f;
 	PidFrictionSpeed[1].SetPoint=0.0f;

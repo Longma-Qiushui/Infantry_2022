@@ -4,7 +4,7 @@
 #include "main.h"
 #include "DataReceivetask.h"
 
-                       //26807
+#define   PluckThreholdPos        50        
 
 
 void FrictionSpeedChoose(void);

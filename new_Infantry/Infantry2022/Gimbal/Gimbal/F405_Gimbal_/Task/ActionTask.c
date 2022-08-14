@@ -558,7 +558,7 @@ void MouseKey_Act_Cal(RC_Ctl_t RC_Ctl)
 						waitFlag[5]=0;
 						if(F105.IsShootAble==1)//Heat_Limit
 						{
-							if(ABS(Bodan_Pos-PidBodanMotorPos.SetPoint)<8000 && Shoot_Init_flag == 1)
+							if(ABS(Bodan_Pos-PidBodanMotorPos.SetPoint)<PluckThreholdPos && Shoot_Init_flag == 1)
 							{
 								MirocPosition += Onegrid;		
 								ShootContinue=0;
@@ -571,7 +571,7 @@ void MouseKey_Act_Cal(RC_Ctl_t RC_Ctl)
  
 						if(F105.IsShootAble==1)
 						{
-							if(ABS(Bodan_Pos-PidBodanMotorPos.SetPoint)<8000  && Shoot_Init_flag == 1)
+							if( ABS(Bodan_Pos-PidBodanMotorPos.SetPoint) < PluckThreholdPos  && Shoot_Init_flag == 1)
 							{
                 ShootContinue=1;
 							}						
@@ -581,7 +581,7 @@ void MouseKey_Act_Cal(RC_Ctl_t RC_Ctl)
 		else if(RC_Ctl.mouse.press_l==0&&ReverseRotation==0)			//²»°´
 		{
 			waitFlag[5]=0;
-		   if( ShootContinue==1 || ABS(Bodan_Pos-PidBodanMotorPos.SetPoint)<1000)
+		   if( ShootContinue==1 || ABS(Bodan_Pos-PidBodanMotorPos.SetPoint) < 1000)
 		  {
         PidBodanMotorPos.SetPoint=Bodan_Pos;
 		  }	
